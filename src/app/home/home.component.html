@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>BEST OF {{location.address_level_2 }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">BEST OF DELRAY {{location.address_level_2 }}</ion-title>
+    </ion-toolbar>
+
+
+  </ion-header>
+  <div id="container" class="card-background-page" >
+    <ion-card (click)="setOption(i,category.cat_name)" [class.selected]="selectedCard == i" *ngFor="let category of categorys; let i = index;" >
+      <img  [src]="category.cat_icon" class="img-background"  />
+      <div class="card-title" >{{category.cat_name}}</div>
+     
+    </ion-card>
+
+  </div>
+</ion-content>

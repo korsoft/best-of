@@ -1,0 +1,8 @@
+{
+  "name": "Best of Delray",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
