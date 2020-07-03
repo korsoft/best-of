@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
 export class FolderPage implements OnInit {
   public folder: string;
   public subcategories:Array<any>=[];
-
+  public fullSubcategories:Array<any>=[];
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage) { }
@@ -23,7 +23,8 @@ export class FolderPage implements OnInit {
       }else{
         this.subcategories=val.filter((cat, index, array)=>{
           return (cat.cat_name===this.folder);  
-        });;
+        });
+        this.fullSubcategories=this.subcategories;
       }
     });
   }
@@ -31,5 +32,21 @@ export class FolderPage implements OnInit {
   setOption(option){
   
 
+  }
+
+  async filterList(evt) {
+  
+    const searchTerm = evt.srcElement.value;
+
+    if (!searchTerm) {
+      this.subcategories= this.fullSubcategories;
+      return;
+    }
+
+    this.subcategories = this.fullSubcategories.filter(currentCat => {
+      if (currentCat.subcat_name && searchTerm) {
+        return (currentCat.subcat_name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      }
+    });
   }
 }

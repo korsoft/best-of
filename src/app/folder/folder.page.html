@@ -15,11 +15,12 @@
 
 
   </ion-header>
-
+  <ion-searchbar (ionInput)="filterList($event)"  showCancelButton="always"></ion-searchbar>
   <div id="container" class="card-background-page">
-    <ion-card (click)="setOption(1)" *ngFor="let category of subcategories; let i = index;" >
+    <ion-card (click)="setOption(1)" *ngFor="let category of subcategories; let i = index; "  >
     <img  src="{{category.cat_icon}}" class="img-background" />
-    <div class="card-title">{{category.subcat_name}}</div>   
+    <div class="card-title"></div>   
+     <div class="card-label">{{category.subcat_name}}</div>  
     </ion-card>
 
   </div>
