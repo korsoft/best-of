@@ -7,7 +7,8 @@ import { LocationService } from '../location.service';
 import { CategoryService } from '../category.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-
+import { LoadingController } from '@ionic/angular';
+import { LoaderService } from '../services/loader.service';
 
 declare var google: any;
  
@@ -62,7 +63,8 @@ export class HomeComponent implements OnInit {
     private locationService:LocationService,
     private categoryService:CategoryService,
     private router: Router,
-    private storage: Storage) { 
+    private storage: Storage,
+    private ionLoader: LoaderService) { 
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
     
@@ -70,6 +72,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+  	this.ionLoader.showLoader();
   	this.mapsApiLoader.load().then(() => {
         this.geocoder = new google.maps.Geocoder();
         this.geolocation.getCurrentPosition().then((resp) => {
@@ -78,6 +81,7 @@ export class HomeComponent implements OnInit {
          this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
         }).catch((error) => {
           console.log('Error getting location', error);
+          this.ionLoader.hideLoader();
         });
     });
   }
@@ -143,6 +147,7 @@ export class HomeComponent implements OnInit {
 				    	if(!val){
 					        this.categoryService.getCategorys().subscribe(
 			                 (cats:Array<any>)=>{
+			                 	this.ionLoader.hideLoader();
 			                    this.categorys = cats.filter((cat, index, array)=>{
 			                    	return !(cat.subcat_name);  
 			                    });
@@ -151,11 +156,17 @@ export class HomeComponent implements OnInit {
 			                    });
 			                    this.storage.set("categories",this.categorys);
 			                    this.storage.set("subcategories",subCat);
+			                    this.cdr.detectChanges();
 					        });
 					    }else{
-					           this.categorys = val;
+					        this.categorys = val;
+					        this.ionLoader.hideLoader();
+					        this.cdr.detectChanges();
 					    }
+
 					});
+	              }else{
+	              	this.ionLoader.hideLoader();
 	              }
 	           }
 	);    
