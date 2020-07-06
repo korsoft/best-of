@@ -1,3 +1,6 @@
+ion-menu  {
+  opacity:0.9;
+}
 ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #fff));
 }
@@ -117,3 +120,4 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
