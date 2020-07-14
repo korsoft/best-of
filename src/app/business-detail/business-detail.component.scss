@@ -1,0 +1,31 @@
+.button-business{
+    position: absolute;
+}
+
+.button-map{
+   @extend .button-business;
+   top: 8px;
+   right: 8px;
+
+}
+.button-call{
+   @extend .button-business;
+   top: 8px;
+   right: 54px;
+
+}
+.button-share{
+   @extend .button-business;
+   top: 8px;
+   right: 100px;
+
+}
+
+agm-map {
+      height: 300px;
+      width: 100%;
+    }
+.detail-icon{
+   width:15px;
+   margin-right: 5px;
+}

@@ -13,7 +13,13 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
+import { MapViewModule } from './map-view/map-view.module';
+import { BusinessDetailModule } from './business-detail/business-detail.module';
+import { LocationSearchModule } from './location-search/location-search.module'
 import { IonicStorageModule } from '@ionic/storage';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
 
 
 @NgModule({
@@ -29,13 +35,18 @@ import { IonicStorageModule } from '@ionic/storage';
     }),
     AppRoutingModule,
     HttpClientModule,
-    HomeModule
+    HomeModule,
+    MapViewModule,
+    BusinessDetailModule,
+    LocationSearchModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Geolocation,
     GoogleMapsAPIWrapper,
+    CallNumber,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide : HTTP_INTERCEPTORS,

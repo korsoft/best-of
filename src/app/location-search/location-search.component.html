@@ -1,0 +1,13 @@
+
+
+<ion-content [fullscreen]="true">
+  
+  <ion-searchbar (ionCancel)="clearLocation()" (ionInput)="filterList($event)"  showCancelButton="always" placeholder="Search for"></ion-searchbar>
+  <div id="container" >
+    <ion-list>
+	  <ion-item *ngFor="let location of filterLocations">
+	   <ion-label (click)="selectLocation(location)"> {{location.Name}}</ion-label>
+	  </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

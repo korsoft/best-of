@@ -23,9 +23,40 @@
 
 .card-label{
     position: absolute;
-    bottom: 8px;
+    bottom: 24px;
     left: 8px;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bolder;
     color: white;
+}
+
+.card-distance{
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    font-size: 1em;
+    font-weight: bolder;
+    color: crimson;
+}
+.button-business{
+    position: absolute;
+}
+
+.button-map{
+   @extend .button-business;
+   top: 8px;
+   right: 8px;
+
+}
+.button-call{
+   @extend .button-business;
+   top: 8px;
+   right: 54px;
+
+}
+.button-share{
+   @extend .button-business;
+   top: 8px;
+   right: 100px;
+
 }

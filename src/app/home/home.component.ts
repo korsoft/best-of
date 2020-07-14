@@ -89,9 +89,14 @@ export class HomeComponent implements OnInit {
   setOption(option,cat){
   	if(this.selectedCard!=option){
   	 this.selectedCard=option;   
+     this.cdr.detectChanges();
   	}else{
-      this.router.navigateByUrl('/folder/'+cat);
+      this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
   	}
+  }
+
+  gotoSearch(){
+      this.router.navigateByUrl('/search');
   }
 
   findAddressByCoordinates(latitude,longitude) {
@@ -101,11 +106,11 @@ export class HomeComponent implements OnInit {
         lng: longitude
       }
     }, (results, status) => {
-      this.decomposeAddressComponents(results);
+      this.decomposeAddressComponents(results,latitude,longitude);
     })
   }
 
-  decomposeAddressComponents(addressArray) {
+  decomposeAddressComponents(addressArray,latitude,longitude) {
     if (addressArray.length == 0) return false;
     let address = addressArray[0].address_components;
  
@@ -121,7 +126,7 @@ export class HomeComponent implements OnInit {
         continue;
       }
       if (element['types'].indexOf('locality') > -1) {
-        this.location.address_level_2 = element['long_name'].toUpperCase();
+        this.location.address_level_2 ="Delray Beach";// element['long_name'].toUpperCase();
         continue;
       }
       if (element['types'].indexOf('administrative_area_level_1') > -1) {
@@ -140,8 +145,18 @@ export class HomeComponent implements OnInit {
     console.log("location for "+this.location.address_level_2);
     
     this.locationService.getLocation(this.location.address_level_2).subscribe(
-	           (data)=>{
-	              if(data){
+	           (data:Array<any>)=>{
+	              if(data){ 
+	              	if(data.length>0){
+                        let loc  = data[0];
+                        loc.latitude = latitude;
+                        loc.longitude = longitude;
+                        this.storage.set("location",loc);
+
+	              	}else{
+	              		this.storage.set("location",null);
+	              	}
+	              	
 	              	this.storage.get("categories").then((val) => {
 				    	console.log(val);
 				    	if(!val){

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,21 @@ import { HttpClient } from '@angular/common/http';
 export class LocationService  {
 
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient,
+    	private storage: Storage) { }
 
 
     public getLocation(city){
     	//filters=techcrunch&apiKey=${city}`
 	    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}});
+	}
+
+    public getLocations(){
+        //filters=techcrunch&apiKey=${city}`
+        return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`);
+    }
+
+	public getSessionLocation(){
+        return this.storage.get("locaction");
 	}
 }

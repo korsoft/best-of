@@ -3,17 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { HomeComponent } from './home.component';
-import { LocationService } from '../location.service';
+import { LocationSearchComponent } from './location-search.component';
 
 
 
 @NgModule({
+  declarations: [LocationSearchComponent],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule
-  ],
-  declarations: [HomeComponent]
+  ]
 })
-export class HomeModule { }
+export class LocationSearchModule { }

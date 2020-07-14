@@ -27,18 +27,16 @@ export class LoaderService {
   }
 
   // Show the loader for infinite time
-  showLoader() {
+  async showLoader() {
 
-    this.loadingController.create({
+    let res = await this.loadingController.create({
       message: 'Please wait...'
-    }).then((res) => {
-      res.present();
     });
-
+    res.present();
   }
 
   // Hide the loader if already created otherwise return error
-  hideLoader() {
+  async hideLoader() {
 
     this.loadingController.dismiss().then((res) => {
       console.log('Loading dismissed!', res);
