@@ -21,6 +21,10 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'home/:location',
+    component: HomeComponent
+  },
+  {
     path: 'mapView',
     component: MapViewComponent
   },

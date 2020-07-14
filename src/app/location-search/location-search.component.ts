@@ -41,7 +41,7 @@ export class LocationSearchComponent implements OnInit {
   }
 
   public selectLocation(location){
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/home/'+location.Name);
   }
 
   public clearLocation(){

@@ -73,17 +73,25 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   	this.ionLoader.showLoader();
-  	this.mapsApiLoader.load().then(() => {
-        this.geocoder = new google.maps.Geocoder();
-        this.geolocation.getCurrentPosition().then((resp) => {
-         // resp.coords.latitude
-         // resp.coords.longitude
-         this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
-        }).catch((error) => {
-          console.log('Error getting location', error);
-          this.ionLoader.hideLoader();
-        });
-    });
+    let location = this.activatedRoute.snapshot.paramMap.get('location');
+    
+    	this.mapsApiLoader.load().then(() => {
+          this.geocoder = new google.maps.Geocoder();
+          this.geolocation.getCurrentPosition().then((resp) => {
+           // resp.coords.latitude
+           // resp.coords.longitude
+              if(!location){
+                this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
+              }else{
+                this.location.address_level_2=location;
+                this.getLocation(resp.coords.latitude,resp.coords.longitude);
+              }
+          }).catch((error) => {
+            console.log('Error getting location', error);
+            this.ionLoader.hideLoader();
+          });
+      });
+    
   }
 
   setOption(option,cat){
@@ -126,7 +134,7 @@ export class HomeComponent implements OnInit {
         continue;
       }
       if (element['types'].indexOf('locality') > -1) {
-        this.location.address_level_2 ="Delray Beach";// element['long_name'].toUpperCase();
+        this.location.address_level_2 =element['long_name'].toUpperCase();
         continue;
       }
       if (element['types'].indexOf('administrative_area_level_1') > -1) {
@@ -144,46 +152,50 @@ export class HomeComponent implements OnInit {
     }
     console.log("location for "+this.location.address_level_2);
     
+     this.getLocation(latitude,longitude); 
+  }
+
+  private getLocation(latitude,longitude){
     this.locationService.getLocation(this.location.address_level_2).subscribe(
-	           (data:Array<any>)=>{
-	              if(data){ 
-	              	if(data.length>0){
+             (data:Array<any>)=>{
+                if(data){ 
+                  if(data.length>0){
                         let loc  = data[0];
                         loc.latitude = latitude;
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
 
-	              	}else{
-	              		this.storage.set("location",null);
-	              	}
-	              	
-	              	this.storage.get("categories").then((val) => {
-				    	console.log(val);
-				    	if(!val){
-					        this.categoryService.getCategorys().subscribe(
-			                 (cats:Array<any>)=>{
-			                 	this.ionLoader.hideLoader();
-			                    this.categorys = cats.filter((cat, index, array)=>{
-			                    	return !(cat.subcat_name);  
-			                    });
-			                    let subCat = cats.filter((cat, index, array)=>{
-			                    	return (cat.subcat_name);  
-			                    });
-			                    this.storage.set("categories",this.categorys);
-			                    this.storage.set("subcategories",subCat);
-			                    this.cdr.detectChanges();
-					        });
-					    }else{
-					        this.categorys = val;
-					        this.ionLoader.hideLoader();
-					        this.cdr.detectChanges();
-					    }
+                  }else{
+                    this.storage.set("location",null);
+                  }
+                  
+                  this.storage.get("categories").then((val) => {
+              console.log(val);
+              if(!val){
+                  this.categoryService.getCategorys().subscribe(
+                       (cats:Array<any>)=>{
+                         this.ionLoader.hideLoader();
+                          this.categorys = cats.filter((cat, index, array)=>{
+                            return !(cat.subcat_name);  
+                          });
+                          let subCat = cats.filter((cat, index, array)=>{
+                            return (cat.subcat_name);  
+                          });
+                          this.storage.set("categories",this.categorys);
+                          this.storage.set("subcategories",subCat);
+                          this.cdr.detectChanges();
+                  });
+              }else{
+                  this.categorys = val;
+                  this.ionLoader.hideLoader();
+                  this.cdr.detectChanges();
+              }
 
-					});
-	              }else{
-	              	this.ionLoader.hideLoader();
-	              }
-	           }
-	);    
+          });
+                }else{
+                  this.ionLoader.hideLoader();
+                }
+             }
+    );  
   }
 }
