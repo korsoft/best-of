@@ -55,6 +55,7 @@ export class BusinessDetailComponent implements OnInit {
         this.bus=data;
         if(this.bus.latitude &&  this.bus.longitude &&
           this.bus.latitude !="0" &&  this.bus.longitude!="0"){
+            this.bus.showMap=true;
            this.latitude = parseFloat(this.bus.latitude);
            this.longitude = parseFloat(this.bus.longitude);
         }else{
