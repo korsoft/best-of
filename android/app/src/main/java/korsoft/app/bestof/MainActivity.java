@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package korsoft.app.bestof;
 
 import android.os.Bundle;
 

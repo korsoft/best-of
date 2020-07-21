@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Best of Delray</string>
-    <string name="title_activity_main">Best of Delray</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Best of</string>
+    <string name="title_activity_main">Best of</string>
+    <string name="package_name">korsoft.app.bestof</string>
+    <string name="custom_url_scheme">korsoft.app.bestof</string>
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "862624733799",
+    "firebase_url": "https://best-of-284020.firebaseio.com",
+    "project_id": "best-of-284020",
+    "storage_bucket": "best-of-284020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862624733799:android:60f7458a8a38e2130792c2",
+        "android_client_info": {
+          "package_name": "korsoft.app.bestof"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862624733799-hoc4rvvbhqs0gidch8qp3ht91ucvo327.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "korsoft.app.bestof",
+            "certificate_hash": "cad74153f24a20d6bdb638dfdfa7d8a4f20719cf"
+          }
+        },
+        {
+          "client_id": "862624733799-lom0b1rf8dvlajfts17vjsh9theff3vs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY6jjPkB9DIi0NfMS6pAC4eWQAktjbHPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862624733799-lom0b1rf8dvlajfts17vjsh9theff3vs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
