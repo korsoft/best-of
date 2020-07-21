@@ -19,6 +19,9 @@ import { LocationSearchModule } from './location-search/location-search.module'
 import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Device } from '@ionic-native/device/ngx';
+
 
 
 
@@ -47,6 +50,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     GoogleMapsAPIWrapper,
     CallNumber,
     SocialSharing,
+    InAppBrowser,
+    Device,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide : HTTP_INTERCEPTORS,

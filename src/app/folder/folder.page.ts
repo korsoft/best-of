@@ -59,8 +59,19 @@ export class FolderPage implements OnInit {
                     this.fullBusiness = data;
                     this.business = data;
                     for (var i = this.business.length - 1; i >= 0; i--) {
-                      this.business[i].distance = this.getDistanceFromLatLon(this.business[i].latitude,this.business[i].longitude,
-                                                     this.location.latitude, this.location.longitude  )
+                      this.business[i].showMap=true;
+                      if(this.business[i].latitude &&  this.business[i].longitude &&
+                        this.business[i].latitude !="0" &&  this.business[i].longitude!="0"){
+                        this.business[i].distance = this.getDistanceFromLatLon(this.business[i].latitude,this.business[i].longitude,
+                                                       this.location.latitude, this.location.longitude  );
+                      }else{
+                        this.business[i].showMap=false;
+                      }
+                      if(this.business[i].call){
+                        this.business[i].showCall=true;
+                      }else{
+                        this.business[i].showCall=false;
+                      }
                     }
                     this.ionLoader.hideLoader();
 
@@ -97,6 +108,8 @@ export class FolderPage implements OnInit {
     });
     toast.present();
   }
+
+  
 
   async filterList(evt) {
   

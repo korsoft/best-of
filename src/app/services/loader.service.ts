@@ -30,9 +30,9 @@ export class LoaderService {
   async showLoader() {
 
     let res = await this.loadingController.create({
-      message: 'Please wait...'
+      message: ''
     });
-    res.present();
+    await res.present();
   }
 
   // Hide the loader if already created otherwise return error

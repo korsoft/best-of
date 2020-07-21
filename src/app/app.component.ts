@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router , NavigationStart, NavigationEnd} from '@angular/router';
+
+import { DeviceService } from './services/device.service';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+import { Plugins } from '@capacitor/core';
+const { Device } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -11,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
+  public devi="";
   public appPages = [
     {
       title: 'Home',
@@ -43,7 +50,10 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private deviceService:DeviceService,
+    private router: Router
+
   ) {
     this.initializeApp();
   }
@@ -52,13 +62,24 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      Device.getInfo().then((info) => {
+        this.deviceService.createDevice(info).subscribe();;
+      });
+
+      this.router.events.subscribe((event) => {
+        
+         if(event instanceof NavigationEnd) {
+            if(event.url && event.url.startsWith("/home")) {
+              this.appPages[0].url = decodeURIComponent(event.url);      
+            }    
+         }
+       })
     });
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
+   
   }
+
+
 }

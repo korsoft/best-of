@@ -1,12 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    
     <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{bus.Name }}</ion-title>
     <ion-buttons slot="end">
-          <ion-button>
-            <ion-icon name="bookmark-outline"></ion-icon>
+          <ion-button (click)="toogleBookmark()">
+            <ion-icon *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
+            <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
           </ion-button>
     </ion-buttons>    
   </ion-toolbar>
@@ -15,10 +18,14 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
+      <ion-buttons slot="start">
+         <ion-back-button></ion-back-button>
+      </ion-buttons>
       <ion-title size="large">{{bus.Name }} </ion-title>
       <ion-buttons slot="end">
-          <ion-button>
-            <ion-icon name="bookmark-outline"></ion-icon>
+          <ion-button (click)="toogleBookmark()">
+            <ion-icon  *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
+            <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
           </ion-button>
       </ion-buttons>  
     </ion-toolbar>
@@ -28,31 +35,25 @@
   
   <div id="container" class="card-background-page">
    
-
+    
     <ion-card    >
     <img  src="{{bus.body_image}}" class="img-background" />
-    <ion-fab-button (click)="map(bus)" color="light" size="small" class=" button-map"><ion-icon name="map"></ion-icon></ion-fab-button>
-     <ion-fab-button (click)="call(bus)" color="light" size="small" class=" button-call"><ion-icon name="call"></ion-icon></ion-fab-button>
+    <ion-fab-button *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" class=" button-map"><ion-icon name="map"></ion-icon></ion-fab-button>
+     <ion-fab-button *ngIf="bus.showCall" (click)="call(bus)" color="light" size="small" class=" button-call"><ion-icon name="call"></ion-icon></ion-fab-button>
      <ion-fab-button (click)="share(bus)" color="light" size="small" class=" button-share"><ion-icon name="share-social"></ion-icon></ion-fab-button>
     </ion-card>
     <ion-list>
-	  <ion-item>
-	    <ion-icon name="aperture" class="detail-icon"></ion-icon><ion-label> Enter Site</ion-label>
-	  </ion-item>
-	  <ion-item>
-	    <ion-icon name="aperture" class="detail-icon"></ion-icon><ion-label> Reservation</ion-label>
-	  </ion-item>
-	  <ion-item>
-	    <ion-icon name="aperture" class="detail-icon"></ion-icon><ion-label> Delivery</ion-label>
-	  </ion-item>
-	  <ion-item (click)="call(bus)" >
+	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" >
 	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> Call now:{{bus.call}}</ion-label>
 	  </ion-item>
-	  <ion-item (click)="map(bus)" >
+	  <ion-item *ngIf="bus.showMap" (click)="map(bus)" >
 	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> Location:{{bus.address}}</ion-label>
 	  </ion-item>
+    <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; ">
+      <ion-icon name="{{prop.property==='URL'?'aperture':'mail'}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
+    </ion-item>
     </ion-list>
-    <agm-map
+    <agm-map *ngIf="bus.showMap"
 	   [latitude]="latitude"
 	   [longitude]="longitude">
 	    
