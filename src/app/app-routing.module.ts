@@ -35,6 +35,10 @@ const routes: Routes = [
   {
     path: 'search',
     component: LocationSearchComponent
+  },
+  {
+    path: 'notification/:id',
+    loadChildren: () => import('./pages/notification/notification.module').then( m => m.NotificationPageModule)
   }
 ];
 

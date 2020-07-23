@@ -6,14 +6,12 @@ import { DeviceService } from './services/device.service';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { FcmService } from './services/fcm.service';
+import {  Plugins } from '@capacitor/core';
 
 
-import { Plugins,
-  PushNotification,
-  PushNotificationToken,
-  PushNotificationActionPerformed } from '@capacitor/core';
+
 const { Device } = Plugins;
-const { PushNotifications } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -57,7 +55,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private deviceService:DeviceService,
-    private router: Router
+    private router: Router,
+    private fcmService:FcmService
 
   ) {
     this.initializeApp();
@@ -68,7 +67,8 @@ export class AppComponent implements OnInit {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
     Device.getInfo().then((info) => {
-      this.deviceService.createDevice(info).subscribe();;
+      this.deviceService.createDevice(info).subscribe();
+      this.fcmService.initPush(info.uuid);
     });
 
     this.router.events.subscribe((event) => {
@@ -84,38 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    PushNotifications.requestPermission().then( result => {
-      if (result.granted) {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        // Show some error
-      }
-    });
-
-    PushNotifications.addListener('registration',
-      (token: PushNotificationToken) => {
-        alert('Push registration success, token: ' + token.value);
-      }
-    );
-
-    PushNotifications.addListener('registrationError',
-      (error: any) => {
-        alert('Error on registration: ' + JSON.stringify(error));
-      }
-    );
-
-    PushNotifications.addListener('pushNotificationReceived',
-      (notification: PushNotification) => {
-        alert('Push received: ' + JSON.stringify(notification));
-      }
-    );
-
-    PushNotifications.addListener('pushNotificationActionPerformed',
-      (notification: PushNotificationActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
-      }
-    );
+   
   
   }
 

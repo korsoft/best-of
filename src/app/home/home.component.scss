@@ -4,6 +4,8 @@
   position: absolute;
   left: 0;
   right: 0;
+  overflow-y: hidden;
+  height: calc(100% - 56px);
 }
 
 #container strong {
@@ -25,9 +27,13 @@
 .card-background-page ion-card {
     margin:0;
     margin-bottom: -3px;
-    height:100px;
+    height:20vh;
 }
 
 .card-background-page .selected, ion-card .selected{
-    height:unset;
+    height:40vh;
+}
+
+.selected .img-background{
+     height:100%;
 }

@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MyHammerConfig } from './hammer-config'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
 import { MapViewModule } from './map-view/map-view.module';
@@ -21,6 +22,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Device } from '@ionic-native/device/ngx';
+import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 
 
@@ -41,7 +43,8 @@ import { Device } from '@ionic-native/device/ngx';
     HomeModule,
     MapViewModule,
     BusinessDetailModule,
-    LocationSearchModule
+    LocationSearchModule,
+    HammerModule
   ],
   providers: [
     StatusBar,
@@ -53,6 +56,7 @@ import { Device } from '@ionic-native/device/ngx';
     InAppBrowser,
     Device,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     {
       provide : HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

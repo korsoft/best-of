@@ -96,7 +96,11 @@ export class HomeComponent implements OnInit {
 
   setOption(option,cat){
   	if(this.selectedCard!=option){
-  	 this.selectedCard=option;   
+  	 this.selectedCard=option;  
+     setTimeout (() => {
+         document.getElementById("card-"+option).scrollIntoView(); 
+      }, 100);
+     
      this.cdr.detectChanges();
   	}else{
       this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
@@ -197,5 +201,18 @@ export class HomeComponent implements OnInit {
                 }
              }
     );  
+  }
+  onSwipeUp(){
+     console.log("onSwipeUp");
+    if(this.selectedCard<(this.categorys.length-1)){
+       this.setOption(this.selectedCard+1,this.categorys[this.selectedCard+1]);
+    }
+  }
+
+  onSwipeDown(){
+    console.log("onSwipeDown");
+    if(this.selectedCard>0){
+       this.setOption(this.selectedCard-1,this.categorys[this.selectedCard-1]);
+    }
   }
 }
