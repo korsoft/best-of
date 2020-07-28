@@ -15,10 +15,13 @@
     background-color: darkgray;
     padding-left: 8px;
     padding-bottom: 8px;
-    opacity: 0.4;
+    opacity: 0.3;
     padding-top: 8px;
     top:unset;
     height:100px;
+}
+.card-title {
+  z-index:999;
 }
 
 .card-label{

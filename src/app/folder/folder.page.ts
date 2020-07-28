@@ -56,6 +56,11 @@ export class FolderPage implements OnInit {
                this.ionLoader.showLoader();
                this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data:Array<any>)=>{
                   if(data.length){
+                    data.sort(
+                      (b1,b2)=>{
+                        return b1.sort_order - b2.sort_order; 
+
+                      });
                     this.fullBusiness = data;
                     this.business = data;
                     for (var i = this.business.length - 1; i >= 0; i--) {

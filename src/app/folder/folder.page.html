@@ -31,7 +31,7 @@
 
     <ion-card   *ngFor="let bus of business; let ind = index; "  >
     <img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" />
-    <div class="card-title"></div>   
+    <div class="card-title" (click)="goToBussinesDetail(bus)"></div>   
      <div class="card-label">{{bus.Name}}</div>
      <div class="card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>  
      <ion-fab-button  *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" class=" button-map"><ion-icon name="map"></ion-icon></ion-fab-button>
