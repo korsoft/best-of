@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 
@@ -23,6 +23,6 @@ export class LocationService  {
     }
 
 	public getSessionLocation(){
-        return this.storage.get("locaction");
+        return this.storage.get("location");
 	}
 }

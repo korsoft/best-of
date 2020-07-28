@@ -8,7 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FcmService } from './services/fcm.service';
 import {  Plugins } from '@capacitor/core';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 
 const { Device } = Plugins;
@@ -25,26 +25,43 @@ export class AppComponent implements OnInit {
     {
       title: 'Home',
       url: '/home',
+      action: (url,i) => {
+         this.selectedIndex = i;
+         this.router.navigateByUrl(url);
+      },
       icon: 'Home'
     },
     {
       title: 'Notifications',
-      url: '/folder/Inbox',
+      url: '/notifications',
+      action: (url,i) => {
+
+      },
       icon: 'notifications'
     },
     {
       title: 'Search',
-      url: '/folder/Outbox',
+      url: '/search',
+      action: (url,i) => {
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
+      },
       icon: 'search'
     },
     {
       title: 'Like',
-      url: '/folder/Favorites',
+      url: '/like',
+      action: (url,i) => {
+
+      },
       icon: 'thumbs-up'
     },
     {
       title: 'Share',
-      url: '/folder/Archived',
+      url: '',
+      action: (url,i) => {
+         this.socialSharing.share("Test","Test");
+      },
       icon: 'share'
     }
   ];
@@ -56,7 +73,8 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private deviceService:DeviceService,
     private router: Router,
-    private fcmService:FcmService
+    private fcmService:FcmService,
+    private socialSharing: SocialSharing
 
   ) {
     this.initializeApp();

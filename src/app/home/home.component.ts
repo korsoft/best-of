@@ -72,25 +72,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.ionLoader.showLoader();
-    let location = this.activatedRoute.snapshot.paramMap.get('location');
-    
-    	this.mapsApiLoader.load().then(() => {
-          this.geocoder = new google.maps.Geocoder();
-          this.geolocation.getCurrentPosition().then((resp) => {
-           // resp.coords.latitude
-           // resp.coords.longitude
-              if(!location){
-                this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
-              }else{
-                this.location.address_level_2=location;
-                this.getLocation(resp.coords.latitude,resp.coords.longitude);
-              }
-          }).catch((error) => {
-            console.log('Error getting location', error);
-            this.ionLoader.hideLoader();
-          });
-      });
+  	
     
   }
 
@@ -98,12 +80,23 @@ export class HomeComponent implements OnInit {
   	if(this.selectedCard!=option){
   	 this.selectedCard=option;  
      setTimeout (() => {
-         document.getElementById("card-"+option).scrollIntoView(); 
-      }, 100);
+         document.getElementById(cat.viewId).scrollIntoView({behavior: "smooth"}); 
+      });
      
      this.cdr.detectChanges();
   	}else{
-      this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
+      switch (cat.action_type) {
+        case "1":
+          this.router.navigateByUrl('/website/Buzz');
+          break;
+        case "2":
+          this.router.navigateByUrl('/website/Weather');
+          break;        
+        default:
+          this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
+          break;
+      }
+      
   	}
   }
 
@@ -182,15 +175,27 @@ export class HomeComponent implements OnInit {
                           this.categorys = cats.filter((cat, index, array)=>{
                             return !(cat.subcat_name);  
                           });
+                          this.categorys.sort((c1,c2)=>{
+                            return c1.cat_sort_id - c2.cat_sort_id; 
+                          });
                           let subCat = cats.filter((cat, index, array)=>{
                             return (cat.subcat_name);  
                           });
+                          subCat.sort((c1,c2)=>{
+                            return c1.cat_sort_id - c2.cat_sort_id; 
+                          });
                           this.storage.set("categories",this.categorys);
                           this.storage.set("subcategories",subCat);
+                          for (var i = this.categorys.length - 1; i >= 0; i--) {
+                            this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                          }
                           this.cdr.detectChanges();
                   });
               }else{
                   this.categorys = val;
+                  for (var i = this.categorys.length - 1; i >= 0; i--) {
+                    this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                  }
                   this.ionLoader.hideLoader();
                   this.cdr.detectChanges();
               }
@@ -214,5 +219,27 @@ export class HomeComponent implements OnInit {
     if(this.selectedCard>0){
        this.setOption(this.selectedCard-1,this.categorys[this.selectedCard-1]);
     }
+  }
+
+  ionViewWillEnter(){
+    this.ionLoader.showLoader();
+    let location = this.activatedRoute.snapshot.paramMap.get('location');
+    
+      this.mapsApiLoader.load().then(() => {
+          this.geocoder = new google.maps.Geocoder();
+          this.geolocation.getCurrentPosition().then((resp) => {
+           // resp.coords.latitude
+           // resp.coords.longitude
+              if(!location){
+                this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
+              }else{
+                this.location.address_level_2=location;
+                this.getLocation(resp.coords.latitude,resp.coords.longitude);
+              }
+          }).catch((error) => {
+            console.log('Error getting location', error);
+            this.ionLoader.hideLoader();
+          });
+      });
   }
 }

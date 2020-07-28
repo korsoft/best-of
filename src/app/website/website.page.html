@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{title}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content>
+  <ion-header collapse="condense">
+       <ion-toolbar>
+      <ion-back-button></ion-back-button>
+      <ion-title size="large">title</ion-title>
+    </ion-toolbar>
+
+  </ion-header>
+ <iframe
+    [src]="getUrl()"
+    frameborder="0"
+    webkitallowfullscreen
+    mozallowfullscreen
+    allowfullscreen
+    class="frame"
+  ></iframe>
+     
+
+</ion-content>

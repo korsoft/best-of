@@ -7,7 +7,7 @@
 
  <!--[class.selected]="selectedIndex == i" -->
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" >
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" >
+            <ion-item (click)="p.action(p.url,i)" routerDirection="root"  lines="none" detail="false" >
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" color="secondary"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
