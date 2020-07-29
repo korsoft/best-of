@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-folder',
@@ -29,14 +30,17 @@ export class FolderPage implements OnInit {
      private businessService: BusinessService,
      public toastController: ToastController,
      private callNumber: CallNumber,
-     private socialSharing: SocialSharing) { }
+     private socialSharing: SocialSharing,
+     private iab: InAppBrowser) { }
 
-  ngOnInit() {  
+  async ngOnInit() {  
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    await this.ionLoader.showLoader();
     this.storage.get("location").then((loc)=> {
       if(!loc){
         this.presentToast("No data for this location");
+        this.ionLoader.hideLoader();
         return;
       }
       this.location=loc;
@@ -46,6 +50,7 @@ export class FolderPage implements OnInit {
            this.fullSubcategories=[];
            this.business = [];
            this.fullBusiness = [];
+           this.ionLoader.hideLoader();
         }else{
           this.subcategories=val.filter((cat, index, array)=>{
             return (cat.cat_name===this.folder);  
@@ -53,7 +58,7 @@ export class FolderPage implements OnInit {
           this.fullSubcategories=this.subcategories;
           if(!this.fullSubcategories.length){
              if(this.location){
-               this.ionLoader.showLoader();
+                
                this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data:Array<any>)=>{
                   if(data.length){
                     data.sort(
@@ -89,6 +94,8 @@ export class FolderPage implements OnInit {
               }else{
                 this.presentToast("No data for category");
               }
+          }else{
+             this.ionLoader.hideLoader();
           }
         }
       });
@@ -102,7 +109,11 @@ export class FolderPage implements OnInit {
   }
 
   goToBussinesDetail(bus){
-    this.router.navigateByUrl('/businessDetail/'+bus.qpId);
+    if(!bus.default_link)
+      this.router.navigateByUrl('/businessDetail/'+bus.qpId);
+    else{
+       const browser = this.iab.create(bus.default_link);
+    }
   }
 
   async presentToast(message:string) {
