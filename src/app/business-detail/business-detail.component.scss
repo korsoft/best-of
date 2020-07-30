@@ -2,22 +2,14 @@
     position: absolute;
 }
 
-.button-map{
+.button-card-group{
    @extend .button-business;
    top: 8px;
    right: 8px;
 
 }
-.button-call{
-   @extend .button-business;
-   top: 8px;
-   right: 54px;
-
-}
-.button-share{
-   @extend .button-business;
-   top: 8px;
-   right: 100px;
+.button-card{
+  float:right;
 
 }
 
