@@ -58,3 +58,7 @@
 .selected {
     --color: var(--ion-color-primary-shade);
 }
+
+.ios ion-toolbar ion-button, .ios ion-toolbar ion-back-button {
+    --color: var(--ion-text-color);
+}
