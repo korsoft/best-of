@@ -11,6 +11,8 @@ import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
+const { Browser } = Plugins;
 
 
 
@@ -101,10 +103,11 @@ export class BusinessDetailComponent implements OnInit {
     this.router.navigateByUrl('/mapView',{state:{"business":bus}});
   }
 
-  public propAction(prop){
+  async propAction(prop){
     
     if(prop.property==="URL"){
-       const browser = this.iab.create(prop.value);
+      // const browser = this.iab.create(prop.value,'_system');
+      Browser.open({ url: prop.value })
     }else{
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
     }
