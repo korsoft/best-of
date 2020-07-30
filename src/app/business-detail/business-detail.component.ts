@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Plugins } from '@capacitor/core';
 const { Browser } = Plugins;
 
@@ -43,8 +42,7 @@ export class BusinessDetailComponent implements OnInit {
      private deviceService:DeviceService,
      public toastController: ToastController,
      private callNumber: CallNumber,
-     private socialSharing: SocialSharing,
-     private iab: InAppBrowser) { }
+     private socialSharing: SocialSharing) { }
 
   async ngOnInit() {
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -106,8 +104,7 @@ export class BusinessDetailComponent implements OnInit {
   async propAction(prop){
     
     if(prop.property==="URL"){
-      // const browser = this.iab.create(prop.value,'_system');
-      Browser.open({ url: prop.value })
+      Browser.open({ url: prop.value });
     }else{
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
     }

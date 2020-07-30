@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
+const { Browser } = Plugins;
+
 
 @Component({
   selector: 'app-folder',
@@ -30,8 +32,7 @@ export class FolderPage implements OnInit {
      private businessService: BusinessService,
      public toastController: ToastController,
      private callNumber: CallNumber,
-     private socialSharing: SocialSharing,
-     private iab: InAppBrowser) { }
+     private socialSharing: SocialSharing) { }
 
   async ngOnInit() {  
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
@@ -112,7 +113,7 @@ export class FolderPage implements OnInit {
     if(!bus.default_link)
       this.router.navigateByUrl('/businessDetail/'+bus.qpId);
     else{
-       const browser = this.iab.create(bus.default_link);
+      Browser.open({ url: bus.default_link })
     }
   }
 
