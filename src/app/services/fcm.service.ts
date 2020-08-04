@@ -38,11 +38,19 @@ export class FcmService {
     PushNotifications.addListener(
       'registration',
       (token: PushNotificationToken) => {
+        console.log(token.value);
         this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
-            console.log("token generate")
+            console.log("token generate");
+
         }, error => {
+           console.log(error);
            if(error.error){
-           	  this.devicePushService.create(uuid,token.value).subscribe();
+           	  this.devicePushService.create(uuid,token.value).subscribe(create => {
+                    console.log("token create");
+
+                }, error => {
+                   console.log(error);                   
+                });
            }
         });
       }
