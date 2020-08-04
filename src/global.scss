@@ -39,6 +39,7 @@
     width: 100%;
     font-weight: bold;
     color: #fff;
+    -webkit-text-stroke: 1px black;
   }
 
   .card-subtitle {
@@ -49,6 +50,14 @@
     color: #fff;
   }
 
+  @media (max-width: 576px) {
+    .card-title {
+      font-size: 2rem !important;
+    }
+    .card-subtitle {
+      font-size: 1.0em;
+    }
+  }
   .img-background{
      width:100%;
   }

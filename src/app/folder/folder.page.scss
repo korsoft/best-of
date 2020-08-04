@@ -31,6 +31,7 @@
     font-size: 3.5em;
     font-weight: bolder;
     color: white;
+    -webkit-text-stroke: 1px black;
 }
 
 .card-distance{
@@ -40,7 +41,18 @@
     font-size: 2em;
     font-weight: bolder;
     color: crimson;
+    -webkit-text-stroke: 1px black;
 }
+
+@media (max-width: 576px) {
+    .card-label {
+      font-size: 2.5rem !important;
+    }
+    .card-distance {
+      font-size: 1.0em;
+    }
+}
+
 .button-business{
     position: absolute;
 }
