@@ -28,9 +28,11 @@ export class FcmService {
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {
+        console.log("granted");
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
+         console.log("No granted");
         // No permission for push granted
       }
     });
