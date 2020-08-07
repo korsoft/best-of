@@ -17,7 +17,7 @@ const { PushNotifications } = Plugins;
 export class FcmService {
  
   constructor(private router: Router,
-  	private devicePushService:DevicePushService) { }
+    private devicePushService:DevicePushService) { }
  
   initPush(uuid) {
     if (Capacitor.platform !== 'web') {
@@ -28,11 +28,9 @@ export class FcmService {
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {
-        console.log("granted");
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
-         console.log("No granted");
         // No permission for push granted
       }
     });
@@ -40,19 +38,11 @@ export class FcmService {
     PushNotifications.addListener(
       'registration',
       (token: PushNotificationToken) => {
-        console.log(token.value);
         this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
-            console.log("token generate");
-
+            console.log("token generate")
         }, error => {
-           console.log(error);
            if(error.error){
-           	  this.devicePushService.create(uuid,token.value).subscribe(create => {
-                    console.log("token create");
-
-                }, error => {
-                   console.log(error);                   
-                });
+               this.devicePushService.create(uuid,token.value).subscribe();
            }
         });
       }
