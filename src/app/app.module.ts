@@ -23,6 +23,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { HTTP } from '@ionic-native/http/ngx';
 
 
 
@@ -55,6 +56,7 @@ import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angul
     SocialSharing,
     InAppBrowser,
     Device,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     {

@@ -38,15 +38,39 @@ export class FcmService {
     PushNotifications.addListener(
       'registration',
       (token: PushNotificationToken) => {
-        console.log("ssss");
+        /*
         this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
             console.log("token generate")
         }, error => {
-           console.log("Error al actualizar",error.error)
            if(error.error){
-               this.devicePushService.create(uuid,token.value).subscribe(create=>{
-                 console.log("token created")},error2=>{console.log("error on updated",error2.error)});
+               this.devicePushService.create(uuid,token.value).subscribe();
            }
+        });
+        */
+
+        this.devicePushService.updateByDevice(uuid,token.value).then(data => {
+          console.log("token generate")
+        })
+        .catch(error => {
+          console.log("No fue posible registrar el token");
+
+          if(error.error){
+                 this.devicePushService.create(uuid,token.value).then(data => {
+
+                  console.log(data.status);
+                  console.log(data.data); // data received by server
+                  console.log(data.headers);
+
+                })
+                .catch(error => {
+
+                  console.log(error.status);
+                  console.log(error.error); // error message as string
+                  console.log(error.headers);
+
+                });
+             }
+
         });
       }
     );
