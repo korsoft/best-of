@@ -13,14 +13,14 @@ import smoothscroll from 'smoothscroll-polyfill';
 import { Platform } from '@ionic/angular';
 
 declare var google: any;
- 
+
 interface Marker {
   lat: number;
   lng: number;
   label?: string;
   draggable: boolean;
 }
- 
+
 interface Location {
   lat: number;
   lng: number;
@@ -67,36 +67,33 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private storage: Storage,
     private ionLoader: LoaderService,
-    public platform: Platform) { 
+    public platform: Platform) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
-    
-
   }
 
   ngOnInit() {
   	smoothscroll.polyfill();
-    
   }
 
   setOption(option,cat){
   	if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
-  	 this.selectedCard=option;  
+  	 this.selectedCard=option;
      if(this.platform.is("ios") ){
-        if(tempOption + 3 < this.categorys.length) 
+        if(tempOption + 3 < this.categorys.length)
           setTimeout (() => {
               this.scrollCustomImplementation(document.getElementById(cat.viewId),up);
           });
 
      }else{
         setTimeout (() => {
-          document.getElementById(cat.viewId).scrollIntoView({behavior: "smooth"}); 
+          document.getElementById(cat.viewId).scrollIntoView({behavior: "smooth"});
         });
      }
-    
-     
+
+
      this.cdr.detectChanges();
   	}else{
       switch (cat.action_type) {
@@ -105,12 +102,12 @@ export class HomeComponent implements OnInit {
           break;
         case "2":
           this.router.navigateByUrl('/website/Weather');
-          break;        
+          break;
         default:
           this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
           break;
       }
-      
+
   	}
   }
 
@@ -132,10 +129,10 @@ export class HomeComponent implements OnInit {
   decomposeAddressComponents(addressArray,latitude,longitude) {
     if (addressArray.length == 0) return false;
     let address = addressArray[0].address_components;
- 
+
     for(let element of address) {
       if (element.length == 0 && !element['types']) continue
- 
+
       if (element['types'].indexOf('street_number') > -1) {
         this.location.address_level_1 = element['long_name'];
         continue;
@@ -162,14 +159,14 @@ export class HomeComponent implements OnInit {
       }
     }
     console.log("location for "+this.location.address_level_2);
-    
-     this.getLocation(latitude,longitude); 
+
+     this.getLocation(latitude,longitude);
   }
 
   private getLocation(latitude,longitude){
     this.locationService.getLocation(this.location.address_level_2).subscribe(
              (data:Array<any>)=>{
-                if(data){ 
+                if(data){
                   if(data.length>0){
                         let loc  = data[0];
                         loc.latitude = latitude;
@@ -179,7 +176,7 @@ export class HomeComponent implements OnInit {
                   }else{
                     this.storage.set("location",null);
                   }
-                  
+
                   this.storage.get("categories").then((val) => {
               console.log(val);
               if(!val){
@@ -187,16 +184,16 @@ export class HomeComponent implements OnInit {
                        (cats:Array<any>)=>{
                          this.ionLoader.hideLoader();
                           this.categorys = cats.filter((cat, index, array)=>{
-                            return !(cat.subcat_name);  
+                            return !(cat.subcat_name);
                           });
                           this.categorys.sort((c1,c2)=>{
-                            return c1.cat_sort_id - c2.cat_sort_id; 
+                            return c1.cat_sort_id - c2.cat_sort_id;
                           });
                           let subCat = cats.filter((cat, index, array)=>{
-                            return (cat.subcat_name);  
+                            return (cat.subcat_name);
                           });
                           subCat.sort((c1,c2)=>{
-                            return c1.cat_sort_id - c2.cat_sort_id; 
+                            return c1.cat_sort_id - c2.cat_sort_id;
                           });
                           this.storage.set("categories",this.categorys);
                           this.storage.set("subcategories",subCat);
@@ -219,7 +216,7 @@ export class HomeComponent implements OnInit {
                   this.ionLoader.hideLoader();
                 }
              }
-    );  
+    );
   }
   onSwipeUp(){
      console.log("onSwipeUp");
@@ -238,7 +235,7 @@ export class HomeComponent implements OnInit {
   ionViewWillEnter(){
     this.ionLoader.showLoader();
     let location = this.activatedRoute.snapshot.paramMap.get('location');
-    
+
       this.mapsApiLoader.load().then(() => {
           this.geocoder = new google.maps.Geocoder();
           this.geolocation.getCurrentPosition().then((resp) => {
@@ -262,7 +259,7 @@ export class HomeComponent implements OnInit {
   scrollCustomImplementation(element: HTMLElement,up) {
     let start = null;
     let target = element.getBoundingClientRect().top;
-    
+
     let firstPos = element.parentElement.scrollTop -56;
     let pos = 0;
 
@@ -282,7 +279,7 @@ export class HomeComponent implements OnInit {
 
 
       var elapsed = timestamp - start;
-      var progress = elapsed / 600; // animation duration 600ms
+      var progress = elapsed / 300; // animation duration 600ms
       //ease in function from https://github.com/component/ease/blob/master/index.js
 
       var outQuad = function outQuad(n) {
@@ -292,9 +289,9 @@ export class HomeComponent implements OnInit {
       var easeInPercentage = +outQuad(progress).toFixed(2); // if target is 0 (back to top), the position is: current pos + (current pos * percentage of duration)
       // if target > 0 (not back to top), the positon is current pos + (target pos * percentage of duration)
       let move=0;
-     
+
         move = firstPos + target * easeInPercentage;
-     
+
 
       pos = target === 0 ? firstPos - firstPos * easeInPercentage : move;
       element.parentElement.scrollTo(0, pos);

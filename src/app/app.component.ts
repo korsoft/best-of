@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
       icon: 'share'
     }
   ];
-  
+
 
   constructor(
     private platform: Platform,
@@ -84,17 +84,18 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
+    /*
     Device.getInfo().then((info) => {
       this.deviceService.createDevice(info).subscribe();
       this.fcmService.initPush(info.uuid);
     });
-
+*/
     this.router.events.subscribe((event) => {
-      
+
        if(event instanceof NavigationEnd) {
           if(event.url && event.url.startsWith("/home")) {
-            this.appPages[0].url = decodeURIComponent(event.url);      
-          }    
+            this.appPages[0].url = decodeURIComponent(event.url);
+          }
        }
      })
     });
@@ -102,8 +103,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-   
-  
+
+
   }
 
 
