@@ -8,23 +8,23 @@ import {
 } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { DevicePushService } from './device-push.service';
-
+ 
 const { PushNotifications } = Plugins;
-
+ 
 @Injectable({
   providedIn: 'root'
 })
 export class FcmService {
-
+ 
   constructor(private router: Router,
     private devicePushService:DevicePushService) { }
-
+ 
   initPush(uuid) {
     if (Capacitor.platform !== 'web') {
       this.registerPush(uuid);
     }
   }
-
+ 
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {
@@ -34,34 +34,31 @@ export class FcmService {
         // No permission for push granted
       }
     });
-
+ 
     PushNotifications.addListener(
       'registration',
       (token: PushNotificationToken) => {
-        console.log("ssss");
         this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
             console.log("token generate")
         }, error => {
-           console.log("Error al actualizar",error.error)
            if(error.error){
-               this.devicePushService.create(uuid,token.value).subscribe(create=>{
-                 console.log("token created")},error2=>{console.log("error on updated",error2.error)});
+               this.devicePushService.create(uuid,token.value).subscribe();
            }
         });
       }
     );
-
+ 
     PushNotifications.addListener('registrationError', (error: any) => {
       console.log('Error: ' + JSON.stringify(error));
     });
-
+ 
     PushNotifications.addListener(
       'pushNotificationReceived',
       async (notification: PushNotification) => {
         console.log('Push received: ' + JSON.stringify(notification));
       }
     );
-
+ 
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       async (notification: PushNotificationActionPerformed) => {
