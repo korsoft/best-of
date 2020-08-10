@@ -9,6 +9,8 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
+import smoothscroll from 'smoothscroll-polyfill';
+import { Platform } from '@ionic/angular';
 
 declare var google: any;
  
@@ -54,7 +56,7 @@ export class HomeComponent implements OnInit {
 
   selectedCard:number=0;
   public categorys:Array<any>=[];
-
+  public selectedElement;
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
     public mapsApiLoader: MapsAPILoader,
@@ -64,7 +66,8 @@ export class HomeComponent implements OnInit {
     private categoryService:CategoryService,
     private router: Router,
     private storage: Storage,
-    private ionLoader: LoaderService) { 
+    private ionLoader: LoaderService,
+    public platform: Platform) { 
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
     
@@ -72,16 +75,27 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-  	
+  	smoothscroll.polyfill();
     
   }
 
   setOption(option,cat){
   	if(this.selectedCard!=option){
+     let tempOption=this.selectedCard;
+     let up = this.selectedCard > option;
   	 this.selectedCard=option;  
-     setTimeout (() => {
-         document.getElementById(cat.viewId).scrollIntoView({behavior: "smooth"}); 
-      });
+     if(this.platform.is("ios") ){
+        if(tempOption + 3 < this.categorys.length) 
+          setTimeout (() => {
+              this.scrollCustomImplementation(document.getElementById(cat.viewId),up);
+          });
+
+     }else{
+        setTimeout (() => {
+          document.getElementById(cat.viewId).scrollIntoView({behavior: "smooth"}); 
+        });
+     }
+    
      
      this.cdr.detectChanges();
   	}else{
@@ -241,5 +255,70 @@ export class HomeComponent implements OnInit {
             this.ionLoader.hideLoader();
           });
       });
+  }
+
+
+
+  scrollCustomImplementation(element: HTMLElement,up) {
+    let start = null;
+    let target = element.getBoundingClientRect().top;
+    
+    let firstPos = element.parentElement.scrollTop -56;
+    let pos = 0;
+
+    (function () {
+      var browser = ['ms', 'moz', 'webkit', 'o'];
+
+      for (var x = 0, length = browser.length; x < length && !window.requestAnimationFrame; x++) {
+        window.requestAnimationFrame = window[browser[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[browser[x] + 'CancelAnimationFrame'] || window[browser[x] + 'CancelRequestAnimationFrame'];
+      }
+    })();
+
+    function showAnimation(timestamp) {
+      if (!start) {
+        start = timestamp || new Date().getTime();
+      } //get id of animation
+
+
+      var elapsed = timestamp - start;
+      var progress = elapsed / 600; // animation duration 600ms
+      //ease in function from https://github.com/component/ease/blob/master/index.js
+
+      var outQuad = function outQuad(n) {
+        return n * (2 - n);
+      };
+
+      var easeInPercentage = +outQuad(progress).toFixed(2); // if target is 0 (back to top), the position is: current pos + (current pos * percentage of duration)
+      // if target > 0 (not back to top), the positon is current pos + (target pos * percentage of duration)
+      let move=0;
+     
+        move = firstPos + target * easeInPercentage;
+     
+
+      pos = target === 0 ? firstPos - firstPos * easeInPercentage : move;
+      element.parentElement.scrollTo(0, pos);
+      console.log(pos, target, firstPos, progress);
+      let stop= false;
+      if(!up)
+        stop=pos >= firstPos + target;
+      else
+        stop=pos <= firstPos + target;
+
+      if (target !== 0 && stop || target === 0 && pos <= 0) {
+        cancelAnimationFrame(start);
+
+        if (element) {
+          element.setAttribute("tabindex", "-1");
+          element.focus();
+        }
+
+        pos = 0;
+      } else {
+        window.requestAnimationFrame(showAnimation);
+      }
+    }
+
+    window.requestAnimationFrame(showAnimation);
   }
 }
