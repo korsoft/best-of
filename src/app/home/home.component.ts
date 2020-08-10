@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
-import smoothscroll from 'smoothscroll-polyfill';
+
 import { Platform } from '@ionic/angular';
 
 declare var google: any;
@@ -75,8 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-  	smoothscroll.polyfill();
-    
+  
   }
 
   setOption(option,cat){
