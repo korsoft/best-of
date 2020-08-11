@@ -85,8 +85,8 @@ export class AppComponent implements OnInit {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
     Device.getInfo().then((info) => {
-      this.deviceService.createDevice(info).subscribe();
-      this.fcmService.initPush(info.uuid);
+      //this.deviceService.createDevice(info).subscribe();
+     // this.fcmService.initPush(info.uuid);
     });
 
     this.router.events.subscribe((event) => {
