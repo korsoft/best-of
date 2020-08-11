@@ -249,6 +249,8 @@ export class HomeComponent implements OnInit {
               }
           }).catch((error) => {
             console.log('Error getting location', error);
+             this.location.address_level_2="MÉRIDA";
+              this.getLocation(0,0);
             this.ionLoader.hideLoader();
           });
       });
