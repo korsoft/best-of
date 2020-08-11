@@ -153,10 +153,13 @@ export class HomeComponent implements OnInit {
   }
 
   private getLocation(latitude,longitude){
+    alert("location")
     this.locationService.getLocation(this.location.address_level_2).subscribe(
              (data:Array<any>)=>{
+                alert(data[0]);
                 if(data){ 
                   if(data.length>0){
+                    
                         let loc  = data[0];
                         loc.latitude = latitude;
                         loc.longitude = longitude;
@@ -167,10 +170,11 @@ export class HomeComponent implements OnInit {
                   }
                   
                   this.storage.get("categories").then((val) => {
-              console.log(val);
+              alert(val);
               if(!val){
                   this.categoryService.getCategorys().subscribe(
                        (cats:Array<any>)=>{
+                        alert(cats);
                          this.ionLoader.hideLoader();
                           this.categorys = cats.filter((cat, index, array)=>{
                             return !(cat.subcat_name);  
@@ -204,6 +208,9 @@ export class HomeComponent implements OnInit {
                 }else{
                   this.ionLoader.hideLoader();
                 }
+             },(error)=> {
+               console.log(error);
+               alert(error);
              }
     );  
   }
@@ -224,22 +231,7 @@ export class HomeComponent implements OnInit {
   ionViewWillEnter(){
     this.ionLoader.showLoader();
     let location = this.activatedRoute.snapshot.paramMap.get('location');
-    
-      this.mapsApiLoader.load().then(() => {
-          this.geocoder = new google.maps.Geocoder();
-          this.geolocation.getCurrentPosition().then((resp) => {
-           // resp.coords.latitude
-           // resp.coords.longitude
-              if(!location){
-                this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
-              }else{
-                this.location.address_level_2=location;
-                this.getLocation(resp.coords.latitude,resp.coords.longitude);
-              }
-          }).catch((error) => {
-            console.log('Error getting location', error);
-            this.ionLoader.hideLoader();
-          });
-      });
+    this.location.address_level_2="MÉRIDA";
+    this.getLocation(0,0);
   }
 }

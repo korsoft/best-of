@@ -17,15 +17,15 @@ export class LocationService  {
 
     public getLocation(city):Observable<any>{
     	//filters=techcrunch&apiKey=${city}`
-	  
-        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}},{
+	      alert(`https://my.decizie.com/api/user/81447/activity/378?params=`+JSON.stringify( {filters:'{"where":[{"q_3508":"'+city+'"}]}'}));
+        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378?params=`+JSON.stringify( {filters:'{"where":[{"q_3508":"'+city+'"}]}'}),{},{
         'Content-Type' : 'application/json; charset=utf-8',
         'Accept'       : 'application/json',
         'Authorization': 'pIqZvpXE50vizxFoHosy2gbJgcB2IDKuQY8hgoaF',
       })
         return defer(()=>{
           return promise.then(json => {
-              return json;
+              return JSON.parse(json.data);
             })
         });
 	}
@@ -40,7 +40,7 @@ export class LocationService  {
       })
         return defer(()=>{
           return promise.then(json => {
-              return json;
+              return JSON.parse(json.data);
             })
         });
     }
