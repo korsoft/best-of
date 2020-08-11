@@ -1,6 +1,9 @@
 import { Injectable, } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { HTTP }  from '@ionic-native/http/ngx';
+import { of, Observable, defer } from 'rxjs'; 
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +11,38 @@ import { Storage } from '@ionic/storage';
 export class LocationService  {
 
 
-    constructor(private httpClient: HttpClient,
+    constructor(private httpClient: HTTP,
     	private storage: Storage) { }
 
 
-    public getLocation(city){
+    public getLocation(city):Observable<any>{
     	//filters=techcrunch&apiKey=${city}`
-	    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}});
+	  
+        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}},{
+        'Content-Type' : 'application/json; charset=utf-8',
+        'Accept'       : 'application/json',
+        'Authorization': 'pIqZvpXE50vizxFoHosy2gbJgcB2IDKuQY8hgoaF',
+      })
+        return defer(()=>{
+          return promise.then(json => {
+              return json;
+            })
+        });
 	}
 
-    public getLocations(){
+    public getLocations():Observable<any>{
         //filters=techcrunch&apiKey=${city}`
-        return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`);
+       
+        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{},{
+        'Content-Type' : 'application/json; charset=utf-8',
+        'Accept'       : 'application/json',
+        'Authorization': 'pIqZvpXE50vizxFoHosy2gbJgcB2IDKuQY8hgoaF',
+      })
+        return defer(()=>{
+          return promise.then(json => {
+              return json;
+            })
+        });
     }
 
 	public getSessionLocation(){
