@@ -168,9 +168,10 @@ export class HomeComponent implements OnInit {
                   }else{
                     this.storage.set("location",null);
                   }
-                  
+                   console.log("val antes storage");
                   this.storage.get("categories").then((val) => {
-              alert(val);
+                                 console.log("val from storage");
+                                                    console.log(val);
               if(!val){
                   this.categoryService.getCategorys().subscribe(
                        (cats:Array<any>)=>{
