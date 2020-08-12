@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private async handleNativeRequest(request: HttpRequest<any>): Promise<HttpResponse<any>> {
     const headerKeys = request.headers.keys();
     const header = {};
-
+    
     headerKeys.forEach((key) => {
       header[key] = request.headers.get(key);
     });
@@ -39,10 +39,15 @@ export class AuthInterceptor implements HttpInterceptor {
       await this.platform.ready();
 
       const method = <HttpMethod> request.method.toLowerCase();
-
+      let params={};
+      if(request.params.has("filters")){
+         params["filters"]=request.params.get("filters");
+      }
+      //alert(request.url+" "+JSON.stringify(params));
       const nativeHttpResponse = await this.nativeHttp.sendRequest(request.url, {
         method: method,
         data: request.body,
+        params: params,
         headers: header,
         serializer: 'json',
       });
@@ -50,6 +55,7 @@ export class AuthInterceptor implements HttpInterceptor {
       let body;
 
       try {
+        // alert(nativeHttpResponse.data);
         body = JSON.parse(nativeHttpResponse.data);
       } catch (error) {
         body = { response: nativeHttpResponse.data };
