@@ -14,12 +14,12 @@ export class LocationService  {
 
     public getLocation(city){
     	//filters=techcrunch&apiKey=${city}`
-	    return this.httpClient.get(`https://decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}});
+	    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`,{params: {filters:'{"where":[{"q_3508":"'+city+'"}]}'}});
 	}
 
     public getLocations(){
         //filters=techcrunch&apiKey=${city}`
-        return this.httpClient.get(`https://decizie.com/api/user/81447/activity/378`);
+        return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/378`);
     }
 
 	public getSessionLocation(){
