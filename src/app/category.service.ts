@@ -13,11 +13,11 @@ export class CategoryService {
   public getCategorys():Observable<any>{
     	//filters=techcrunch&apiKey=${city}`
 	  //  return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/386`,{params: {filters:'{"where":[{"q_3591":1}]}'}});
-	     alert(`https://my.decizie.com/api/user/81447/activity/386?params=`+JSON.stringify( {filters:'{"where":[{"q_3591":1}]}'}));
-        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/386?params=`+JSON.stringify( {filters:'{"where":[{"q_3591":1}]}'}),{},{
+	     alert(`https://my.decizie.com/api/user/81447/activity/386?filters=`+'{"where":[{"q_3591":1}]}');
+        let promise =this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/386?filters=`+'{"where":[{"q_3591":1}]}',{},{
         'Content-Type' : 'application/json; charset=utf-8',
         'Accept'       : 'application/json',
-        'Authorization': 'pIqZvpXE50vizxFoHosy2gbJgcB2IDKuQY8hgoaF',
+        'Authorization': 'pIqZvpXE50vizxFoHosy2gbJgcB2IDKuQY8hgoaF'
       })
         return defer(()=>{
           return promise.then(json => {

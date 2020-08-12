@@ -156,7 +156,7 @@ export class HomeComponent implements OnInit {
     alert("location")
     this.locationService.getLocation(this.location.address_level_2).subscribe(
              (data:Array<any>)=>{
-                alert(data[0]);
+                alert(JSON.stringify(data));
                 if(data){ 
                   if(data.length>0){
                     
