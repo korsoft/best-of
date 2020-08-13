@@ -4,6 +4,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } fr
 import { Observable, from } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { HTTP } from '@ionic-native/http/ngx';
+import { HttpHeaders } from '@angular/common/http';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete' | 'upload' | 'download';
 
@@ -40,8 +41,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
       const method = <HttpMethod> request.method.toLowerCase();
       let params={};
-      if(request.params.has("filters")){
-         params["filters"]=request.params.get("filters");
+      for (const key of request.params.keys()) {
+        params[key]= request.params.get(key);
       }
       //alert(request.url+" "+JSON.stringify(params));
       const nativeHttpResponse = await this.nativeHttp.sendRequest(request.url, {
@@ -61,10 +62,17 @@ export class AuthInterceptor implements HttpInterceptor {
         body = { response: nativeHttpResponse.data };
       }
 
+      const headers= new HttpHeaders();
+
+      for (const [key, value] of Object.entries( nativeHttpResponse.headers)) {
+        headers.set(key,value);
+      }
+
+
       const response = new HttpResponse({
         body: body,
         status: nativeHttpResponse.status,
-        headers: null,//nativeHttpResponse.headers,
+        headers: headers,
         url: nativeHttpResponse.url,
       });
 
