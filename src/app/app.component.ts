@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FcmService } from './services/fcm.service';
 import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Storage } from '@ionic/storage';
 
 
 const { Device } = Plugins;
@@ -27,7 +28,9 @@ export class AppComponent implements OnInit {
       url: '/home',
       action: (url,i) => {
          this.selectedIndex = i;
-         this.router.navigateByUrl(url);
+         this.storage.remove("categories").then((val) => {
+           this.router.navigateByUrl(url);
+         });
       },
       icon: 'Home'
     },
@@ -74,7 +77,8 @@ export class AppComponent implements OnInit {
     private deviceService:DeviceService,
     private router: Router,
     private fcmService:FcmService,
-    private socialSharing: SocialSharing
+    private socialSharing: SocialSharing,
+    private storage: Storage
 
   ) {
     this.initializeApp();
