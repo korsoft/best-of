@@ -68,7 +68,9 @@ export class BusinessDetailComponent implements OnInit {
         }
        
         this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
-          this.properties=props;
+          this.properties=props.filter((p)=>{
+             return (p.label!=null && p.label!=="");
+          });
           this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
             if(bookmark.length){
               this.bookmark = bookmark[0];
