@@ -185,23 +185,23 @@ export class HomeComponent implements OnInit {
                          
 
                           
-                          this.categorys = cats.filter((cat, index, array)=>{
+                          let localCategories = cats.filter((cat, index, array)=>{
                             return !(cat.subcat_name);
                           });
-                          this.categorys.sort((c1,c2)=>{
+                         localCategories.sort((c1,c2)=>{
                             return c1.cat_sort_id - c2.cat_sort_id;
                           });
-                          for (var i = this.categorys.length - 1; i >= 0; i--) {
-                            let base:string = String( await this.getBase64ImageFromUrl(this.categorys[i].cat_icon));
+                          for (var i = localCategories.length - 1; i >= 0; i--) {
+                            let base:string = String( await this.getBase64ImageFromUrl(localCategories[i].cat_icon));
                             if(base.startsWith("data:image/jpeg;base64,"))
-                              this.categorys[i].image = base;
+                              localCategories[i].image = base;
                             else
-                              this.categorys[i].image =  "data:image/jpeg;base64,"+base;
+                              localCategories[i].image =  "data:image/jpeg;base64,"+base;
                           }
                           let subCat = cats.filter((cat, index, array)=>{
                             return (cat.subcat_name);
                           });
-                                               
+                          this.categorys = localCategories;                     
                           this.loadSubCategoties(subCat);
                           
                           this.storage.set("categories",this.categorys);
@@ -330,20 +330,13 @@ export class HomeComponent implements OnInit {
   }
 
    async  getBase64ImageFromUrl(imageUrl) {
-      var res = await fetch(imageUrl);
-      var blob = await res.blob();
+      let res = await fetch(imageUrl);
+      let blob = await res.blob();
+      
+      console.log(blob.size);
 
-      return new Promise((resolve, reject) => {
-        var reader  = new FileReader();
-        reader.addEventListener("load", function () {
-            resolve(reader.result);
-        }, false);
-
-        reader.onerror = () => {
-          return reject(this);
-        };
-        reader.readAsDataURL(blob);
-      })
+      let bytes = await new Response(blob).arrayBuffer();
+      return this.arrayBufferToBase64(bytes);
   }
 
   async loadSubCategoties(subCats:Array<any>){
@@ -360,5 +353,15 @@ export class HomeComponent implements OnInit {
       });
      
       this.storage.set("subcategories",subCats);
+  }
+
+  arrayBufferToBase64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 }
