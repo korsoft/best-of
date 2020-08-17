@@ -24,13 +24,13 @@
   <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
   <div id="container" class="card-background-page">
     <ion-card (click)="goToBussines(category)" *ngFor="let category of subcategories; let i = index; "  >
-    <img  src="{{category.cat_icon}}" class="img-background" />
+    <ion-img  src="{{category.cat_icon}}" class="img-background" ></ion-img>
     <div class="card-title"></div>   
      <div class="card-label">{{category.subcat_name}}</div>  
     </ion-card>
 
     <ion-card   *ngFor="let bus of business; let ind = index; "  >
-    <img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" />
+    <ion-img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" ></ion-img>
     <div *ngIf="bus.showMap || !bus.name_display_off=='1'" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
      <div class="card-label" *ngIf="!bus.name_display_off=='1'" >{{bus.Name}}</div>
      <div class="card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>
