@@ -18,7 +18,7 @@
   </ion-header>
   <div #container id="container" class="card-background-page" (swipeup)="onSwipeUp()" (swipedown)="onSwipeDown()" >
     <ion-card (click)="setOption(i,category);" [class.selected]="selectedCard == i" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
-      <ion-img [cache]=true [src]="category.cat_icon" class="img-background"  ></ion-img>
+      <ion-img  [src]="category.image" class="img-background"  ></ion-img>
       <div class="card-title" >{{category.cat_name}}</div>
      
     </ion-card>

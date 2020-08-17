@@ -24,7 +24,7 @@
   <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
   <div id="container" class="card-background-page">
     <ion-card (click)="goToBussines(category)" *ngFor="let category of subcategories; let i = index; "  >
-    <ion-img  src="{{category.cat_icon}}" class="img-background" ></ion-img>
+    <ion-img  [src]="category.image" class="img-background" ></ion-img>
     <div class="card-title"></div>   
      <div class="card-label">{{category.subcat_name}}</div>  
     </ion-card>

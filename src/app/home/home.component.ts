@@ -181,25 +181,35 @@ export class HomeComponent implements OnInit {
               console.log(val);
               if(!val){
                   this.categoryService.getCategorys().subscribe(
-                       (cats:Array<any>)=>{
-                         this.ionLoader.hideLoader();
+                      async (cats:Array<any>)=>{
+                         
+
+                          
                           this.categorys = cats.filter((cat, index, array)=>{
                             return !(cat.subcat_name);
                           });
                           this.categorys.sort((c1,c2)=>{
                             return c1.cat_sort_id - c2.cat_sort_id;
                           });
+                          for (var i = this.categorys.length - 1; i >= 0; i--) {
+                            let base:string = String( await this.getBase64ImageFromUrl(this.categorys[i].cat_icon));
+                            if(base.startsWith("data:image/jpeg;base64,"))
+                              this.categorys[i].image = base;
+                            else
+                              this.categorys[i].image =  "data:image/jpeg;base64,"+base;
+                          }
                           let subCat = cats.filter((cat, index, array)=>{
                             return (cat.subcat_name);
                           });
-                          subCat.sort((c1,c2)=>{
-                            return c1.cat_sort_id - c2.cat_sort_id;
-                          });
+                                               
+                          this.loadSubCategoties(subCat);
+                          
                           this.storage.set("categories",this.categorys);
-                          this.storage.set("subcategories",subCat);
+                          
                           for (var i = this.categorys.length - 1; i >= 0; i--) {
                             this.categorys[i].viewId="card"+i+""+new Date().getTime();
                           }
+                          this.ionLoader.hideLoader();
                           this.cdr.detectChanges();
                   });
               }else{
@@ -317,5 +327,38 @@ export class HomeComponent implements OnInit {
     }
 
     window.requestAnimationFrame(showAnimation);
+  }
+
+   async  getBase64ImageFromUrl(imageUrl) {
+      var res = await fetch(imageUrl);
+      var blob = await res.blob();
+
+      return new Promise((resolve, reject) => {
+        var reader  = new FileReader();
+        reader.addEventListener("load", function () {
+            resolve(reader.result);
+        }, false);
+
+        reader.onerror = () => {
+          return reject(this);
+        };
+        reader.readAsDataURL(blob);
+      })
+  }
+
+  async loadSubCategoties(subCats:Array<any>){
+      for (var i = subCats.length - 1; i >= 0; i--) {
+        let base:string = String( await this.getBase64ImageFromUrl(subCats[i].cat_icon));
+        if(base.startsWith("data:image/jpeg;base64,"))
+          subCats[i].image = base;
+        else
+          subCats[i].image =  "data:image/jpeg;base64,"+base;
+      }
+
+      subCats.sort((c1,c2)=>{
+        return c1.cat_sort_id - c2.cat_sort_id;
+      });
+     
+      this.storage.set("subcategories",subCats);
   }
 }
