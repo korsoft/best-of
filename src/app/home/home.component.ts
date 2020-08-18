@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit {
                   }
 
                   this.storage.get("categories").then((val) => {
-              console.log(val);
+              //console.log(val);
               if(!val){
                   this.categoryService.getCategorys().subscribe(
                       async (cats:Array<any>)=>{
@@ -202,7 +202,7 @@ export class HomeComponent implements OnInit {
                             return (cat.subcat_name);
                           });
                           this.categorys = localCategories;                     
-                          this.loadSubCategoties(subCat);
+                          await this.loadSubCategoties(subCat);
                           
                           this.storage.set("categories",this.categorys);
                           
@@ -333,7 +333,7 @@ export class HomeComponent implements OnInit {
       let res = await fetch(imageUrl);
       let blob = await res.blob();
       
-      console.log(blob.size);
+    //  console.log(blob.size);
 
       let bytes = await new Response(blob).arrayBuffer();
       return this.arrayBufferToBase64(bytes);
