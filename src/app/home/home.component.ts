@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     zoom: 5
   };
   public folder: string;
-
+  private localImage:Array<any>=[];
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit {
 
   private getLocation(latitude,longitude){
     this.locationService.getLocation(this.location.address_level_2).subscribe(
-             (data:Array<any>)=>{
+            (data:Array<any>)=>{
                 if(data){
                   if(data.length>0){
                         let loc  = data[0];
@@ -177,7 +177,7 @@ export class HomeComponent implements OnInit {
                     this.storage.set("location",null);
                   }
 
-                  this.storage.get("categories").then((val) => {
+                  this.storage.get("categories").then(async (val) => {
               //console.log(val);
               if(!val){
                   this.categoryService.getCategorys().subscribe(
@@ -193,17 +193,24 @@ export class HomeComponent implements OnInit {
                           });
                           for (var i = localCategories.length - 1; i >= 0; i--) {
                             let base:string = String( await this.getBase64ImageFromUrl(localCategories[i].cat_icon));
-                            if(base.startsWith("data:image/jpeg;base64,"))
-                              localCategories[i].image = base;
-                            else
-                              localCategories[i].image =  "data:image/jpeg;base64,"+base;
+                            
+                            if(!base.startsWith("data:image/jpeg;base64,"))
+                              base =  "data:image/jpeg;base64,"+base;
+
+                            this.storage.set(localCategories[i].cat_icon,base);
+                            this.localImage[localCategories[i].cat_icon]=base;
                           }
                           let subCat = cats.filter((cat, index, array)=>{
                             return (cat.subcat_name);
                           });
                           this.categorys = localCategories;                     
-                          await this.loadSubCategoties(subCat);
-                          
+                          this.loadSubCategoties(subCat);
+
+                          subCat.sort((c1,c2)=>{
+                            return c1.cat_sort_id - c2.cat_sort_id;
+                          });
+                         
+                          this.storage.set("subcategories",subCat);                          
                           this.storage.set("categories",this.categorys);
                           
                           for (var i = this.categorys.length - 1; i >= 0; i--) {
@@ -214,8 +221,11 @@ export class HomeComponent implements OnInit {
                   });
               }else{
                   this.categorys = val;
+                  let local="";
                   for (var i = this.categorys.length - 1; i >= 0; i--) {
                     this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                    local = await this.storage.get(this.categorys[i].cat_icon);
+                    this.localImage[this.categorys[i].cat_icon]=local;
                   }
                   this.ionLoader.hideLoader();
                   this.cdr.detectChanges();
@@ -342,17 +352,18 @@ export class HomeComponent implements OnInit {
   async loadSubCategoties(subCats:Array<any>){
       for (var i = subCats.length - 1; i >= 0; i--) {
         let base:string = String( await this.getBase64ImageFromUrl(subCats[i].cat_icon));
-        if(base.startsWith("data:image/jpeg;base64,"))
-          subCats[i].image = base;
-        else
-          subCats[i].image =  "data:image/jpeg;base64,"+base;
+        if(!base.startsWith("data:image/jpeg;base64,"))
+          base =  "data:image/jpeg;base64,"+base;
+        console.log(subCats[i].cat_icon);
+        this.storage.set(subCats[i].cat_icon,base);
       }
 
-      subCats.sort((c1,c2)=>{
-        return c1.cat_sort_id - c2.cat_sort_id;
-      });
      
-      this.storage.set("subcategories",subCats);
+  }
+
+
+  getImage(url){
+    return this.localImage[url];
   }
 
   arrayBufferToBase64(buffer) {

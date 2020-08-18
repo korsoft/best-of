@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       url: '/home',
       action: (url,i) => {
          this.selectedIndex = i;
-         this.storage.remove("categories").then((val) => {
+         this.storage.clear().then((val) => {
            this.router.navigateByUrl(url);
          });
       },

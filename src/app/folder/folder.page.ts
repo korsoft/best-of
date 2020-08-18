@@ -24,6 +24,7 @@ export class FolderPage implements OnInit {
   public fullSubcategories:Array<any>=[];
   public business:Array<any>=[];
   public fullBusiness:Array<any>=[];
+  private localImage:Array<any>=[];
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -45,7 +46,7 @@ export class FolderPage implements OnInit {
         return;
       }
       this.location=loc;
-      this.storage.get("subcategories").then((val) => {
+      this.storage.get("subcategories").then( async (val) => {
         if(!val){
            this.subcategories=[];
            this.fullSubcategories=[];
@@ -96,7 +97,22 @@ export class FolderPage implements OnInit {
                 this.presentToast("No data for category");
               }
           }else{
-             this.ionLoader.hideLoader();
+            let image = "";
+            for (var i = this.fullSubcategories.length - 1; i >= 0; i--) {
+              image = await this.storage.get(this.fullSubcategories[i].cat_icon);
+              if(image){
+                this.localImage[this.fullSubcategories[i].cat_icon] = image;
+              }else{
+                image = String( await this.getBase64ImageFromUrl(this.fullSubcategories[i].cat_icon));
+                            
+                if(!image.startsWith("data:image/jpeg;base64,"))
+                  image =  "data:image/jpeg;base64,"+image;
+
+                this.storage.set(this.fullSubcategories[i].cat_icon,image);
+                this.localImage[this.fullSubcategories[i].cat_icon,image]=image;
+              }
+            }
+            this.ionLoader.hideLoader();
           }
         }
       });
@@ -184,5 +200,29 @@ export class FolderPage implements OnInit {
 
   private deg2rad(deg) {
     return deg * (Math.PI/180)
+  }
+
+  async  getBase64ImageFromUrl(imageUrl) {
+      let res = await fetch(imageUrl);
+      let blob = await res.blob();
+      
+    //  console.log(blob.size);
+
+      let bytes = await new Response(blob).arrayBuffer();
+      return this.arrayBufferToBase64(bytes);
+  }
+
+  private arrayBufferToBase64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
+  getImage(url){
+    return this.localImage[url];
   }
 }
