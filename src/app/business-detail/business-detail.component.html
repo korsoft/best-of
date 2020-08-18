@@ -41,10 +41,10 @@
     </ion-card>
     <ion-list>
 	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" >
-	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> Call now:{{bus.call}}</ion-label>
+	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> {{bus.call_label?bus.call_label+":":""}}{{bus.call}}</ion-label>
 	  </ion-item>
 	  <ion-item *ngIf="bus.showMap" (click)="map(bus)" >
-	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> Location:{{bus.address}}</ion-label>
+	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> {{bus.address_label?bus.address_label+":":""}}{{bus.address}}</ion-label>
 	  </ion-item>
     <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; ">
       <ion-icon name="{{prop.property==='URL'?'aperture':'mail'}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
