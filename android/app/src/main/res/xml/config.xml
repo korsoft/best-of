@@ -35,6 +35,11 @@
     <param name="android-package" value="io.sqlc.SQLitePlugin"/>
   </feature>
 
+  <feature name="StatusBar">
+    <param name="android-package" value="org.apache.cordova.statusbar.StatusBar"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   
   <preference name="ScrollEnabled" value="false" />
   <preference name="android-minSdkVersion" value="19" />
