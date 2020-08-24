@@ -35,7 +35,7 @@
      <div class="card-label" *ngIf="!bus.name_display_off=='1'" >{{bus.Name}}</div>
      <div class="card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>
      <div class="button-card-group">  
-       <ion-fab-button class="button-card" *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" ><ion-icon name="map"></ion-icon></ion-fab-button>
+       <ion-fab-button class="button-card" *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" ><ion-icon name="location-sharp"></ion-icon></ion-fab-button>
        <ion-fab-button class="button-card" *ngIf="bus.showCall" (click)="call(bus)" color="light" size="small" ><ion-icon name="call"></ion-icon></ion-fab-button>
        <ion-fab-button class="button-card" (click)="share(bus)" color="light" size="small" ><ion-icon name="share-social"></ion-icon></ion-fab-button>
      </div>

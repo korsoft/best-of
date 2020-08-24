@@ -60,13 +60,13 @@
 
 .button-card-group{
    @extend .button-business;
-   bottom: 27px;
+   bottom: 0px;
    right: 8px;
    z-index:9;
 
 }
 .button-card{
   float:right;
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
 }
