@@ -72,3 +72,11 @@
 .ios ion-toolbar ion-button, .ios ion-toolbar ion-back-button {
     --color: var(--ion-text-color);
 }
+.ion-color-menu {
+  --ion-color-base: var(--ion-color-menu);
+  --ion-color-base-rgb: var(--ion-color-menu-rgb);
+  --ion-color-contrast: var(--ion-color-menu-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-menu-contrast-rgb);
+  --ion-color-shade: var(--ion-color-menu-shade);
+  --ion-color-tint: var(--ion-color-menu-tint);
+}

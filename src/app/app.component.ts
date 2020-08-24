@@ -34,15 +34,7 @@ export class AppComponent implements OnInit {
       },
       icon: 'Home'
     },
-    {
-      title: 'Notifications',
-      url: '/notifications',
-      action: (url,i) => {
-
-      },
-      icon: 'notifications'
-    },
-    {
+     {
       title: 'Search',
       url: '/search',
       action: (url,i) => {
@@ -51,6 +43,14 @@ export class AppComponent implements OnInit {
       },
       icon: 'search'
     },
+    {
+      title: 'Notifications',
+      url: '/notifications',
+      action: (url,i) => {
+
+      },
+      icon: 'notifications'
+    },   
     {
       title: 'Like',
       url: '/like',
