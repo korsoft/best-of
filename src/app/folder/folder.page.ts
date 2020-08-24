@@ -36,6 +36,11 @@ export class FolderPage implements OnInit {
      private socialSharing: SocialSharing) { }
 
   async ngOnInit() {  
+       
+  }
+
+
+  async ionViewWillEnter(){
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     await this.ionLoader.showLoader();
@@ -109,7 +114,7 @@ export class FolderPage implements OnInit {
                   image =  "data:image/jpeg;base64,"+image;
 
                 this.storage.set(this.fullSubcategories[i].cat_icon,image);
-                this.localImage[this.fullSubcategories[i].cat_icon,image]=image;
+                this.localImage[this.fullSubcategories[i].cat_icon]=image;
               }
             }
             this.ionLoader.hideLoader();
@@ -118,7 +123,6 @@ export class FolderPage implements OnInit {
       });
 
     });
-    
   }
 
   goToBussines(cat){

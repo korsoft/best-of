@@ -203,12 +203,13 @@ export class HomeComponent implements OnInit {
                           let subCat = cats.filter((cat, index, array)=>{
                             return (cat.subcat_name);
                           });
-                          this.categorys = localCategories;                     
-                          this.loadSubCategoties(subCat);
-
+                          this.categorys = localCategories;  
                           subCat.sort((c1,c2)=>{
                             return c1.cat_sort_id - c2.cat_sort_id;
-                          });
+                          });                   
+                          this.loadSubCategoties(subCat);
+
+                         
                          
                           this.storage.set("subcategories",subCat);                          
                           this.storage.set("categories",this.categorys);
@@ -315,7 +316,7 @@ export class HomeComponent implements OnInit {
 
       pos = target === 0 ? firstPos - firstPos * easeInPercentage : move;
       element.parentElement.scrollTo(0, pos);
-      console.log(pos, target, firstPos, progress);
+     // console.log(pos, target, firstPos, progress);
       let stop= false;
       if(!up)
         stop=pos >= firstPos + target;
@@ -351,11 +352,16 @@ export class HomeComponent implements OnInit {
 
   async loadSubCategoties(subCats:Array<any>){
       for (var i = subCats.length - 1; i >= 0; i--) {
-        let base:string = String( await this.getBase64ImageFromUrl(subCats[i].cat_icon));
+        if(subCats[i].cat_icon=="https://oc.decizie.com/owncloud/index.php/s/Wld4cXSbwYZmA3H/download"){
+          console.log("cattering");
+          console.log(subCats[i].cat_icon);
+        }
+        let base:string =  await this.getBase64ImageFromUrl(subCats[i].cat_icon);
+       
         if(!base.startsWith("data:image/jpeg;base64,"))
           base =  "data:image/jpeg;base64,"+base;
-        console.log(subCats[i].cat_icon);
-        this.storage.set(subCats[i].cat_icon,base);
+       // console.log(subCats[i].cat_icon);
+       await this.storage.set(subCats[i].cat_icon,base);
       }
 
      
