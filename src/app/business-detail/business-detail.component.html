@@ -47,7 +47,7 @@
 	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> {{bus.address_label?bus.address_label+":":""}}{{bus.address}}</ion-label>
 	  </ion-item>
     <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; ">
-      <ion-icon name="{{prop.property==='URL'?'aperture':'mail'}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
+      <ion-icon name="{{prop.property==='URL'?'aperture':prop.property==='email'?'mail':'call'}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
     </ion-item>
     </ion-list>
     <agm-map *ngIf="bus.showMap"
