@@ -180,6 +180,7 @@ export class HomeComponent implements OnInit {
                   this.storage.get("categories").then(async (val) => {
               //console.log(val);
               if(!val){
+                  await  this.ionLoader.showLoader();
                   this.categoryService.getCategorys().subscribe(
                       async (cats:Array<any>)=>{
                          
@@ -221,20 +222,20 @@ export class HomeComponent implements OnInit {
                           this.cdr.detectChanges();
                   });
               }else{
-                  this.categorys = val;
-                  let local="";
-                  for (var i = this.categorys.length - 1; i >= 0; i--) {
-                    this.categorys[i].viewId="card"+i+""+new Date().getTime();
-                    local = await this.storage.get(this.categorys[i].cat_icon);
-                    this.localImage[this.categorys[i].cat_icon]=local;
-                  }
-                  this.ionLoader.hideLoader();
+                  if(this.categorys.length==0){
+                    this.categorys = val;
+                    let local="";
+                  
+                    for (var i = this.categorys.length - 1; i >= 0; i--) {
+                      this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                      local = await this.storage.get(this.categorys[i].cat_icon);
+                      this.localImage[this.categorys[i].cat_icon]=local;
+                    }
+                  }                 
                   this.cdr.detectChanges();
               }
 
           });
-                }else{
-                  this.ionLoader.hideLoader();
                 }
              }
     );
@@ -254,7 +255,7 @@ export class HomeComponent implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.ionLoader.showLoader();
+   
     let location = this.activatedRoute.snapshot.paramMap.get('location');
 
       this.mapsApiLoader.load().then(() => {
@@ -270,7 +271,7 @@ export class HomeComponent implements OnInit {
               }
           }).catch((error) => {
             console.log('Error getting location', error);
-            this.ionLoader.hideLoader();
+ 
           });
       });
   }
@@ -352,11 +353,7 @@ export class HomeComponent implements OnInit {
 
   async loadSubCategoties(subCats:Array<any>){
       for (var i = subCats.length - 1; i >= 0; i--) {
-        if(subCats[i].cat_icon=="https://oc.decizie.com/owncloud/index.php/s/Wld4cXSbwYZmA3H/download"){
-          console.log("cattering");
-          console.log(subCats[i].cat_icon);
-        }
-        let base:string =  await this.getBase64ImageFromUrl(subCats[i].cat_icon);
+       let base:string =  await this.getBase64ImageFromUrl(subCats[i].cat_icon);
        
         if(!base.startsWith("data:image/jpeg;base64,"))
           base =  "data:image/jpeg;base64,"+base;

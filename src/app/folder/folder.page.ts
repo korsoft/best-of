@@ -25,6 +25,7 @@ export class FolderPage implements OnInit {
   public business:Array<any>=[];
   public fullBusiness:Array<any>=[];
   private localImage:Array<any>=[];
+  public loading = true;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -41,13 +42,14 @@ export class FolderPage implements OnInit {
 
 
   async ionViewWillEnter(){
+    this.loading=true;
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    await this.ionLoader.showLoader();
+  
     this.storage.get("location").then((loc)=> {
       if(!loc){
         this.presentToast("No data for this location");
-        this.ionLoader.hideLoader();
+        this.loading=false;
         return;
       }
       this.location=loc;
@@ -57,7 +59,7 @@ export class FolderPage implements OnInit {
            this.fullSubcategories=[];
            this.business = [];
            this.fullBusiness = [];
-           this.ionLoader.hideLoader();
+           
         }else{
           this.subcategories=val.filter((cat, index, array)=>{
             return (cat.cat_name===this.folder);  
@@ -75,7 +77,7 @@ export class FolderPage implements OnInit {
                       });
                     this.fullBusiness = data;
                     this.business = data;
-                    for (var i = this.business.length - 1; i >= 0; i--) {
+                    for (var i = 0; i < this.business.length; i++) {
                       this.business[i].showMap=true;
                       if(this.business[i].latitude &&  this.business[i].longitude &&
                         this.business[i].latitude !="0" &&  this.business[i].longitude!="0"){
@@ -90,20 +92,20 @@ export class FolderPage implements OnInit {
                         this.business[i].showCall=false;
                       }
                     }
-                    this.ionLoader.hideLoader();
-
+                    this.loading=false;
                   }else{
                     this.fullBusiness = [];
                     this.presentToast("No data for category");
-                    this.ionLoader.hideLoader();
+                    this.loading=false;
                   }
                });
               }else{
                 this.presentToast("No data for category");
+                this.loading=false;
               }
           }else{
             let image = "";
-            for (var i = this.fullSubcategories.length - 1; i >= 0; i--) {
+            for (var i =  0; i < this.fullSubcategories.length; i++) {
               image = await this.storage.get(this.fullSubcategories[i].cat_icon);
               if(image){
                 this.localImage[this.fullSubcategories[i].cat_icon] = image;
@@ -117,7 +119,7 @@ export class FolderPage implements OnInit {
                 this.localImage[this.fullSubcategories[i].cat_icon]=image;
               }
             }
-            this.ionLoader.hideLoader();
+            this.loading=false;
           }
         }
       });

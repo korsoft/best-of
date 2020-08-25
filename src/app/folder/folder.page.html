@@ -22,7 +22,7 @@
 
   </ion-header>
   <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
-  <div id="container" class="card-background-page">
+  <div id="container" class="card-background-page" *ngIf="!loading">
     <ion-card (click)="goToBussines(category)" *ngFor="let category of subcategories; let i = index; "  >
     <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
     <div class="card-title"></div>   
@@ -31,8 +31,8 @@
 
     <ion-card   *ngFor="let bus of business; let ind = index; "  >
     <ion-img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" ></ion-img>
-    <div *ngIf="bus.showMap || !bus.name_display_off=='1'" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
-     <div class="card-label" *ngIf="!bus.name_display_off=='1'" >{{bus.Name}}</div>
+    <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
+     <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
      <div class="card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>
      <div class="button-card-group">  
        <ion-fab-button class="button-card" *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" ><ion-icon name="location-sharp"></ion-icon></ion-fab-button>

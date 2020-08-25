@@ -71,13 +71,14 @@ export class BusinessDetailComponent implements OnInit {
           this.properties=props.filter((p)=>{
              return (p.label!=null && p.label!=="");
           });
-          this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
-            if(bookmark.length){
-              this.bookmark = bookmark[0];
-            }else{
-              this.bookmark = null;
-            }
-          });
+          if(this.device)
+            this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
+              if(bookmark.length){
+                this.bookmark = bookmark[0];
+              }else{
+                this.bookmark = null;
+              }
+            });
           this.ionLoader.hideLoader();
         });
         
