@@ -282,7 +282,7 @@ export class HomeComponent implements OnInit {
     let start = null;
     let target = element.getBoundingClientRect().top;
 
-    let firstPos = element.parentElement.scrollTop -56;
+    let firstPos = element.parentElement.scrollTop -64;
     let pos = 0;
 
     (function () {
@@ -304,7 +304,7 @@ export class HomeComponent implements OnInit {
       var progress = elapsed / 300; // animation duration 600ms
       //ease in function from https://github.com/component/ease/blob/master/index.js
 
-      var outQuad = function outQuad(n) {
+      var outQuad = function(n) {
         return n * (2 - n);
       };
 

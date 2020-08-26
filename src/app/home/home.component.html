@@ -3,19 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title (click)="gotoSearch()">BEST OF {{location.address_level_2 }}  <ion-icon name="pin-sharp"></ion-icon></ion-title>
+    <ion-title (click)="gotoSearch()">BEST OF {{location.address_level_2 }} <ion-icon name="pin-sharp"></ion-icon></ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar style="cursor: pointer;">
-      <ion-title (click)="gotoSearch()" size="large">BEST OF {{location.address_level_2 }} <ion-icon name="pin-sharp"></ion-icon></ion-title>
-    </ion-toolbar>
-
-
-  </ion-header>
   <div #container id="container" class="card-background-page" (swipeup)="onSwipeUp()" (swipedown)="onSwipeDown()" >
     <ion-card (click)="setOption(i,category);" [class.selected]="selectedCard == i" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
       <ion-img  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
