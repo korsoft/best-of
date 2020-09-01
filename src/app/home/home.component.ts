@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
+import { LocationCategoriesService } from '../services/location-categories.service';
 
 import { Platform } from '@ionic/angular';
 
@@ -67,6 +68,7 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private storage: Storage,
     private ionLoader: LoaderService,
+    private locationCategoriesService:LocationCategoriesService,
     public platform: Platform) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
@@ -172,70 +174,88 @@ export class HomeComponent implements OnInit {
                         loc.latitude = latitude;
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
+                        this.locationCategoriesService.getCategoriesId(loc.qpId).subscribe(async (locationCats:Array<any>)=>{
+                         
+                          this.storage.get("categories").then(async (val) => {
+                            //console.log(val);
+                            if(!val){
+                                await  this.ionLoader.showLoader();
+                                this.categoryService.getCategorys().subscribe(
+                                    async (cats:Array<any>)=>{
+                                       
+                                        cats = cats.filter((value)=>{
+                                           for (var i = locationCats.length - 1; i >= 0; i--) {
+                                             if(Number(locationCats[i].category)==value.qpId){
+                                               value.cat_sort_id= locationCats[i].order;
+                                               if(locationCats[i].local_icon){
+                                                 value.cat_icon=locationCats[i].local_icon;
+                                               }
+                                               return true;
+                                             }
+                                           }
+                                           return false;
+                                        });
+
+                                        
+                                        let localCategories = cats.filter((cat, index, array)=>{
+                                          return !(cat.subcat_name);
+                                        });
+                                       localCategories.sort((c1,c2)=>{
+                                          return c1.cat_sort_id - c2.cat_sort_id;
+                                        });
+                                        for (var i = localCategories.length - 1; i >= 0; i--) {
+                                          let base:string = String( await this.getBase64ImageFromUrl(localCategories[i].cat_icon));
+                                          
+                                          if(!base.startsWith("data:image/jpeg;base64,"))
+                                            base =  "data:image/jpeg;base64,"+base;
+
+                                          this.storage.set(localCategories[i].cat_icon,base);
+                                          this.localImage[localCategories[i].cat_icon]=base;
+                                        }
+                                        let subCat = cats.filter((cat, index, array)=>{
+                                          return (cat.subcat_name);
+                                        });
+                                        this.categorys = localCategories;  
+                                        subCat.sort((c1,c2)=>{
+                                          return c1.cat_sort_id - c2.cat_sort_id;
+                                        });                   
+                                        this.loadSubCategoties(subCat);
+
+                                       
+                                       
+                                        this.storage.set("subcategories",subCat);                          
+                                        this.storage.set("categories",this.categorys);
+                                        
+                                        for (var i = this.categorys.length - 1; i >= 0; i--) {
+                                          this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                                        }
+                                       
+                                        this.ionLoader.hideLoader();
+                                        this.cdr.detectChanges();
+                                });
+                            }else{
+                                if(this.categorys.length==0){
+                                  this.categorys = val;
+                                  let local="";
+                                
+                                  for (var i = this.categorys.length - 1; i >= 0; i--) {
+                                    this.categorys[i].viewId="card"+i+""+new Date().getTime();
+                                    local = await this.storage.get(this.categorys[i].cat_icon);
+                                    this.localImage[this.categorys[i].cat_icon]=local;
+                                  }
+                                }  
+                                             
+                                this.cdr.detectChanges();
+                            }
+
+                          });
+                        });
 
                   }else{
                     this.storage.set("location",null);
                   }
-
-                  this.storage.get("categories").then(async (val) => {
-              //console.log(val);
-              if(!val){
-                  await  this.ionLoader.showLoader();
-                  this.categoryService.getCategorys().subscribe(
-                      async (cats:Array<any>)=>{
-                         
-
-                          
-                          let localCategories = cats.filter((cat, index, array)=>{
-                            return !(cat.subcat_name);
-                          });
-                         localCategories.sort((c1,c2)=>{
-                            return c1.cat_sort_id - c2.cat_sort_id;
-                          });
-                          for (var i = localCategories.length - 1; i >= 0; i--) {
-                            let base:string = String( await this.getBase64ImageFromUrl(localCategories[i].cat_icon));
-                            
-                            if(!base.startsWith("data:image/jpeg;base64,"))
-                              base =  "data:image/jpeg;base64,"+base;
-
-                            this.storage.set(localCategories[i].cat_icon,base);
-                            this.localImage[localCategories[i].cat_icon]=base;
-                          }
-                          let subCat = cats.filter((cat, index, array)=>{
-                            return (cat.subcat_name);
-                          });
-                          this.categorys = localCategories;  
-                          subCat.sort((c1,c2)=>{
-                            return c1.cat_sort_id - c2.cat_sort_id;
-                          });                   
-                          this.loadSubCategoties(subCat);
-
-                         
-                         
-                          this.storage.set("subcategories",subCat);                          
-                          this.storage.set("categories",this.categorys);
-                          
-                          for (var i = this.categorys.length - 1; i >= 0; i--) {
-                            this.categorys[i].viewId="card"+i+""+new Date().getTime();
-                          }
-                          this.ionLoader.hideLoader();
-                          this.cdr.detectChanges();
-                  });
-              }else{
-                  if(this.categorys.length==0){
-                    this.categorys = val;
-                    let local="";
-                  
-                    for (var i = this.categorys.length - 1; i >= 0; i--) {
-                      this.categorys[i].viewId="card"+i+""+new Date().getTime();
-                      local = await this.storage.get(this.categorys[i].cat_icon);
-                      this.localImage[this.categorys[i].cat_icon]=local;
-                    }
-                  }                 
-                  this.cdr.detectChanges();
-              }
-
-          });
+               
+           
                 }
              }
     );

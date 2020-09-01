@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../location.service';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-location-search',
@@ -14,7 +15,8 @@ export class LocationSearchComponent implements OnInit {
   public filterLocations:Array<any>=[];
 
   constructor(private router: Router,
-  	private locationService:LocationService) { }
+  	private locationService:LocationService,
+    private storage: Storage) { }
 
   ngOnInit() {
   	this.locationService.getLocations().subscribe(
@@ -44,7 +46,10 @@ export class LocationSearchComponent implements OnInit {
   }
 
   public selectLocation(location){
+    this.storage.clear().then((val) => {
       this.router.navigateByUrl('/home/'+location.Name);
+    });
+     
   }
 
   public clearLocation(){
