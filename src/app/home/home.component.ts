@@ -165,12 +165,20 @@ export class HomeComponent implements OnInit {
      this.getLocation(latitude,longitude);
   }*/
 
-  private getLocation(latitude,longitude){
+  private getLocation(latitude,longitude,locationName){
     this.locationService.getLocations().subscribe(
             (data:Array<any>)=>{
               
                   if(data.length>0){
-                        let loc  = this.getCloseLocation(data,latitude,longitude);
+                        
+                        let loc  = null;
+                        if(!locationName){
+                          loc = this.getCloseLocation(data,latitude,longitude);
+                        }else{
+                          loc = data.find(l=>{
+                            return l.Name===locationName;
+                          });
+                        }
                         this.location.address_level_2 =loc.Name;
                         loc.latitude = latitude;
                         loc.longitude = longitude;
@@ -285,10 +293,10 @@ export class HomeComponent implements OnInit {
            // resp.coords.latitude
            // resp.coords.longitude
               if(!location){
-                this.getLocation(resp.coords.latitude,resp.coords.longitude);
+                this.getLocation(resp.coords.latitude,resp.coords.longitude,null);
               }else{
-                this.location.address_level_2=location;
-                this.getLocation(resp.coords.latitude,resp.coords.longitude);
+               
+                this.getLocation(resp.coords.latitude,resp.coords.longitude,location);
               }
           }).catch((error) => {
             console.log('Error getting location', error);
@@ -363,6 +371,7 @@ export class HomeComponent implements OnInit {
   }
 
    async  getBase64ImageFromUrl(imageUrl) {
+     try{
       let res = await fetch(imageUrl);
       let blob = await res.blob();
       
@@ -370,6 +379,10 @@ export class HomeComponent implements OnInit {
 
       let bytes = await new Response(blob).arrayBuffer();
       return this.arrayBufferToBase64(bytes);
+    }catch(e){
+      console.log(imageUrl+" "+e);
+      return "";
+    }
   }
 
   async loadSubCategoties(subCats:Array<any>){
