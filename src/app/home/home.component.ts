@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl('/search');
   }
 
-  findAddressByCoordinates(latitude,longitude) {
+ /* findAddressByCoordinates(latitude,longitude) {
     this.geocoder.geocode({
       'location': {
         lat: latitude,
@@ -160,17 +160,18 @@ export class HomeComponent implements OnInit {
         continue;
       }
     }
-    console.log("location for "+this.location.address_level_2);
+  
 
      this.getLocation(latitude,longitude);
-  }
+  }*/
 
   private getLocation(latitude,longitude){
-    this.locationService.getLocation(this.location.address_level_2).subscribe(
+    this.locationService.getLocations().subscribe(
             (data:Array<any>)=>{
-                if(data){
+              
                   if(data.length>0){
-                        let loc  = data[0];
+                        let loc  = this.getCloseLocation(data,latitude,longitude);
+                        this.location.address_level_2 =loc.Name;
                         loc.latitude = latitude;
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
@@ -257,7 +258,7 @@ export class HomeComponent implements OnInit {
                
            
                 }
-             }
+            
     );
   }
   onSwipeUp(){
@@ -284,7 +285,7 @@ export class HomeComponent implements OnInit {
            // resp.coords.latitude
            // resp.coords.longitude
               if(!location){
-                this.findAddressByCoordinates(resp.coords.latitude,resp.coords.longitude);
+                this.getLocation(resp.coords.latitude,resp.coords.longitude);
               }else{
                 this.location.address_level_2=location;
                 this.getLocation(resp.coords.latitude,resp.coords.longitude);
@@ -398,4 +399,35 @@ export class HomeComponent implements OnInit {
     }
     return window.btoa(binary);
   }
+
+  private getCloseLocation(data:Array<any>,lat,long){
+    let distance=999999999;
+    let location = null;
+
+    for (var i = 0; i < data.length; ++i) {
+      let dist = this.getDistanceFromLatLon(Number(data[i].Lat),Number(data[i].Long),lat,long);
+      if(dist<distance){
+        distance=dist;
+        location=data[i]; 
+      }
+    }
+    return location;
+  }
+  private getDistanceFromLatLon(lat1,lon1,lat2,lon2):number {
+    let R = 6371; // Radius of the earth in km
+    let dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = this.deg2rad(lon2-lon1); 
+    let a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2); 
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    let d = R * c; // Distance in km
+    return (d * 0.62137);
+  }
+
+  private deg2rad(deg) {
+    return deg * (0.01745329251994329576923690768489)
+  }
+
 }
