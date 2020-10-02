@@ -25,8 +25,8 @@
   <div id="container" class="card-background-page" *ngIf="!loading">
     <ion-card (click)="goToBussines(category)" *ngFor="let category of subcategories; let i = index; "  >
     <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-    <div class="card-title"></div>   
-     <div class="card-label">{{category.subcat_name}}</div>  
+    <div class="card-title" *ngIf="!category.hide_name"></div>   
+     <div class="card-label" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
     </ion-card>
 
     <ion-card   *ngFor="let bus of business; let ind = index; "  >

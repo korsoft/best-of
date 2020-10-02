@@ -196,6 +196,12 @@ export class HomeComponent implements OnInit {
                                            for (var i = locationCats.length - 1; i >= 0; i--) {
                                              if(Number(locationCats[i].category)==value.qpId){
                                                value.cat_sort_id= locationCats[i].order;
+
+                                                if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
+                                                  value.hide_name=true;
+                                                else
+                                                  value.hide_name=false;
+                                                
                                                if(locationCats[i].local_icon){
                                                  value.cat_icon=locationCats[i].local_icon;
                                                }
