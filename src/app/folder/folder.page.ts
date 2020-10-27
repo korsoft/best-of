@@ -128,7 +128,7 @@ export class FolderPage implements OnInit {
   }
 
   goToBussines(cat){
-    this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.subcat_name);
+    this.router.navigateByUrl('/folder/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
   }
 
   goToBussinesDetail(bus){
