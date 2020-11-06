@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
+  public locationError:boolean = false;
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
     public mapsApiLoader: MapsAPILoader,
@@ -305,8 +306,8 @@ export class HomeComponent implements OnInit {
                 this.getLocation(resp.coords.latitude,resp.coords.longitude,location);
               }
           }).catch((error) => {
-            console.log('Error getting location', error);
- 
+             
+              this.locationError=true;
           });
       });
   }
