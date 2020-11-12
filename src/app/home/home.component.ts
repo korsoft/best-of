@@ -1,5 +1,6 @@
 import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Device } from '@ionic-native/device/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
@@ -60,6 +61,7 @@ export class HomeComponent implements OnInit {
   public selectedElement;
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
+    private device: Device,
     public mapsApiLoader: MapsAPILoader,
     private wrapper: GoogleMapsAPIWrapper,
     private cdr:ChangeDetectorRef,
@@ -314,10 +316,24 @@ export class HomeComponent implements OnInit {
 
 
   scrollCustomImplementation(element: HTMLElement,up) {
+    console.log('***** this.platform.is("ios") { ', this.platform.is('ios'), ' }')
+    console.log('***** this.platform.height() { ', this.platform.height(), ' }')
+
+    let size = 64
+
+    if(this.platform.is('ios')) {
+      const height = this.platform.height()
+      if(896 <= height) {
+        size = 90
+      }
+    }
+
+    console.log('***** size { ', size, ' }')
+
     let start = null;
     let target = element.getBoundingClientRect().top;
 
-    let firstPos = element.parentElement.scrollTop -64;
+    let firstPos = element.parentElement.scrollTop - size;
     let pos = 0;
 
     (function () {
@@ -336,7 +352,7 @@ export class HomeComponent implements OnInit {
 
 
       var elapsed = timestamp - start;
-      var progress = elapsed / 300; // animation duration 600ms
+      var progress = elapsed / 600; // animation duration 600ms
       //ease in function from https://github.com/component/ease/blob/master/index.js
 
       var outQuad = function(n) {
