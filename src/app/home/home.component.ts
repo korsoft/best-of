@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
-  public locationError:boolean = false;
+  
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
     public mapsApiLoader: MapsAPILoader,
@@ -195,6 +195,9 @@ export class HomeComponent implements OnInit {
                                        
                                         cats = cats.filter((value)=>{
                                            for (var i = locationCats.length - 1; i >= 0; i--) {
+                                             if(locationCats[i].active && locationCats[i].active=="0")
+                                                continue;
+                                              
                                              if(Number(locationCats[i].category)==value.qpId){
                                                value.cat_sort_id= locationCats[i].order;
 
@@ -306,8 +309,12 @@ export class HomeComponent implements OnInit {
                 this.getLocation(resp.coords.latitude,resp.coords.longitude,location);
               }
           }).catch((error) => {
-             
-              this.locationError=true;
+              if(!location){
+                this.getLocation(0,0,"DELRAY BEACH");
+              }else{
+               
+                this.getLocation(0,0,"DELRAY BEACH");
+              }
           });
       });
   }

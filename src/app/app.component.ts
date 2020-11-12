@@ -27,10 +27,12 @@ export class AppComponent implements OnInit {
       title: 'Home',
       url: '/home',
       action: (url,i) => {
-         this.selectedIndex = i;
-         this.storage.clear().then((val) => {
-           this.router.navigateByUrl(url);
-         });
+        if(this.selectedIndex!=1){
+           this.selectedIndex = i;
+           this.storage.clear().then((val) => {
+             this.router.navigateByUrl(url);
+           });
+       }
       },
       icon: 'Home'
     },
@@ -63,7 +65,10 @@ export class AppComponent implements OnInit {
       title: 'Share',
       url: '',
       action: (url,i) => {
-         this.socialSharing.share("Test","Test");
+        this.storage.get("location").then((loc)=>{ 
+            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
+           "Hey, check out the Best Of");
+        });         
       },
       icon: 'share'
     }
