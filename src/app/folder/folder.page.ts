@@ -183,7 +183,10 @@ export class FolderPage implements OnInit {
   }
 
   public share(bus){
-    this.socialSharing.share("Test","Test");
+    this.storage.get("location").then((loc)=>{ 
+            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
+           "Hey, check out the Best Of");
+        });
   }
 
   public map(bus){
