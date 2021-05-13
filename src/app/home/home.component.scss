@@ -4,7 +4,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  overflow-y: hidden;
+  //overflow-y: hidden;
   height: calc(100% - 56px);
 }
 
@@ -34,6 +34,14 @@
     height:40vh;
 }
 
+.card-background-page .overlap {
+  margin-top: -35px !important;
+}
+
 .selected .img-background{
      height:100%;
+}
+
+.card-basic-style {
+  border-radius: 20px !important;
 }

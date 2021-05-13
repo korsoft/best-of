@@ -1,8 +1,19 @@
-
+<ion-header>
+	<ion-toolbar>
+	  <ion-buttons slot="start">
+		<ion-back-button defaultHref="/"></ion-back-button>
+	  </ion-buttons>
+	  <ion-buttons slot="start">
+		<ion-menu-button></ion-menu-button>
+	  </ion-buttons>
+	  <ion-title>Select a location</ion-title>
+	</ion-toolbar>
+  </ion-header>
+  
 
 <ion-content [fullscreen]="true">
   
-  <ion-searchbar (ionCancel)="clearLocation()" (ionInput)="filterList($event)"  showCancelButton="always" placeholder="Search for"></ion-searchbar>
+  <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"   placeholder="Search for"></ion-searchbar>
   <div id="container" >
     <ion-list>
 	  <ion-item *ngFor="let location of filterLocations" (click)="selectLocation(location)">

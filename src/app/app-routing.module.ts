@@ -33,7 +33,7 @@ const routes: Routes = [
     component: BusinessDetailComponent
   },
   {
-    path: 'search',
+    path: 'select-location',
     component: LocationSearchComponent
   },
   {
@@ -43,7 +43,16 @@ const routes: Routes = [
   {
     path: 'website/:id',
     loadChildren: () => import('./website/website.module').then( m => m.WebsitePageModule)
+  },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
   }
+
 ];
 
 @NgModule({

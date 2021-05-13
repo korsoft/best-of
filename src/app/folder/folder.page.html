@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="content" [scrollEvents]="true"   (ionScroll)="onScroll($event)" >
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -22,22 +22,40 @@
 
   </ion-header>
   <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
-  <div id="container" class="card-background-page" *ngIf="!loading">
-    <ion-card (click)="goToBussines(category)" *ngFor="let category of subcategories; let i = index; "  >
+  <div id="container" class="card-background-page" *ngIf="!loading" >
+    
+    <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories" *ngFor="let category of subcategories; let i = index; "  >
     <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
     <div class="card-title" *ngIf="!category.hide_name"></div>   
      <div class="card-label" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
     </ion-card>
 
-    <ion-card   *ngFor="let bus of business; let ind = index; "  >
+    <ion-card  *ngFor="let bus of business; let ind = index; " class="card-basic-style-business" >
+      
     <ion-img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" ></ion-img>
     <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
      <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
-     <div class="card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>
-     <div class="button-card-group">  
+     
+     <div>  
+       <!-- Default Segment -->
+    <ion-segment class="segment-buttons">
+      <ion-segment-button (click)="share(bus)">
+        <ion-icon name="share-social"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button *ngIf="bus.showCall" (click)="call(bus)">
+        <ion-icon name="call"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+        <ion-icon name="location-sharp"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+        <ion-label>{{bus.distance}} MI</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+      <!--div class="button-card card-distance" *ngIf="bus.showMap" > <ion-icon name="paper-plane"></ion-icon> {{bus.distance}} MI</div>
        <ion-fab-button class="button-card" *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" ><ion-icon name="location-sharp"></ion-icon></ion-fab-button>
        <ion-fab-button class="button-card" *ngIf="bus.showCall" (click)="call(bus)" color="light" size="small" ><ion-icon name="call"></ion-icon></ion-fab-button>
-       <ion-fab-button class="button-card" (click)="share(bus)" color="light" size="small" ><ion-icon name="share-social"></ion-icon></ion-fab-button>
+       <ion-fab-button class="button-card" (click)="share(bus)" color="light" size="small" ><ion-icon name="share-social"></ion-icon></ion-fab-button -->
      </div>
     </ion-card>
 

@@ -52,6 +52,7 @@ export class BusinessDetailComponent implements OnInit {
 
    this.businessService.getBusinessById(this.id).subscribe((data)=>{
       if(data){
+        console.log("business details",data);
         this.bus=data;
         if(this.bus.latitude &&  this.bus.longitude &&
           this.bus.latitude !="0" &&  this.bus.longitude!="0"){

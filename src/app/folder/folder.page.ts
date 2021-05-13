@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { LoaderService } from '../services/loader.service';
@@ -8,6 +8,8 @@ import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Plugins } from '@capacitor/core';
+import OnScreen from 'onscreen';
+
 const { Browser } = Plugins;
 
 
@@ -17,6 +19,8 @@ const { Browser } = Plugins;
   styleUrls: ['./folder.page.scss'],
 })
 export class FolderPage implements OnInit {
+
+
   public folder: string;
   public id: string;
   public subcategories:Array<any>=[];
@@ -26,6 +30,7 @@ export class FolderPage implements OnInit {
   public fullBusiness:Array<any>=[];
   private localImage:Array<any>=[];
   public loading = true;
+  private os = null;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -35,13 +40,46 @@ export class FolderPage implements OnInit {
      public toastController: ToastController,
      private callNumber: CallNumber,
      private socialSharing: SocialSharing) { }
-
+    
+    
   async ngOnInit() {  
-       
+    
   }
+
+  
+  onScroll(event) {
+    //console.log("event", event);
+    /*if(this.os == null)
+      this.attachOnScreenEvent();
+    else {
+      this.os.destroy();
+      this.os.attach();
+    }*/
+    
+  }
+
+  attachOnScreenEvent(){
+    this.os = new OnScreen({
+      tolerance: 300,
+      debounce: 0,
+      container: '.container'
+    });
+
+    this.os.on('enter', '.card-basic-style-business', (element, event) => {
+      console.log("element",element);
+      element.children[element.children.length-1].children[0].style.display='flex'
+    });
+    this.os.on('leave', '.card-basic-style-business', (element, event) => {
+      console.log("element",element);
+      element.children[element.children.length-1].children[0].style.display='none';
+    });
+  }
+  
 
 
   async ionViewWillEnter(){
+    
+
     this.loading=true;
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -125,6 +163,7 @@ export class FolderPage implements OnInit {
       });
 
     });
+
   }
 
   goToBussines(cat){
@@ -137,6 +176,10 @@ export class FolderPage implements OnInit {
     else{
       Browser.open({ url: bus.default_link })
     }
+  }
+
+  getScrollPosition(event){
+    console.log(event);
   }
 
   async presentToast(message:string) {
@@ -172,7 +215,8 @@ export class FolderPage implements OnInit {
 
       this.business = this.fullBusiness.filter(currentBus=> {
         if (currentBus.Name && searchTerm) {
-          return (currentBus.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+          return (currentBus.Name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) ||
+                  (currentBus.summary.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
         }
       });
     }

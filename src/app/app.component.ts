@@ -46,13 +46,23 @@ export class AppComponent implements OnInit {
       icon: 'search'
     },
     {
-      title: 'Notifications',
-      url: '/notifications',
+      title: 'My Favorites',
+      url: '/favorites',
       action: (url,i) => {
-
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
       },
-      icon: 'notifications'
-    },   
+      icon: 'bookmark'
+    },
+    {
+      title: 'Select Location',
+      url: '/select-location',
+      action: (url,i) => {
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
+      },
+      icon: 'location'
+    }, 
     {
       title: 'Like',
       url: '/like',
@@ -62,7 +72,15 @@ export class AppComponent implements OnInit {
       icon: 'thumbs-up'
     },
     {
-      title: 'Share',
+      title: 'Account',
+      url: '/account',
+      action: (url,i) => {
+
+      },
+      icon: 'person'
+    },
+    {
+      title: 'Tell a Friend ',
       url: '',
       action: (url,i) => {
         this.storage.get("location").then((loc)=>{ 
@@ -71,7 +89,23 @@ export class AppComponent implements OnInit {
         });         
       },
       icon: 'share'
-    }
+    },
+    {
+      title: 'Notifications',
+      url: '/notifications',
+      action: (url,i) => {
+
+      },
+      icon: 'notifications'
+    },  
+    {
+      title: 'Feedback',
+      url: '/like',
+      action: (url,i) => {
+
+      },
+      icon: 'thumbs-up'
+    },
   ];
 
 

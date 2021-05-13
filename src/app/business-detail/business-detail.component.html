@@ -31,22 +31,25 @@
   <div id="container" class="card-background-page">
    
     
-    <ion-card    >
+    <ion-card    class="business-details-card ">
     <img  src="{{bus.body_image}}" class="img-background" />
     <div class="button-card-group">  
       <ion-fab-button *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" class="button-card"><ion-icon name="location-sharp"></ion-icon></ion-fab-button>
        <ion-fab-button *ngIf="bus.showCall" (click)="call(bus)" color="light" size="small" class="button-card"><ion-icon name="call"></ion-icon></ion-fab-button>
        <ion-fab-button (click)="share(bus)" color="light" size="small" class="button-card"><ion-icon name="share-social"></ion-icon></ion-fab-button>
     </div>
+    <ion-card-subtitle *ngIf="bus.summary && bus.summary.length>0" class="summary">
+      {{bus.summary}}
+    </ion-card-subtitle>
     </ion-card>
-    <ion-list>
-	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" >
+    <ion-list class="business-details-list">
+	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" class="item-background-color">
 	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> {{bus.call_label?bus.call_label+":":""}}{{bus.call}}</ion-label>
 	  </ion-item>
-	  <ion-item *ngIf="bus.showMap" (click)="map(bus)" >
+	  <ion-item *ngIf="bus.showMap" (click)="map(bus)" class="item-background-color">
 	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> {{bus.address_label?bus.address_label+":":""}}{{bus.address}}</ion-label>
 	  </ion-item>
-    <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; ">
+    <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; " class="item-background-color">
       <ion-icon name="{{prop.property==='URL'?'aperture':prop.property==='email'?'mail':'call'}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
     </ion-item>
     </ion-list>

@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
   }
 
   setOption(option,cat){
-  	if(this.selectedCard!=option){
+  	/*if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
   	 this.selectedCard=option;
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
 
 
      this.cdr.detectChanges();
-  	}else{
+  	}else{*/
       switch (cat.action_type) {
         case "1":
           this.router.navigateByUrl('/website/Buzz');
@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit {
           break;
       }
 
-  	}
+  	//}
   }
 
   gotoSearch(){
@@ -295,9 +295,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ionViewWillEnter(){
+  async ionViewWillEnter(){
    
-    let location = this.activatedRoute.snapshot.paramMap.get('location');
+    let locationStorage = await this.storage.get("location");
+
+    let location = locationStorage ? locationStorage.Name : this.activatedRoute.snapshot.paramMap.get('location');
 
       this.mapsApiLoader.load().then(() => {
           this.geocoder = new google.maps.Geocoder();

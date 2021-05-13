@@ -45,8 +45,10 @@ export class LocationSearchComponent implements OnInit {
    
   }
 
-  public selectLocation(location){
+  async selectLocation(location){
+    console.log("location",location);
     this.storage.clear().then((val) => {
+      this.storage.set("location",location);
       this.router.navigateByUrl('/home/'+location.Name);
     });
      

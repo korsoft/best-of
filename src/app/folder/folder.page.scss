@@ -1,6 +1,7 @@
+
 .card-background-page ion-card {
     margin:0;
-    margin-bottom: -3px;
+    margin-bottom: 0px;
 }
 
 .card-background-page .card-title {
@@ -18,7 +19,7 @@
     opacity: 0.3;
     padding-top: 8px;
     top:unset;
-    height:100px;
+    height:50px;
 }
 .card-title {
   z-index:9;
@@ -26,7 +27,7 @@
 
 .card-label{
     position: absolute;
-    bottom: 40px;
+    bottom: 10px;
     left: 8px;
     font-size: 3.5em;
     font-weight: bolder;
@@ -69,4 +70,20 @@
   float:right;
   width: 28px;
   height: 28px;
+}
+
+.card-basic-style-subcategories {
+  border-radius: 10px !important;
+}
+
+.card-basic-style-business {
+  border-radius: 20px !important;
+
+  .card-title {
+    background-color: transparent !important;
+  }
+}
+
+.segment-buttons {
+  z-index: 99;
 }
