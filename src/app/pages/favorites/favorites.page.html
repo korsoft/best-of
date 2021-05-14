@@ -14,11 +14,11 @@
   <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
   <div id="container" class="card-background-page">
   <ion-card   *ngFor="let bus of bookmarks; let ind = index; "  class="card-basic-style-subcategories" >
-    <ion-img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" ></ion-img>
+    <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true"  ></ion-img>
     <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
      <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
      <div>
-      <ion-segment class="segment-buttons">
+      <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
         <ion-segment-button (click)="share(bus)">
           <ion-icon name="share-social"></ion-icon>
         </ion-segment-button>

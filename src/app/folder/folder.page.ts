@@ -74,7 +74,6 @@ export class FolderPage implements OnInit {
       element.children[element.children.length-1].children[0].style.display='none';
     });
   }
-  
 
 
   async ionViewWillEnter(){
