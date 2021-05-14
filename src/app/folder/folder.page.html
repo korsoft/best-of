@@ -34,7 +34,7 @@
       
     <ion-img  src="{{bus.body_image}}" (click)="goToBussinesDetail(bus)" class="img-background" ></ion-img>
     <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
-     <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
+     <div class="card-label bus-name-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
      
      <div>  
        <!-- Default Segment -->
