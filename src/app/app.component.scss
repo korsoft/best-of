@@ -125,3 +125,11 @@ ion-item.selected {
   --ion-color-base: var(--ion-color-primary);
 }
 
+.bar-bottom {
+  background-color: #d7d8da !important;
+  height: 42px !important;
+}
+
+.bar-bottom ion-tab-button {
+  background-color: #d7d8da !important;
+}

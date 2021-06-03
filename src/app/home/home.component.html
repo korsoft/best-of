@@ -1,8 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar style="cursor: pointer;">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title (click)="gotoSearch()">BEST OF {{location.address_level_2 }}</ion-title>
   </ion-toolbar>
 
@@ -10,7 +7,11 @@
 
 <ion-content [fullscreen]="true">
   <div #container id="container" class="card-background-page"  >
-    <ion-card (click)="setOption(i,category);" class="card-basic-style selected" [class.overlap]="i>0" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
+    <ion-card  *ngIf="localImage[location.picture_home]" class="card-basic-style selected ">
+      <ion-img  [src]="getImage(location.picture_home)" class="img-background"  ></ion-img>
+      <div class="card-title"></div>
+    </ion-card>
+    <ion-card (click)="setOption(i,category);" class="card-basic-style selected overlap" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
       <ion-img  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
       <div class="card-title" *ngIf="!category.hide_name" >{{category.cat_name}}</div>
      

@@ -19,5 +19,26 @@
     </ion-menu>
     
     <ion-router-outlet id="main-content"></ion-router-outlet>
+
+    <ion-tabs >
+      <!-- Tab bar -->
+      <ion-tab-bar slot="bottom" class="bar-bottom">
+        <ion-tab-button (click)="openMenu()">
+          <ion-icon name="menu-outline"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="chatbubble-outline"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="logo-facebook"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="logo-instagram"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
   </ion-split-pane>
 </ion-app>

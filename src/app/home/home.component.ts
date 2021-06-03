@@ -33,6 +33,7 @@ interface Location {
   address_country?: string;
   address_zip?: string;
   address_state?: string;
+  picture_home?: string;
   marker?: Marker;
 }
 
@@ -52,6 +53,7 @@ export class HomeComponent implements OnInit {
       lng: 7.809007,
       draggable: true
     },
+    picture_home: null,
     zoom: 5
   };
   public folder: string;
@@ -182,13 +184,24 @@ export class HomeComponent implements OnInit {
                             return l.Name===locationName;
                           });
                         }
+                        console.log("loc",loc);
                         this.location.address_level_2 =loc.Name;
+                        this.location.picture_home = loc.picture_home ? loc.picture_home : null;
                         loc.latitude = latitude;
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
                         this.locationCategoriesService.getCategoriesId(loc.qpId).subscribe(async (locationCats:Array<any>)=>{
                          
                           this.storage.get("categories").then(async (val) => {
+
+                            if(this.location.picture_home && this.location.picture_home!=''){
+                              let base:string = String( await this.getBase64ImageFromUrl(this.location.picture_home));
+                                if(!base.startsWith("data:image/jpeg;base64,"))
+                                  base =  "data:image/jpeg;base64,"+base;
+      
+                                this.storage.set(this.location.picture_home,base);
+                                this.localImage[this.location.picture_home]=base;
+                              }
                             //console.log(val);
                             if(!val){
                                 await  this.ionLoader.showLoader();
@@ -301,6 +314,7 @@ export class HomeComponent implements OnInit {
 
     let location = locationStorage ? locationStorage.Name : this.activatedRoute.snapshot.paramMap.get('location');
 
+    
       this.mapsApiLoader.load().then(() => {
           this.geocoder = new google.maps.Geocoder();
           this.geolocation.getCurrentPosition().then((resp) => {

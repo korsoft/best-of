@@ -3,7 +3,7 @@ import { Router , NavigationStart, NavigationEnd} from '@angular/router';
 
 import { DeviceService } from './services/device.service';
 
-import { Platform } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FcmService } from './services/fcm.service';
@@ -117,7 +117,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private fcmService:FcmService,
     private socialSharing: SocialSharing,
-    private storage: Storage
+    private storage: Storage,
+    private menu: MenuController
 
   ) {
     this.initializeApp();
@@ -148,6 +149,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
 
+  }
+
+  openMenu(){
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
   }
 
 
