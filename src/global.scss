@@ -41,6 +41,13 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: "SF Pro";
+  src: url("assets/fonts/FontsFree-Net-SFProDisplay-LightItalic.ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
 * {
   font-family: 'SF Pro' !important;
 }
