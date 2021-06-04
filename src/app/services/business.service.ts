@@ -11,25 +11,25 @@ export class BusinessService {
   public getBusinessByLocationAndCategory(idLocation,category){
   	 category='%\\"'+category+'\\"%';
      return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
-     	'{"where":[{"q_3614":"'+idLocation+'"}],"whereLike":[{"q_3768":"'+category+'"}]}'}});
+     	'{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3768":"'+category+'"}]}'}});
   }
 
   public searchBusinessByName(idLocation,text){
     text='%'+text+'%';
     return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"}],"whereLike":[{"q_3620":"'+text+'"}]}'}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3620":"'+text+'"}]}'}});
  }
 
   public searchBusinessBySummary(idLocation,text){
   text='%'+text+'%';
   return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
-    '{"where":[{"q_3614":"'+idLocation+'"}],"whereLike":[{"q_3621":"'+text+'"}]}'}});
+    '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3621":"'+text+'"}]}'}});
   }
 
   public searchBusinessByBody(idLocation,text){
     text='%'+text+'%';
     return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"}],"whereLike":[{"q_3622":"'+text+'"}]}'}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3622":"'+text+'"}]}'}});
   }
 
   public getBusinessById(id){
