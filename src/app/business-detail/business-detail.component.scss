@@ -20,7 +20,7 @@ ion-item{ --border-color: #ebebeb; }
 
 .item-background-color{
    --ion-item-background: white !important;
-   color:black !important;
+   color:#6f7172 !important;
    padding-right: 0px !important;
    margin-left: -16px !important;
    
@@ -28,7 +28,7 @@ ion-item{ --border-color: #ebebeb; }
 
 .business-details-card {
    background-color: white !important;
-   color:black !important;
+   color:#6f7172 !important;
    margin: 0px !important;
    width: 100% !important;
    padding: 0px !important
@@ -36,7 +36,7 @@ ion-item{ --border-color: #ebebeb; }
 
 .business-details-list {
    background-color: white !important;
-   color:black !important;
+   color:#555758 !important;
 }
 
 .summary {
@@ -45,8 +45,12 @@ ion-item{ --border-color: #ebebeb; }
    font-style: italic !important;
    font-weight: normal !important;
    padding: 8px;
+   font-size: 14px;
 }
 
+ion-title {
+   font-size: 20px !important;
+}
 .card-background-page {
    background-color: white !important;
 }
@@ -59,5 +63,5 @@ agm-map {
    width:15px;
    margin-right: 5px;
    margin-left: 10px;
-   color:black !important;
+   color:#6f7172 !important;
 }
