@@ -49,7 +49,7 @@ export class LocationSearchComponent implements OnInit {
     console.log("location",location);
     this.storage.clear().then((val) => {
       this.storage.set("location",location);
-      this.router.navigateByUrl('/home/'+location.Name);
+      this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
     });
      
   }

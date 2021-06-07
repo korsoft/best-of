@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
 
        if(event instanceof NavigationEnd) {
           if(event.url && event.url.startsWith("/home")) {
-            this.appPages[0].url = decodeURIComponent(event.url);
+            this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }
        }
        

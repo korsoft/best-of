@@ -309,11 +309,15 @@ export class HomeComponent implements OnInit {
   }
 
   async ionViewWillEnter(){
-   
+  
+    if(this.categorys.length > 0 && this.activatedRoute.snapshot.queryParamMap && 
+      this.activatedRoute.snapshot.queryParamMap.get('reload'))
+      return;
+    
+
     let locationStorage = await this.storage.get("location");
 
     let location = locationStorage ? locationStorage.Name : this.activatedRoute.snapshot.paramMap.get('location');
-
     
       this.mapsApiLoader.load().then(() => {
           this.geocoder = new google.maps.Geocoder();
