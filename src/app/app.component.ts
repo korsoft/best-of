@@ -10,6 +10,7 @@ import { FcmService } from './services/fcm.service';
 import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
+import { Location } from '@angular/common';
 
 
 const { Device } = Plugins;
@@ -22,6 +23,9 @@ const { Device } = Plugins;
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public devi="";
+  public backUrl:String = 'home';
+  private backUrlHistorical:Array<String> = [];
+
   public appPages = [
     {
       title: 'Home',
@@ -136,11 +140,20 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
 
+      if(event instanceof NavigationStart){
+        if(!this.backUrlHistorical.includes(event.url)){
+          this.backUrlHistorical.push(this.router.url);
+        } else if(this.backUrlHistorical[this.backUrlHistorical.length-1] == event.url){
+          this.backUrlHistorical.pop();
+        }
+      }
+
        if(event instanceof NavigationEnd) {
           if(event.url && event.url.startsWith("/home")) {
             this.appPages[0].url = decodeURIComponent(event.url);
           }
        }
+       
      })
     });
 
@@ -154,6 +167,14 @@ export class AppComponent implements OnInit {
   openMenu(){
     this.menu.enable(true, 'first');
     this.menu.open('first');
+  }
+
+  showBackButton(){
+    return !this.router.url.includes("/home");
+  }
+
+  getBackUrl(){
+    return this.backUrlHistorical[this.backUrlHistorical.length-1];
   }
 
 

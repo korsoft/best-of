@@ -1,9 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
     <ion-title>{{bus.Name }}</ion-title>
     <ion-buttons slot="end">
           <ion-button (click)="toogleBookmark()">
@@ -17,9 +14,6 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-buttons slot="start">
-         <ion-back-button></ion-back-button>
-      </ion-buttons>
       <ion-title size="large">{{bus.Name }} </ion-title>
      
     </ion-toolbar>
