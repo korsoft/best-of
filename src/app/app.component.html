@@ -8,7 +8,7 @@
  <!--[class.selected]="selectedIndex == i" -->
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index" >
             <ion-item (click)="p.action(p.url,i)" routerDirection="root"  lines="none" detail="false" >
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" color="menu"></ion-icon>
+              <ion-icon slot="start" [icon]="p.icon" color="menu"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -29,17 +29,8 @@
         <ion-tab-button (click)="openMenu()">
           <ion-icon name="custom-grey-menu"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button>
-          <ion-icon name="custom-grey-chat"></ion-icon>
-        </ion-tab-button>
-        <ion-tab-button>
-          <ion-icon name="custom-grey-bookmark"></ion-icon>
-        </ion-tab-button>
-        <ion-tab-button>
-          <ion-icon name="custom-grey-instagram"></ion-icon>
-        </ion-tab-button>
-        <ion-tab-button>
-          <ion-icon name="custom-grey-search"></ion-icon>
+        <ion-tab-button *ngFor="let p of bottomPages" (click)="gotoPage(p)">
+          <ion-icon [name]="p.icon"></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

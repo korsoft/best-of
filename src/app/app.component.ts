@@ -10,7 +10,6 @@ import { FcmService } from './services/fcm.service';
 import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
-import { Location } from '@angular/common';
 
 
 const { Device } = Plugins;
@@ -38,16 +37,16 @@ export class AppComponent implements OnInit {
            });
        }
       },
-      icon: 'Home'
+      icon: 'Home-outline'
     },
-     {
+    /* {
       title: 'Search',
       url: '/search',
       action: (url,i) => {
         this.selectedIndex = i;
         this.router.navigateByUrl(url);
       },
-      icon: 'search'
+      icon: 'search-outline'
     },
     {
       title: 'My Favorites',
@@ -56,8 +55,8 @@ export class AppComponent implements OnInit {
         this.selectedIndex = i;
         this.router.navigateByUrl(url);
       },
-      icon: 'bookmark'
-    },
+      icon: 'bookmark-outline'
+    },*/
     {
       title: 'Select Location',
       url: '/select-location',
@@ -65,15 +64,15 @@ export class AppComponent implements OnInit {
         this.selectedIndex = i;
         this.router.navigateByUrl(url);
       },
-      icon: 'location'
+      icon: 'location-outline'
     }, 
     {
       title: 'Like',
       url: '/like',
       action: (url,i) => {
-
+        
       },
-      icon: 'thumbs-up'
+      icon: 'thumbs-up-outline'
     },
     {
       title: 'Account',
@@ -81,7 +80,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
 
       },
-      icon: 'person'
+      icon: 'person-outline'
     },
     {
       title: 'Tell a Friend ',
@@ -92,7 +91,7 @@ export class AppComponent implements OnInit {
            "Hey, check out the Best Of");
         });         
       },
-      icon: 'share'
+      icon: 'share-outline'
     },
     {
       title: 'Notifications',
@@ -100,7 +99,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
 
       },
-      icon: 'notifications'
+      icon: 'notifications-outline'
     },  
     {
       title: 'Feedback',
@@ -108,10 +107,32 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
 
       },
-      icon: 'thumbs-up'
+      icon: 'thumbs-up-outline'
     },
   ];
 
+  public bottomPages = [
+    {
+      url:'',
+      internalPage: false,
+      icon: 'custom-grey-chat'
+    },
+    {
+      url:'/favorites',
+      internalPage: true,
+      icon: 'custom-grey-bookmark'
+    },
+    {
+      url:'',
+      internalPage: false,
+      icon: 'custom-grey-instagram'
+    },
+    {
+      url:'/search',
+      internalPage: true,
+      icon: 'custom-grey-search'
+    }
+  ];
 
   constructor(
     private platform: Platform,
@@ -141,6 +162,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
 
       if(event instanceof NavigationStart){
+        this.changePageSelected(event.url);
         if(!this.backUrlHistorical.includes(event.url)){
           this.backUrlHistorical.push(this.router.url);
         } else if(this.backUrlHistorical[this.backUrlHistorical.length-1] == event.url){
@@ -149,6 +171,7 @@ export class AppComponent implements OnInit {
       }
 
        if(event instanceof NavigationEnd) {
+        
           if(event.url && event.url.startsWith("/home")) {
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }
@@ -177,5 +200,20 @@ export class AppComponent implements OnInit {
     return this.backUrlHistorical[this.backUrlHistorical.length-1];
   }
 
+  changePageSelected(newUrl){
+    console.log("changePageSelected",newUrl);
+    this.bottomPages.forEach((item)=>{
+      item.icon = item.icon.replace('-sunburst-','-grey-');
+    });
+    let page =this.bottomPages.filter(item => newUrl.includes(item.url) && item.url != '');
+    console.log("page",page);
+    if(page && page.length>0)
+      page[0].icon = page[0].icon.replace('-grey-','-sunburst-');
+  }
+  gotoPage(page){
+    if(page.internalPage === true){
+      this.router.navigateByUrl(page.url);
+    }
+  }
 
 }
