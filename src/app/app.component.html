@@ -24,22 +24,22 @@
       <!-- Tab bar -->
       <ion-tab-bar slot="bottom" class="bar-bottom">
         <ion-tab-button *ngIf="showBackButton()">
-          <ion-back-button defaultHref="{{getBackUrl()}}"></ion-back-button>
+          <ion-back-button defaultHref="{{getBackUrl()}}" icon="custom-grey-arrow" text=""></ion-back-button>
         </ion-tab-button>
         <ion-tab-button (click)="openMenu()">
-          <ion-icon name="menu-outline"></ion-icon>
+          <ion-icon name="custom-grey-menu"></ion-icon>
         </ion-tab-button>
         <ion-tab-button>
-          <ion-icon name="chatbubble-outline"></ion-icon>
+          <ion-icon name="custom-grey-chat"></ion-icon>
         </ion-tab-button>
         <ion-tab-button>
-          <ion-icon name="logo-facebook"></ion-icon>
+          <ion-icon name="custom-grey-bookmark"></ion-icon>
         </ion-tab-button>
         <ion-tab-button>
-          <ion-icon name="logo-instagram"></ion-icon>
+          <ion-icon name="custom-grey-instagram"></ion-icon>
         </ion-tab-button>
         <ion-tab-button>
-          <ion-icon name="mail-outline"></ion-icon>
+          <ion-icon name="custom-grey-search"></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
