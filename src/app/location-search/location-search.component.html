@@ -7,7 +7,7 @@
 
 <ion-content [fullscreen]="true">
   
-  <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"   placeholder="Search for"></ion-searchbar>
+  <!--ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"   placeholder="Search for"></ion-searchbar -->
   <div id="container" >
     <ion-list>
 	  <ion-item *ngFor="let location of filterLocations" (click)="selectLocation(location)">

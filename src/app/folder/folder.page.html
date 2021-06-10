@@ -12,7 +12,7 @@
 
 
   </ion-header>
-  <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
+  <!--ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar -->
   <div id="container" class="card-background-page" *ngIf="!loading" >
     
     <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories" *ngFor="let category of subcategories; let i = index; "  >

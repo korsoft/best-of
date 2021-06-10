@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar>
+  <!--ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar -->
   <div id="container" class="card-background-page">
   <ion-card   *ngFor="let bus of bookmarks; let ind = index; "  class="card-basic-style-subcategories" >
     <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true"  ></ion-img>
