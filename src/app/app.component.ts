@@ -25,6 +25,8 @@ export class AppComponent implements OnInit {
   public backUrl:String = 'home';
   private backUrlHistorical:Array<String> = [];
 
+
+
   public appPages = [
     {
       title: 'Home',
@@ -32,9 +34,9 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         if(this.router.url!="/home"){
            this.selectedIndex = i;
-           this.storage.clear().then((val) => {
-             this.router.navigateByUrl(url);
-           });
+           //this.storage.clear().then((val) => {
+            this.router.navigateByUrl(url);
+           //});
        }
       },
       icon: 'Home-outline'
@@ -182,8 +184,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-
+   ngOnInit() {
 
   }
 

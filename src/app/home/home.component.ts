@@ -168,7 +168,7 @@ export class HomeComponent implements OnInit {
   
 
      this.getLocation(latitude,longitude);
-  }*/
+  }*/ 
 
   private getLocation(latitude,longitude,locationName){
     this.locationService.getLocations().subscribe(
@@ -310,8 +310,8 @@ export class HomeComponent implements OnInit {
 
   async ionViewWillEnter(){
   
-    if(this.categorys.length > 0 && this.activatedRoute.snapshot.queryParamMap && 
-      this.activatedRoute.snapshot.queryParamMap.get('reload'))
+    if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
+      !this.activatedRoute.snapshot.queryParamMap.get('reload')))
       return;
     
 
