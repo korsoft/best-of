@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage';
 
 
 const { Device } = Plugins;
+const { Browser } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -117,6 +118,7 @@ export class AppComponent implements OnInit {
     {
       url:'',
       internalPage: false,
+      isChatUrl: true,
       icon: 'custom-grey-chat'
     },
     {
@@ -125,8 +127,9 @@ export class AppComponent implements OnInit {
       icon: 'custom-grey-bookmark'
     },
     {
-      url:'',
+      url: '',
       internalPage: false,
+      isInstagramUrl: true,
       icon: 'custom-grey-instagram'
     },
     {
@@ -214,6 +217,28 @@ export class AppComponent implements OnInit {
   gotoPage(page){
     if(page.internalPage === true){
       this.router.navigateByUrl(page.url);
+    } else if(page.isInstagramUrl === true){
+      this.getInstagramUrl();
+    } else if(page.isChatUrl === true){
+      this.getChatUrl();
+    }
+  }
+
+  async getInstagramUrl(){
+    let location = await this.storage.get('location');
+    if(location){
+      console.log("getInstagramUrl",location.Instagram_Url);
+      if(location.Instagram_Url && location.Instagram_Url.length>3)
+        Browser.open({ url: location.Instagram_Url })
+    }
+  }
+
+  async getChatUrl(){
+    let location = await this.storage.get('location');
+    if(location){
+      console.log("getChatUrl",location.Chat_Url);
+      if(location.Chat_Url && location.Chat_Url.length>3)
+        Browser.open({ url: location.Chat_Url })
     }
   }
 
