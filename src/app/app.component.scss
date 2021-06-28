@@ -128,6 +128,10 @@ ion-item.selected {
 .bar-bottom {
   background-color: #d7d8da !important;
   height: 42px !important;
+
+  @media only screen and (max-width: 400px) {
+    height: 34px !important;
+  }
 }
 
 .bar-bottom ion-tab-button {
