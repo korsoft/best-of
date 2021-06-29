@@ -106,3 +106,22 @@
   --ion-color-shade: var(--ion-color-menu-shade);
   --ion-color-tint: var(--ion-color-menu-tint);
 }
+
+.container-top-left {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+
+  .top-left {
+    opacity: 0.4;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 12px;
+    width: 90px;
+    border-bottom-right-radius: 20px;
+    text-align: left;
+    background-color:white;
+    color:#232428;
+  }
+} 

@@ -26,6 +26,9 @@
     
     <ion-card    class="business-details-card ">
     <img  src="{{bus.body_image}}" class="img-background" />
+    <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">
+      <div class="top-left" >Sponsored</div>
+    </div>
     <div class="button-card-group">  
       <ion-fab-button *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" class="button-card"><ion-icon name="location-sharp"></ion-icon></ion-fab-button>
        <ion-fab-button *ngIf="bus.showCall" (click)="call(bus)" color="light" size="small" class="button-card"><ion-icon name="call"></ion-icon></ion-fab-button>
