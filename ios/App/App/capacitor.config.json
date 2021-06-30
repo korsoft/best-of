@@ -1,25 +1,25 @@
 {
-	"appId": "korsoft.app.bestof",
-	"appName": "Best of",
-	"bundledWebRuntime": false,
-	"npmClient": "npm",
-	"webDir": "www",
-	"plugins": {
-		"SplashScreen": {
-			"launchShowDuration": 0
-		}
-	},
-	"linuxAndroidStudioPath": "/home/angel/android-studio/bin/studio.sh",
-	"cordova": {
-		"preferences": {
-			"ScrollEnabled": "false",
-			"android-minSdkVersion": "19",
-			"BackupWebStorage": "none",
-			"SplashMaintainAspectRatio": "true",
-			"FadeSplashScreenDuration": "300",
-			"SplashShowOnlyFirstTime": "false",
-			"SplashScreen": "screen",
-			"SplashScreenDelay": "3000"
-		}
-	}
+  "appId": "korsoft.app.bestof",
+  "appName": "Best of",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "linuxAndroidStudioPath": "/home/angel/android-studio/bin/studio.sh",
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "android-minSdkVersion": "19",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  }
 }
