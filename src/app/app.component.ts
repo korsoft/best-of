@@ -6,7 +6,7 @@ import { DeviceService } from './services/device.service';
 import { MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { FcmService } from './services/fcm.service';
+//import { FcmService } from './services/fcm.service';
 import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
@@ -145,7 +145,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private deviceService:DeviceService,
     private router: Router,
-    private fcmService:FcmService,
+    //private fcmService:FcmService,
     private socialSharing: SocialSharing,
     private storage: Storage,
     private menu: MenuController
@@ -161,7 +161,7 @@ export class AppComponent implements OnInit {
     
     Device.getInfo().then((info) => {
       this.deviceService.createDevice(info).subscribe();
-      this.fcmService.initPush(info.uuid);
+      //this.fcmService.initPush(info.uuid);
     });
 
     this.router.events.subscribe((event) => {
