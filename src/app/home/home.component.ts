@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Device } from '@ionic-native/device/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -8,7 +8,7 @@ import { LocationService } from '../location.service';
 import { CategoryService } from '../category.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { IonContent, LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
 import { LocationCategoriesService } from '../services/location-categories.service';
 
@@ -61,6 +61,8 @@ export class HomeComponent implements OnInit {
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
+
+  @ViewChild(IonContent) pageTop: IonContent;
   
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
@@ -80,7 +82,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    
   }
 
   setOption(option,cat){
@@ -310,6 +312,8 @@ export class HomeComponent implements OnInit {
 
   async ionViewWillEnter(){
   
+    this.pageTop.scrollToTop(0);
+
     if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))
       return;
