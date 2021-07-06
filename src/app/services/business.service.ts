@@ -9,9 +9,9 @@ export class BusinessService {
   constructor(private httpClient: HttpClient) { }
 
   public getBusinessByLocationAndCategory(idLocation,category){
-  	 category='%\\"'+category+'\\"%';
+  	 //category='%\\"'+category+'\\"%';
      return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
-     	'{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3768":"'+category+'"}]}'}});
+     	'{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_3617":"'+category+'"}]}'}});
   }
 
   public searchBusinessByName(idLocation,text){

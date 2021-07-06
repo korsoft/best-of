@@ -105,7 +105,7 @@ export class FolderPage implements OnInit {
           if(!this.fullSubcategories.length){
              if(this.location){
                 
-               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.folder).subscribe((data:Array<any>)=>{
+               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data:Array<any>)=>{
                   if(data.length){
                     data.sort(
                       (b1,b2)=>{
@@ -166,6 +166,7 @@ export class FolderPage implements OnInit {
   }
 
   goToBussines(cat){
+    console.log("cat",cat);
     this.router.navigateByUrl('/folder/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
   }
 
