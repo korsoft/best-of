@@ -50,6 +50,8 @@ export class BusinessDetailComponent implements OnInit {
    await this.ionLoader.showLoader();
    this.device = await this.deviceService.getDevice();
 
+   console.log("device",this.device);
+
    this.businessService.getBusinessById(this.id).subscribe((data)=>{
       if(data){
         console.log("business details",data);

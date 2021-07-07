@@ -178,6 +178,14 @@ export class AppComponent implements OnInit {
        if(event instanceof NavigationEnd) {
         
           if(event.url && event.url.startsWith("/home")) {
+            if(event.url.includes("reload=true")){
+              console.log("recovering the device again");
+              Device.getInfo().then((info) => {
+                console.log("device",info);
+                this.deviceService.createDevice(info).subscribe();
+                //this.fcmService.initPush(info.uuid);
+              });
+            }
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }
        }
