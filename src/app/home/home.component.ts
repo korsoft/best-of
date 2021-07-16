@@ -8,12 +8,13 @@ import { LocationService } from '../location.service';
 import { CategoryService } from '../category.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import {  Plugins } from '@capacitor/core';
 import { IonContent, LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
 import { LocationCategoriesService } from '../services/location-categories.service';
 
 import { Platform } from '@ionic/angular';
-
+const { Browser } = Plugins;
 declare var google: any;
 
 interface Marker {
@@ -86,6 +87,8 @@ export class HomeComponent implements OnInit {
   }
 
   setOption(option,cat){
+    console.log("option",option);
+    console.log("category",cat);
   	/*if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
@@ -111,6 +114,9 @@ export class HomeComponent implements OnInit {
           break;
         case "2":
           this.router.navigateByUrl('/website/Weather');
+          break;
+        case "3":
+          Browser.open({ url: cat.categoryUrl });
           break;
         default:
           this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
@@ -217,6 +223,7 @@ export class HomeComponent implements OnInit {
                                               
                                              if(Number(locationCats[i].category)==value.qpId){
                                                value.cat_sort_id= locationCats[i].order;
+                                               value.categoryUrl = locationCats[i].Category_URL;
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;
