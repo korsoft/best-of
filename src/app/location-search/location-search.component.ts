@@ -22,9 +22,9 @@ export class LocationSearchComponent implements OnInit {
   	this.locationService.getLocations().subscribe(
   		(data:Array<any>)=>{
            this.locations = data;
-           this.filterLocations= data.filter((val,i)=> {
+           this.filterLocations= data;/*data.filter((val,i)=> {
              return i < 5;
-           });
+           });*/
   		});
   }
 
