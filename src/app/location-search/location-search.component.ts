@@ -21,10 +21,11 @@ export class LocationSearchComponent implements OnInit {
   ngOnInit() {
   	this.locationService.getLocations().subscribe(
   		(data:Array<any>)=>{
+        data.sort((a,b)=>{
+          return a.Display_Order - b.Display_Order;
+        });
            this.locations = data;
-           this.filterLocations= data;/*data.filter((val,i)=> {
-             return i < 5;
-           });*/
+           this.filterLocations= data;
   		});
   }
 
