@@ -71,9 +71,9 @@ export class AppComponent implements OnInit {
     }, 
     {
       title: 'Like',
-      url: '/like',
+      url: '',
       action: (url,i) => {
-        
+        this.socialSharing.shareViaFacebookWithPasteMessageHint("Check out the Best Of app to find the best of everything https://bestoflocal.net");
       },
       icon: 'thumbs-up-outline'
     },
