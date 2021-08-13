@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 const { Device } = Plugins;
@@ -108,7 +109,13 @@ export class AppComponent implements OnInit {
       title: 'Feedback',
       url: '/like',
       action: (url,i) => {
-
+        this.geolocation.getCurrentPosition().then((resp) => {
+          this.storage.get("location").then((loc)=>{ 
+            Browser.open({ url: 'https://my.decizie.com/organization/76/dp/home/feedback_input?'+
+              'params=[{"label":"AppLocations","value":"'+loc.qpId+'","name":"query"},{"label":"gps","value":"'+resp.coords.latitude+','+resp.coords.longitude+'","name":"query"}]' });
+          });
+        });
+        
       },
       icon: 'thumbs-up-outline'
     },
@@ -148,7 +155,8 @@ export class AppComponent implements OnInit {
     //private fcmService:FcmService,
     private socialSharing: SocialSharing,
     private storage: Storage,
-    private menu: MenuController
+    private menu: MenuController,
+    private geolocation: Geolocation
 
   ) {
     this.initializeApp();
