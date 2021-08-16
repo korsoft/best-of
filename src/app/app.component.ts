@@ -107,15 +107,10 @@ export class AppComponent implements OnInit {
     },  
     {
       title: 'Feedback',
-      url: '/like',
+      url: '/feedback',
       action: (url,i) => {
-        this.geolocation.getCurrentPosition().then((resp) => {
-          this.storage.get("location").then((loc)=>{ 
-            Browser.open({ url: 'https://my.decizie.com/organization/76/dp/home/feedback_input?'+
-              'params=[{"label":"AppLocations","value":"'+loc.qpId+'","name":"query"},{"label":"gps","value":"'+resp.coords.latitude+','+resp.coords.longitude+'","name":"query"}]' });
-          });
-        });
-        
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
       },
       icon: 'thumbs-up-outline'
     },
