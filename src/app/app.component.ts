@@ -150,8 +150,7 @@ export class AppComponent implements OnInit {
     //private fcmService:FcmService,
     private socialSharing: SocialSharing,
     private storage: Storage,
-    private menu: MenuController,
-    private geolocation: Geolocation
+    private menu: MenuController
 
   ) {
     this.initializeApp();
