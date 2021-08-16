@@ -97,14 +97,14 @@ export class AppComponent implements OnInit {
       },
       icon: 'share-outline'
     },
-    {
+    /*{
       title: 'Notifications',
       url: '/notifications',
       action: (url,i) => {
 
       },
       icon: 'notifications-outline'
-    },  
+    },*/  
     {
       title: 'Feedback',
       url: '/feedback',
