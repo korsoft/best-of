@@ -13,7 +13,8 @@
 
   </ion-header>
  <iframe
-    [src]="getUrl()"
+    *ngIf="url"
+    [src]="url"
     frameborder="0"
     webkitallowfullscreen
     mozallowfullscreen

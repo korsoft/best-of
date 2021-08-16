@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
 
@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage';
 export class FeedbackPage implements OnInit {
 
   public title:string;
-  public url:string;
+  public url:SafeResourceUrl;
 
   constructor(
     private storage: Storage,
@@ -21,16 +21,17 @@ export class FeedbackPage implements OnInit {
 
   ngOnInit() {
     this.title = 'Feedback';
-    this.geolocation.getCurrentPosition().then((resp) => {
-          this.storage.get("location").then((loc)=>{ 
-            this.url ='https://my.decizie.com/organization/76/dp/home/feedback_input?'+
-              'params=[{"label":"AppLocations","value":"'+loc.qpId+'","name":"query"},{"label":"gps","value":"'+resp.coords.latitude+','+resp.coords.longitude+'","name":"query"}]';
-        });
-    });
+    
   }
 
-  public getUrl(){
-  	return this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+  ionViewWillEnter(){
+    this.url = null;
+    this.geolocation.getCurrentPosition().then((resp) => {
+        this.storage.get("location").then((loc)=>{ 
+          this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://my.decizie.com/organization/76/dp/home/feedback_input?'+
+            'params=[{"label":"AppLocations","value":"'+loc.qpId+'","name":"query"},{"label":"gps","value":"'+resp.coords.latitude+','+resp.coords.longitude+'","name":"query"}]');
+      });
+    });
   }
 
 }
