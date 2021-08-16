@@ -168,6 +168,8 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
 
+      console.log("event",event);
+
       if(event instanceof NavigationStart){
         this.changePageSelected(event.url);
         if(!this.backUrlHistorical.includes(event.url)){
@@ -235,6 +237,9 @@ export class AppComponent implements OnInit {
   }
 
   async getInstagramUrl(){
+    this.bottomPages.forEach((item)=>{
+      item.icon = item.icon.replace('-sunburst-','-grey-');
+    });
     let location = await this.storage.get('location');
     if(location){
       console.log("getInstagramUrl",location.Instagram_Url);
@@ -244,6 +249,9 @@ export class AppComponent implements OnInit {
   }
 
   async getChatUrl(){
+    this.bottomPages.forEach((item)=>{
+      item.icon = item.icon.replace('-sunburst-','-grey-');
+    });
     let location = await this.storage.get('location');
     if(location){
       console.log("getChatUrl",location.Chat_Url);
