@@ -71,6 +71,14 @@ export class AppComponent implements OnInit {
       icon: 'location-outline'
     }, 
     {
+      title: 'Chat',
+      url:'',
+      action: (url,i) => {
+        this.getChatUrl();
+      },
+      icon: 'chatbubble-outline'
+    },
+    {
       title: 'Like',
       url: '',
       action: (url,i) => {
@@ -113,6 +121,22 @@ export class AppComponent implements OnInit {
         this.router.navigateByUrl(url);
       },
       icon: 'thumbs-up-outline'
+    },
+    {
+      title: 'About Us',
+      url:'',
+      action: (url,i) => {
+        this.getAboutUsUrl();
+      },
+      icon: 'information-circle-outline'
+    },
+    {
+      title: 'Legal',
+      url:'',
+      action: (url,i) => {
+        this.getLegalUrl();
+      },
+      icon: 'help-circle-outline'
     },
   ];
 
@@ -258,6 +282,14 @@ export class AppComponent implements OnInit {
       if(location.Chat_Url && location.Chat_Url.length>3)
         Browser.open({ url: location.Chat_Url })
     }
+  }
+
+  async getAboutUsUrl(){
+    Browser.open({ url: "https://bestoflocal.net/about/" })
+  }
+
+  async getLegalUrl(){
+    Browser.open({ url: "https://bestoflocal.net/legal/" })
   }
 
 }
