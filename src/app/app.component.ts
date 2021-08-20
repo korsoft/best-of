@@ -86,14 +86,14 @@ export class AppComponent implements OnInit {
       },
       icon: 'thumbs-up-outline'
     },
-    {
+     /*{
       title: 'Account',
       url: '/account',
       action: (url,i) => {
 
       },
       icon: 'person-outline'
-    },
+    },*/
     {
       title: 'Tell a Friend ',
       url: '',
