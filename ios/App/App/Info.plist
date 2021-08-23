@@ -44,10 +44,12 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To Take Photos and Video</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Always allow Geolocation?</string>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Geolocation?</string>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
