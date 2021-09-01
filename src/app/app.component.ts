@@ -43,16 +43,7 @@ export class AppComponent implements OnInit {
       },
       icon: 'Home-outline'
     },
-    /* {
-      title: 'Search',
-      url: '/search',
-      action: (url,i) => {
-        this.selectedIndex = i;
-        this.router.navigateByUrl(url);
-      },
-      icon: 'search-outline'
-    },
-    {
+    /*{
       title: 'My Favorites',
       url: '/favorites',
       action: (url,i) => {
@@ -70,6 +61,16 @@ export class AppComponent implements OnInit {
       },
       icon: 'location-outline'
     }, 
+    {
+      title: 'Search',
+      url: '/search',
+      action: (url,i) => {
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
+      },
+      icon: 'search-outline'
+    },
+    
     {
       title: 'Chat',
       url:'',
@@ -104,6 +105,14 @@ export class AppComponent implements OnInit {
         });         
       },
       icon: 'share-outline'
+    },
+    {
+      title: 'Become a Sponsor',
+      url:'',
+      action: (url,i) => {
+        this.getBecomeSponsor();
+      },
+      icon: 'information-circle-outline'
     },
     /*{
       title: 'Notifications',
@@ -290,6 +299,10 @@ export class AppComponent implements OnInit {
 
   async getLegalUrl(){
     Browser.open({ url: "https://bestoflocal.net/legal/" })
+  }
+
+  async getBecomeSponsor(){
+    Browser.open({ url: "https://my.decizie.com/organization/76/dp/home/Classified_User_Registration" })
   }
 
 }

@@ -167,7 +167,21 @@ export class FolderPage implements OnInit {
 
   goToBussines(cat){
     console.log("cat",cat);
-    this.router.navigateByUrl('/folder/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
+    switch (cat.action_type) {
+      case "1":
+        this.router.navigateByUrl('/website/Buzz');
+        break;
+      case "2":
+        this.router.navigateByUrl('/website/Weather');
+        break;
+      case "3":
+        Browser.open({ url: cat.categoryUrl });
+        break;
+      default:
+        this.router.navigateByUrl('/folder/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
+        break;
+    }
+    
   }
 
   goToBussinesDetail(bus){
