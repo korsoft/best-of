@@ -108,9 +108,10 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Become a Sponsor',
-      url:'',
+      url:'/become-of-sponsor',
       action: (url,i) => {
-        this.getBecomeSponsor();
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
       },
       icon: 'information-circle-outline'
     },
@@ -299,10 +300,6 @@ export class AppComponent implements OnInit {
 
   async getLegalUrl(){
     Browser.open({ url: "https://bestoflocal.net/legal/" })
-  }
-
-  async getBecomeSponsor(){
-    Browser.open({ url: "https://my.decizie.com/organization/76/dp/home/Classified_User_Registration" })
   }
 
 }

@@ -51,9 +51,14 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
-  },  {
+  },
+  {
     path: 'feedback',
     loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+  },
+  {
+    path: 'become-of-sponsor',
+    loadChildren: () => import('./become-of-sponsor/become-of-sponsor.module').then( m => m.BecomeOfSponsorPageModule)
   }
 
 
