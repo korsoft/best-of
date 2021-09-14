@@ -105,7 +105,16 @@ export class FolderPage implements OnInit {
           if(!this.fullSubcategories.length){
              if(this.location){
                 
-               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data:Array<any>)=>{
+               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data1:Array<any>)=>{
+                this.businessService.getBusinessByLocationAndCategory2(loc.qpId,this.id).subscribe((data2:Array<any>)=>{
+                  let dataTmp = data1;
+                  dataTmp.concat(data2);
+                  let data = [];
+                  dataTmp.forEach((item)=>{
+                      var exists = data.find((item2)=>item2.qpId==item.qpId);
+                      if(!exists)
+                        data.push(item);
+                  });
                   if(data.length){
                     data.sort(
                       (b1,b2)=>{
@@ -135,6 +144,7 @@ export class FolderPage implements OnInit {
                     this.presentToast("No data for category");
                     this.loading=false;
                   }
+                });
                });
               }else{
                 this.presentToast("No data for category");

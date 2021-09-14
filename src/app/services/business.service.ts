@@ -14,6 +14,12 @@ export class BusinessService {
      	'{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_3617":"'+category+'"}]}'}});
   }
 
+  public getBusinessByLocationAndCategory2(idLocation,category2){
+    //category='%\\"'+category+'\\"%';
+    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_4256":"'+category2+'"}]}'}});
+ }
+
   public searchBusinessByName(idLocation,text){
     text='%'+text+'%';
     return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/388`,{params: {filters:
