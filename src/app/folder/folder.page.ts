@@ -106,10 +106,13 @@ export class FolderPage implements OnInit {
              if(this.location){
                 
                this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data1:Array<any>)=>{
+                 console.log("data1",data1);
                 this.businessService.getBusinessByLocationAndCategory2(loc.qpId,this.id).subscribe((data2:Array<any>)=>{
+                  console.log("data2",data2);
                   let dataTmp = data1;
-                  dataTmp.concat(data2);
+                  dataTmp = dataTmp.concat(data2);
                   let data = [];
+                  console.log("dataTmp",dataTmp);
                   dataTmp.forEach((item)=>{
                       var exists = data.find((item2)=>item2.qpId==item.qpId);
                       if(!exists)
