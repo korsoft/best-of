@@ -43,42 +43,6 @@ export class FolderPage implements OnInit {
     
     
   async ngOnInit() {  
-    
-  }
-
-  
-  onScroll(event) {
-    //console.log("event", event);
-    /*if(this.os == null)
-      this.attachOnScreenEvent();
-    else {
-      this.os.destroy();
-      this.os.attach();
-    }*/
-    
-  }
-
-  attachOnScreenEvent(){
-    this.os = new OnScreen({
-      tolerance: 300,
-      debounce: 0,
-      container: '.container'
-    });
-
-    this.os.on('enter', '.card-basic-style-business', (element, event) => {
-      console.log("element",element);
-      element.children[element.children.length-1].children[0].style.display='flex'
-    });
-    this.os.on('leave', '.card-basic-style-business', (element, event) => {
-      console.log("element",element);
-      element.children[element.children.length-1].children[0].style.display='none';
-    });
-  }
-
-
-  async ionViewWillEnter(){
-    
-
     this.loading=true;
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -175,6 +139,42 @@ export class FolderPage implements OnInit {
       });
 
     });
+  }
+
+  
+  onScroll(event) {
+    //console.log("event", event);
+    /*if(this.os == null)
+      this.attachOnScreenEvent();
+    else {
+      this.os.destroy();
+      this.os.attach();
+    }*/
+    
+  }
+
+  attachOnScreenEvent(){
+    this.os = new OnScreen({
+      tolerance: 300,
+      debounce: 0,
+      container: '.container'
+    });
+
+    this.os.on('enter', '.card-basic-style-business', (element, event) => {
+      console.log("element",element);
+      element.children[element.children.length-1].children[0].style.display='flex'
+    });
+    this.os.on('leave', '.card-basic-style-business', (element, event) => {
+      console.log("element",element);
+      element.children[element.children.length-1].children[0].style.display='none';
+    });
+  }
+
+
+  async ionViewWillEnter(){
+    
+
+    
 
   }
 

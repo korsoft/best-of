@@ -107,24 +107,7 @@ export class AppComponent implements OnInit {
       icon: 'share-outline'
     },
     {
-      title: 'Become a Sponsor',
-      url:'/become-of-sponsor',
-      action: (url,i) => {
-        this.selectedIndex = i;
-        this.router.navigateByUrl(url);
-      },
-      icon: 'information-circle-outline'
-    },
-    /*{
-      title: 'Notifications',
-      url: '/notifications',
-      action: (url,i) => {
-
-      },
-      icon: 'notifications-outline'
-    },*/  
-    {
-      title: 'Feedback',
+      title: 'FAQs',
       url: '/feedback',
       action: (url,i) => {
         this.selectedIndex = i;
@@ -148,6 +131,26 @@ export class AppComponent implements OnInit {
       },
       icon: 'help-circle-outline'
     },
+    {
+      title: 'Become a Sponsor',
+      url:'/become-of-sponsor',
+      action: (url,i) => {
+        this.selectedIndex = i;
+        this.router.navigateByUrl(url);
+      },
+      icon: 'information-circle-outline'
+    },
+    /*{
+      title: 'Notifications',
+      url: '/notifications',
+      action: (url,i) => {
+
+      },
+      icon: 'notifications-outline'
+    },*/  
+    
+    
+    
   ];
 
   public bottomPages = [

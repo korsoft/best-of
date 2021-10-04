@@ -117,6 +117,10 @@ ion-note {
   color: var(--ion-color-medium-shade);
 }
 
+.back-button {
+  font-size: 11px !important;
+}
+
 ion-item.selected {
   --color: var(--ion-color-primary);
 }

@@ -126,6 +126,16 @@ export class HomeComponent implements OnInit {
   	//}
   }
 
+  async getChatUrl(){
+    let location = await this.storage.get('location');
+    if(location){
+      console.log("getChatUrl",location.Chat_Url);
+      if(location.Chat_Url && location.Chat_Url.length>3)
+        Browser.open({ url: location.Chat_Url })
+    }
+  }
+
+
   gotoSearch(){
       this.router.navigateByUrl('/search');
   }
@@ -319,7 +329,7 @@ export class HomeComponent implements OnInit {
 
   async ionViewWillEnter(){
   
-    this.pageTop.scrollToTop(0);
+    //this.pageTop.scrollToTop(0);
 
     if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))

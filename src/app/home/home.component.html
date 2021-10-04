@@ -7,7 +7,7 @@
 
 <ion-content [fullscreen]="true">
   <div #container id="container" class="card-background-page"  [scrollEvents]="true">
-    <ion-card  *ngIf="localImage[location.picture_home]" class="card-basic-style selected ">
+    <ion-card  *ngIf="localImage[location.picture_home]" (click)="getChatUrl()" class="card-basic-style selected ">
       <ion-img  [src]="getImage(location.picture_home)" class="img-background"  ></ion-img>
       <div class="card-title"></div>
     </ion-card>

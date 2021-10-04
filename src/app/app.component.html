@@ -24,7 +24,7 @@
       <!-- Tab bar -->
       <ion-tab-bar slot="bottom" class="bar-bottom">
         <ion-tab-button *ngIf="showBackButton()">
-          <ion-back-button defaultHref="{{getBackUrl()}}" icon="custom-grey-arrow" text=""></ion-back-button>
+          <ion-back-button defaultHref="{{getBackUrl()}}" class="back-button" icon="custom-grey-arrow" text=""></ion-back-button>
         </ion-tab-button>
         <ion-tab-button (click)="openMenu()">
           <ion-icon name="custom-grey-menu"></ion-icon>
