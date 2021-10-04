@@ -108,10 +108,9 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'FAQs',
-      url: '/feedback',
+      url: '',
       action: (url,i) => {
-        this.selectedIndex = i;
-        this.router.navigateByUrl(url);
+        this.sendToExternalUrl('https://bestoflocal.net/faq/');
       },
       icon: 'thumbs-up-outline'
     },
@@ -119,7 +118,7 @@ export class AppComponent implements OnInit {
       title: 'About Us',
       url:'',
       action: (url,i) => {
-        this.getAboutUsUrl();
+        this.sendToExternalUrl('https://bestoflocal.net/about/');
       },
       icon: 'information-circle-outline'
     },
@@ -127,11 +126,27 @@ export class AppComponent implements OnInit {
       title: 'Legal',
       url:'',
       action: (url,i) => {
-        this.getLegalUrl();
+        this.sendToExternalUrl('https://bestoflocal.net/legal/');
       },
       icon: 'help-circle-outline'
     },
     {
+      title: 'Advertise Your Business',
+      url:'',
+      action: (url,i) => {
+        this.sendToExternalUrl('https://bestoflocal.net/advertise-your-business/');
+      },
+      icon: 'help-circle-outline'
+    },
+    {
+      title: 'Join Our Team',
+      url:'',
+      action: (url,i) => {
+        this.sendToExternalUrl('https://bestofventures.com/join-our-team/');
+      },
+      icon: 'help-circle-outline'
+    },
+    /*{
       title: 'Become a Sponsor',
       url:'/become-of-sponsor',
       action: (url,i) => {
@@ -140,7 +155,7 @@ export class AppComponent implements OnInit {
       },
       icon: 'information-circle-outline'
     },
-    /*{
+    {
       title: 'Notifications',
       url: '/notifications',
       action: (url,i) => {
@@ -297,12 +312,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async getAboutUsUrl(){
-    Browser.open({ url: "https://bestoflocal.net/about/" })
-  }
-
-  async getLegalUrl(){
-    Browser.open({ url: "https://bestoflocal.net/legal/" })
+  async sendToExternalUrl(gotoUrl){
+    Browser.open({ url: gotoUrl })
   }
 
 }
