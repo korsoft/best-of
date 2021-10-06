@@ -29,7 +29,7 @@
     </div>
     <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
      <div class="card-label bus-name-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
-     
+     <div class="background-card-label" *ngIf="bus.card_label" >{{bus.card_label}}</div>
      <div>  
        <!-- Default Segment -->
     <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
