@@ -57,9 +57,10 @@
     bottom: 32px;
     font-size: 3.5em;
     font-weight: bolder;
-    color: white;
-    text-align:left;
-    -webkit-text-stroke: 1px black;
+    color: #bfbfbf;
+    text-align: left;
+    padding: 3px;
+    -webkit-text-stroke: 0.5px black;
 }
 
 
@@ -71,7 +72,7 @@
       font-size: 1.0em;
     }
     .background-card-label {
-      font-size: 1.9em !important;
+      font-size: 14px !important;
     }
 }
 
