@@ -28,7 +28,11 @@ export class MapViewComponent implements OnInit  {
 
   }
 
-  ngOnInit() {
+  ngOnInit(){
+    
+  }
+
+  async ionViewWillEnter(){
     
      this.business = window.history.state.business;
      this.destination.lat= parseFloat(this.business.latitude);

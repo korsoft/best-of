@@ -35,7 +35,7 @@ import { HTTP } from '@ionic-native/http/ngx';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyCxIDgJinuu5t2otiLCHf3yj7cH4QMG_m0'}),
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyCnT_vhNISZ6G1a-9rYM1ha_J8TJ6KSnyY'}),
     IonicStorageModule.forRoot({
       name: '__bestof',
      driverOrder: ['indexeddb', 'sqlite', 'websql']

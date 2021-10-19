@@ -13,7 +13,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
     CommonModule,
     FormsModule,
     IonicModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyCxIDgJinuu5t2otiLCHf3yj7cH4QMG_m0'})
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyCnT_vhNISZ6G1a-9rYM1ha_J8TJ6KSnyY'})
   ]
 })
 export class BusinessDetailModule { }
