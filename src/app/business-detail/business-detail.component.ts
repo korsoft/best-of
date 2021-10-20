@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
 import { LoaderService } from '../services/loader.service';
 import { BusinessService } from '../services/business.service';
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Plugins } from '@capacitor/core';
 const { Browser } = Plugins;
 
@@ -42,7 +44,9 @@ export class BusinessDetailComponent implements OnInit {
      private deviceService:DeviceService,
      public toastController: ToastController,
      private callNumber: CallNumber,
-     private socialSharing: SocialSharing) { }
+     private socialSharing: SocialSharing,
+     private geolocation: Geolocation,
+     private launchNavigator: LaunchNavigator) { }
 
   async ngOnInit() {
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -108,6 +112,17 @@ export class BusinessDetailComponent implements OnInit {
 
   public map(bus){
     this.router.navigateByUrl('/mapView',{state:{"business":bus}});
+  }
+
+  public openNavigator(event){
+    console.log("open navigator",event);
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.launchNavigator.navigate([this.latitude, this.longitude], {
+        start:  ""+resp.coords.latitude+","+resp.coords.longitude
+      });
+     }).catch((error) => {
+         console.log(error);
+     });
   }
 
   async propAction(prop){

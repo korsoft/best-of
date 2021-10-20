@@ -6,12 +6,20 @@
     <param name="ios-package" value="CFCallNumber"/>
   </feature>
 
+  <feature name="ActionSheet">
+    <param name="ios-package" value="ActionSheet"/>
+  </feature>
+
   <feature name="CordovaHttpPlugin">
     <param name="ios-package" value="CordovaHttpPlugin"/>
   </feature>
 
   <feature name="Device">
     <param name="ios-package" value="CDVDevice"/>
+  </feature>
+
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification"/>
   </feature>
 
   <feature name="File">
@@ -35,6 +43,10 @@
 
   <feature name="SQLitePlugin">
     <param name="ios-package" value="SQLitePlugin"/>
+  </feature>
+
+  <feature name="LaunchNavigator">
+    <param name="ios-package" value="LaunchNavigatorPlugin"/>
   </feature>
 
   
