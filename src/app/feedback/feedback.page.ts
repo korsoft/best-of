@@ -28,7 +28,7 @@ export class FeedbackPage implements OnInit {
     this.url = null;
     this.geolocation.getCurrentPosition().then((resp) => {
         this.storage.get("location").then((loc)=>{ 
-          this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://my.decizie.com/organization/76/dp/home/feedback_input?'+
+          this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://bestofventures.app/organization/76/dp/home/feedback_input?'+
             'params=[{"label":"AppLocations","value":"'+loc.qpId+'","name":"query"},{"label":"gps","value":"'+resp.coords.latitude+','+resp.coords.longitude+'","name":"query"}]');
       });
     });

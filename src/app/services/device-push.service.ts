@@ -11,13 +11,13 @@ export class DevicePushService {
 
   public create(uuid,token){
 
-  	return this.httpClient.post(`https://my.decizie.com/api/user/81447/activity/397`,{"answers":{"Device":uuid,"Token":token}});
+  	return this.httpClient.post(`https://api.bestofventures.app/api/user/81447/activity/397`,{"answers":{"Device":uuid,"Token":token}});
 
   }
 
    public updateByDevice(uuid,token){
 
-  	return this.httpClient.put(`https://my.decizie.com/api/user/81447/activity/397/column/3703/data/${uuid}`,{"answers":{"Token":token}});
+  	return this.httpClient.put(`https://api.bestofventures.app/api/user/81447/activity/397/column/3703/data/${uuid}`,{"answers":{"Token":token}});
 
   }
 }

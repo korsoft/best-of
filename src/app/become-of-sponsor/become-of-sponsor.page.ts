@@ -21,7 +21,7 @@ export class BecomeOfSponsorPage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://my.decizie.com/organization/76/dp/home/Classified_User_Registration');
+    this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://bestofventures.app/organization/76/dp/home/Classified_User_Registration');
     
   }
 

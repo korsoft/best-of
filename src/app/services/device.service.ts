@@ -12,7 +12,7 @@ export class DeviceService {
 
   public createDevice(device){
   	this.storage.set("device",device);
-  	return this.httpClient.post(`https://my.decizie.com/api/user/81447/activity/395`,{"answers":device});
+  	return this.httpClient.post(`https://api.bestofventures.app/api/user/81447/activity/395`,{"answers":device});
 
   }
 
