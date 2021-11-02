@@ -13,7 +13,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id/:name',
+    path: 'folder/:location/:id/:name',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {

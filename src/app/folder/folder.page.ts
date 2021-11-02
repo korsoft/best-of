@@ -178,7 +178,8 @@ export class FolderPage implements OnInit {
 
   }
 
-  goToBussines(cat){
+  async goToBussines(cat){
+    let locationObj = await this.storage.get('location');
     console.log("cat",cat);
     switch (cat.action_type) {
       case "1":
@@ -191,7 +192,7 @@ export class FolderPage implements OnInit {
         Browser.open({ url: cat.categoryUrl });
         break;
       default:
-        this.router.navigateByUrl('/folder/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
+        this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
         break;
     }
     

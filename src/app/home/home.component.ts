@@ -86,7 +86,10 @@ export class HomeComponent implements OnInit {
     
   }
 
-  setOption(option,cat){
+  async setOption(option,cat){
+
+    let locationObj = await this.storage.get('location');
+
     console.log("option",option);
     console.log("category",cat);
   	/*if(this.selectedCard!=option){
@@ -119,7 +122,7 @@ export class HomeComponent implements OnInit {
           Browser.open({ url: cat.categoryUrl });
           break;
         default:
-          this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
+          this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+cat.cat_name);
           break;
       }
 
