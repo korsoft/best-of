@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:862624733799:android:60f7458a8a38e2130792c2",
         "android_client_info": {
-          "package_name": "korsoft.app.bestof"
+          "package_name": "bestofventures.app.bestoflocal"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "862624733799-hoc4rvvbhqs0gidch8qp3ht91ucvo327.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "korsoft.app.bestof",
+            "package_name": "bestofventures.app.bestoflocal",
             "certificate_hash": "cad74153f24a20d6bdb638dfdfa7d8a4f20719cf"
           }
         },

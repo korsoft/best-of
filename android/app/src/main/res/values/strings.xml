@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Best of</string>
     <string name="title_activity_main">Best of</string>
-    <string name="package_name">korsoft.app.bestof</string>
-    <string name="custom_url_scheme">korsoft.app.bestof</string>
+    <string name="package_name">bestofventures.app.bestoflocal</string>
+    <string name="custom_url_scheme">bestofventures.app.bestoflocal</string>
 </resources>

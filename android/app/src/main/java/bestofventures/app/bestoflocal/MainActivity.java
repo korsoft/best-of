@@ -1,4 +1,4 @@
-package korsoft.app.bestof;
+package bestofventures.app.bestoflocal;
 
 import android.os.Bundle;
 
