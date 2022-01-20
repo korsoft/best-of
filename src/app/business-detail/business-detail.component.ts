@@ -141,7 +141,7 @@ export class BusinessDetailComponent implements OnInit {
     
     if(prop.property==="URL"){
       Browser.open({ url: prop.value });
-    }else if(prop.property==="email"){
+    }else if(prop.property==="Email"){
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
     }else{
       this.callNumber.callNumber(prop.value, true);
