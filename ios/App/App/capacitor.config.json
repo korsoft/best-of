@@ -1,5 +1,5 @@
 {
-  "appId": "korsoft.app.bestof",
+  "appId": "bestofventures.app.bestoflocal",
   "appName": "Best of",
   "bundledWebRuntime": false,
   "npmClient": "npm",
@@ -13,7 +13,7 @@
   "cordova": {
     "preferences": {
       "ScrollEnabled": "false",
-      "android-minSdkVersion": "19",
+      "android-minSdkVersion": "20",
       "BackupWebStorage": "none",
       "SplashMaintainAspectRatio": "true",
       "FadeSplashScreenDuration": "300",
