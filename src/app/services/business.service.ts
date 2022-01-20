@@ -38,7 +38,15 @@ export class BusinessService {
       '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3622":"'+text+'"}]}'}});
   }
 
+  public searchBusinessByCategories(idLocation,text){
+    text='%'+text+'%';
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/388`,{params: {filters:
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_4639":"'+text+'"}]}'}});
+  }
+
   public getBusinessById(id){
      return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/388/qp/${id}`);
   }
+
+  
 }

@@ -77,28 +77,32 @@ export class SearchPage implements OnInit {
           this.businessService.searchBusinessByBody(loc.qpId,searchTerm.toUpperCase()).subscribe((list2:Array<any>)=>{
             if(list2 && list2.length>0)
               result = result.concat(list2);
-            result.forEach((item)=>{
-                item.showMap=true;
-                if(item.latitude &&  item.longitude &&
-                  item.latitude !="0" &&  item.longitude!="0"){
-                    item.distance = this.getDistanceFromLatLon(item.latitude,item.longitude,
-                                                  this.location.latitude, this.location.longitude  );
-                }else{
-                  item.showMap=false;
-                }
-                if(item.call){
-                  item.showCall=true;
-                }else{
-                  item.showCall=false;
-                }
-                var exists = this.businessList.find((item2)=>item2.qpId==item.qpId);
-                if(!exists)
-                  this.businessList.push(item);
-            });
-            if(this.businessList.length == 0)
-              this.presentToast("No data");
-            console.log("business list",this.businessList);
-            this.ionLoader.hideLoader();
+              this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase()).subscribe((list3:Array<any>)=>{
+                if(list3 && list3.length>0)
+                  result = result.concat(list3);
+                  result.forEach((item)=>{
+                      item.showMap=true;
+                      if(item.latitude &&  item.longitude &&
+                        item.latitude !="0" &&  item.longitude!="0"){
+                          item.distance = this.getDistanceFromLatLon(item.latitude,item.longitude,
+                                                        this.location.latitude, this.location.longitude  );
+                      }else{
+                        item.showMap=false;
+                      }
+                      if(item.call){
+                        item.showCall=true;
+                      }else{
+                        item.showCall=false;
+                      }
+                      var exists = this.businessList.find((item2)=>item2.qpId==item.qpId);
+                      if(!exists)
+                        this.businessList.push(item);
+                  });
+                  if(this.businessList.length == 0)
+                    this.presentToast("No data");
+                  console.log("business list",this.businessList);
+                  this.ionLoader.hideLoader();
+              });
           });
         });
       });

@@ -29,8 +29,8 @@
         <ion-tab-button (click)="openMenu()">
           <ion-icon name="custom-grey-menu"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button *ngFor="let p of bottomPages" (click)="gotoPage(p)">
-          <ion-icon [name]="p.icon"></ion-icon>
+        <ion-tab-button *ngFor="let p of bottomPages" (click)="gotoPage(p)" [class.share-icon]="p.icon == 'share-outline'" >
+          <ion-icon [name]="p.icon" ></ion-icon>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

@@ -79,6 +79,15 @@ export class AppComponent implements OnInit {
       },
       icon: 'chatbubble-outline'
     },
+
+    {
+      title: 'Instagram',
+      url:'',
+      action: (url,i) => {
+        this.getInstagramUrl();
+      },
+      icon: 'custom-white-instagram'
+    },
     {
       title: 'Like',
       url: '',
@@ -96,13 +105,10 @@ export class AppComponent implements OnInit {
       icon: 'person-outline'
     },*/
     {
-      title: 'Tell a Friend ',
+      title: 'Share the App',
       url: '',
       action: (url,i) => {
-        this.storage.get("location").then((loc)=>{ 
-            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
-           "Hey, check out the Best Of");
-        });         
+        this.shareTheApp(); 
       },
       icon: 'share-outline'
     },
@@ -123,14 +129,6 @@ export class AppComponent implements OnInit {
       icon: 'information-circle-outline'
     },
     {
-      title: 'Legal',
-      url:'',
-      action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.net/legal/');
-      },
-      icon: 'help-circle-outline'
-    },
-    {
       title: 'Advertise Your Business',
       url:'',
       action: (url,i) => {
@@ -143,6 +141,14 @@ export class AppComponent implements OnInit {
       url:'',
       action: (url,i) => {
         this.sendToExternalUrl('https://bestofventures.com/join-our-team/');
+      },
+      icon: 'help-circle-outline'
+    },
+    {
+      title: 'Legal',
+      url:'',
+      action: (url,i) => {
+        this.sendToExternalUrl('https://bestoflocal.net/legal/');
       },
       icon: 'help-circle-outline'
     },
@@ -183,8 +189,8 @@ export class AppComponent implements OnInit {
     {
       url: '',
       internalPage: false,
-      isInstagramUrl: true,
-      icon: 'custom-grey-instagram'
+      isShareTheApp: true,
+      icon: 'share-outline'
     },
     {
       url:'/search',
@@ -281,17 +287,17 @@ export class AppComponent implements OnInit {
   gotoPage(page){
     if(page.internalPage === true){
       this.router.navigateByUrl(page.url);
-    } else if(page.isInstagramUrl === true){
-      this.getInstagramUrl();
+    } else if(page.isShareTheApp === true){
+      this.shareTheApp();
     } else if(page.isChatUrl === true){
       this.getChatUrl();
     }
   }
 
   async getInstagramUrl(){
-    this.bottomPages.forEach((item)=>{
+    /*this.bottomPages.forEach((item)=>{
       item.icon = item.icon.replace('-sunburst-','-grey-');
-    });
+    });*/
     let location = await this.storage.get('location');
     if(location){
       console.log("getInstagramUrl",location.Instagram_Url);
@@ -310,6 +316,13 @@ export class AppComponent implements OnInit {
       if(location.Chat_Url && location.Chat_Url.length>3)
         Browser.open({ url: location.Chat_Url })
     }
+  }
+
+  async shareTheApp(){
+    this.storage.get("location").then((loc)=>{ 
+      this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
+     "Hey, check out the Best Of");
+  });   
   }
 
   async sendToExternalUrl(gotoUrl){

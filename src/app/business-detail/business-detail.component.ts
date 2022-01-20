@@ -33,6 +33,7 @@ export class BusinessDetailComponent implements OnInit {
   public properties:Array<any>;
   public bookmark:any;
   public device:any;
+  public location:any;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -52,9 +53,15 @@ export class BusinessDetailComponent implements OnInit {
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
    
    await this.ionLoader.showLoader();
+   
    this.device = await this.deviceService.getDevice();
 
    console.log("device",this.device);
+
+   this.storage.get("location").then((loc)=>{ 
+     console.log("location",loc);
+     this.location = loc;
+   });
 
    this.businessService.getBusinessById(this.id).subscribe((data)=>{
       if(data){
@@ -78,6 +85,7 @@ export class BusinessDetailComponent implements OnInit {
           this.properties=props.filter((p)=>{
              return (p.label!=null && p.label!=="");
           });
+          console.log("business properties",this.properties);
           if(this.device)
             this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
               if(bookmark.length){
@@ -104,10 +112,10 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   public share(bus){
-    this.storage.get("location").then((loc)=>{ 
-            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
-           "Hey, check out the Best Of");
-    });
+    
+    this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+this.location.Name+"'' https://bit.ly/3eNGWkH",
+    "Hey, check out the Best Of");
+    
   }
 
   public map(bus){
@@ -123,6 +131,10 @@ export class BusinessDetailComponent implements OnInit {
      }).catch((error) => {
          console.log(error);
      });
+  }
+
+  async openShareExperienceLink(){
+    Browser.open({ url: this.location.Share_Experience_Link });
   }
 
   async propAction(prop){
