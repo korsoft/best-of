@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
       title: 'Like',
       url: '',
       action: (url,i) => {
-        this.socialSharing.shareViaFacebookWithPasteMessageHint("Check out the Best Of app to find the best of everything https://bestoflocal.net");
+        this.socialSharing.shareViaFacebookWithPasteMessageHint("Check out the Best Of app to find the best of everything https://bestoflocal.app");
       },
       icon: 'thumbs-up-outline'
     },
@@ -116,7 +116,7 @@ export class AppComponent implements OnInit {
       title: 'FAQs',
       url: '',
       action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.net/faq/');
+        this.sendToExternalUrl('https://bestoflocal.app/faq/');
       },
       icon: 'thumbs-up-outline'
     },
@@ -124,7 +124,7 @@ export class AppComponent implements OnInit {
       title: 'About Us',
       url:'',
       action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.net/about/');
+        this.sendToExternalUrl('https://bestoflocal.app/about/');
       },
       icon: 'information-circle-outline'
     },
@@ -132,7 +132,7 @@ export class AppComponent implements OnInit {
       title: 'Advertise Your Business',
       url:'',
       action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.net/advertise-your-business/');
+        this.sendToExternalUrl('https://bestoflocal.app/advertise-your-business/');
       },
       icon: 'help-circle-outline'
     },
@@ -140,7 +140,7 @@ export class AppComponent implements OnInit {
       title: 'Join Our Team',
       url:'',
       action: (url,i) => {
-        this.sendToExternalUrl('https://bestofventures.com/join-our-team/');
+        this.sendToExternalUrl('https://bestoflocal.app/join-our-team/');
       },
       icon: 'help-circle-outline'
     },
@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
       title: 'Legal',
       url:'',
       action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.net/legal/');
+        this.sendToExternalUrl('https://bestoflocal.app/legal/');
       },
       icon: 'help-circle-outline'
     },
