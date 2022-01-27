@@ -119,7 +119,12 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   public map(bus){
-    this.router.navigateByUrl('/mapView',{state:{"business":bus}});
+    //this.router.navigateByUrl('/mapView',{state:{"business":bus}});
+    this.openNavigator(null);
+  }
+
+  public copyAddress(bus){
+    console.log("copy address",bus.address);
   }
 
   public openNavigator(event){
@@ -137,6 +142,7 @@ export class BusinessDetailComponent implements OnInit {
     Browser.open({ url: this.location.Share_Experience_Link });
   }
 
+  	
   async propAction(prop){
     
     if(prop.property==="URL"){
@@ -145,6 +151,13 @@ export class BusinessDetailComponent implements OnInit {
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
     }else{
       this.callNumber.callNumber(prop.value, true);
+    }
+  }
+
+  async openBusinessUrl(){
+    console.log("openBusinessUrl",this.bus);
+    if(this.bus && this.bus.Business_Logo_URL && this.bus.Business_Logo_URL.length>0){
+      Browser.open({ url: this.bus.Business_Logo_URL });
     }
   }
 

@@ -118,7 +118,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/faq/');
       },
-      icon: 'thumbs-up-outline'
+      icon: 'help-circle-outline'
     },
     {
       title: 'About Us',
@@ -142,7 +142,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/join-our-team/');
       },
-      icon: 'help-circle-outline'
+      icon: 'people-outline'
     },
     {
       title: 'Legal',
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/legal/');
       },
-      icon: 'help-circle-outline'
+      icon: 'shield-checkmark-outline'
     },
     /*{
       title: 'Become a Sponsor',
@@ -320,7 +320,7 @@ export class AppComponent implements OnInit {
 
   async shareTheApp(){
     this.storage.get("location").then((loc)=>{ 
-      this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
+      this.socialSharing.share("Check out the Best Of app to find the best of everything in "+loc.Name+" https://bit.ly/3eNGWkH",
      "Hey, check out the Best Of");
   });   
   }
