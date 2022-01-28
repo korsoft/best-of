@@ -13,6 +13,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Plugins } from '@capacitor/core';
+import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
+
 const { Browser } = Plugins;
 
 
@@ -47,7 +49,8 @@ export class BusinessDetailComponent implements OnInit {
      private callNumber: CallNumber,
      private socialSharing: SocialSharing,
      private geolocation: Geolocation,
-     private launchNavigator: LaunchNavigator) { }
+     private launchNavigator: LaunchNavigator,
+     private clipboard: Clipboard) { }
 
   async ngOnInit() {
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -125,6 +128,8 @@ export class BusinessDetailComponent implements OnInit {
 
   public copyAddress(bus){
     console.log("copy address",bus.address);
+    this.clipboard.copy(bus.address);
+    this.presentToast("Address copied!");
   }
 
   public openNavigator(event){
@@ -149,8 +154,12 @@ export class BusinessDetailComponent implements OnInit {
       Browser.open({ url: prop.value });
     }else if(prop.property==="Email"){
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
-    }else{
+    }else if(prop.property==="Phone"){
       this.callNumber.callNumber(prop.value, true);
+    } else if(prop.property==="Facebook"){
+      Browser.open({ url: prop.value });
+    } else if(prop.property==="Instagram"){
+      Browser.open({ url: prop.value });
     }
   }
 
