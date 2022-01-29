@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/advertise-your-business/');
       },
-      icon: 'help-circle-outline'
+      icon: 'custom-megaphone'
     },
     {
       title: 'Join Our Team',
