@@ -11,6 +11,8 @@ import {  Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
+import { SearchPage } from './pages/search/search.page';
 
 
 const { Device } = Plugins;
@@ -208,16 +210,26 @@ export class AppComponent implements OnInit {
     //private fcmService:FcmService,
     private socialSharing: SocialSharing,
     private storage: Storage,
-    private menu: MenuController
+    private menu: MenuController,
+    private deeplinks: Deeplinks
 
   ) {
     this.initializeApp();
   }
 
+
   initializeApp() {
     this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
+
+    this.deeplinks.route({
+      '/search': SearchPage
+    }).subscribe(match => {
+      console.log('Successfully matched route', match);
+    }, nomatch => {
+      console.error('Got a deeplink that didn\'t match', nomatch);
+    });
     
     Device.getInfo().then((info) => {
       this.deviceService.createDevice(info).subscribe();
@@ -260,6 +272,8 @@ export class AppComponent implements OnInit {
    ngOnInit() {
 
   }
+
+  
 
   openMenu(){
     this.menu.enable(true, 'first');

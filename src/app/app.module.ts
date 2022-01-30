@@ -26,6 +26,7 @@ import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angul
 import { HTTP } from '@ionic-native/http/ngx';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
+import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 
 
 
@@ -61,6 +62,7 @@ import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
     Device,
     HTTP,
     Clipboard,
+    Deeplinks,
     LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
