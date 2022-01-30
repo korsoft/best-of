@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
         this.selectedIndex = i;
         this.router.navigateByUrl(url);
       },
-      icon: 'location-outline'
+      icon: 'custom-location-map'
     }, 
     {
       title: 'Search',
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/legal/');
       },
-      icon: 'shield-checkmark-outline'
+      icon: 'custom-security-protection-shield'
     },
     /*{
       title: 'Become a Sponsor',
