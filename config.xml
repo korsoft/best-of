@@ -52,13 +52,13 @@
         <allow-intent href="itms:*" />
         <allow-navigation href="*" />
         <allow-intent href="itms-apps:*" />
-        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
             <string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
         </edit-config>
-        <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysAndWhenInUseUsageDescription">
             <string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
         </edit-config>
-        <edit-config target="NSLocationAlwaysUsageDescription" file="*-Info.plist" mode="merge">
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
             <string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
         </edit-config>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

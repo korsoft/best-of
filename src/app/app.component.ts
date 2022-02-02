@@ -224,11 +224,22 @@ export class AppComponent implements OnInit {
     this.splashScreen.hide();
 
     this.deeplinks.route({
-      '/search': SearchPage
+      '/temp': '/temp'
     }).subscribe(match => {
+      //alert("match: " + JSON.stringify(match));
       console.log('Successfully matched route', match);
     }, nomatch => {
       console.error('Got a deeplink that didn\'t match', nomatch);
+      if(nomatch['$link']){
+        let linkData = nomatch['$link'];
+        if(linkData['extra'] && linkData['extra']['branch_data']){
+          let branchData = JSON.parse(linkData['extra']['branch_data']);
+          if(branchData['+alias'] && branchData['+alias'] == 'redirect' && branchData['page']){
+            let page = branchData['page'];
+            this.router.navigateByUrl(page.replace(/\|/g, '/'));
+          }
+        }
+      }
     });
     
     Device.getInfo().then((info) => {

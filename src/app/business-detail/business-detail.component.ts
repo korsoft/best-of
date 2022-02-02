@@ -143,6 +143,10 @@ export class BusinessDetailComponent implements OnInit {
      });
   }
 
+  async shareBusiness(){
+    this.socialSharing.share("https://bestoflocal.app.link/redirect?page=|businessDetail|"+this.bus.qpId);
+  }
+
   async openShareExperienceLink(){
     Browser.open({ url: this.location.Share_Experience_Link });
   }

@@ -1,31 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    
-    <ion-title>{{bus.Name }}</ion-title>
-    <ion-buttons slot="end">
-          <ion-button (click)="toogleBookmark()">
-            <ion-icon *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
-            <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
-          </ion-button>
-    </ion-buttons>    
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{bus.Name }} </ion-title>
-     
-    </ion-toolbar>
 
 
-  </ion-header>
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="right: 57px;opacity: 0.25;">
+    <ion-fab-button (click)="toogleBookmark()" size="small">
+        <ion-icon *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
+        <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="opacity: 0.25;">
+    <ion-fab-button (click)="shareBusiness()" size="small">
+        <ion-icon name="share-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
   
   <div id="container" class="card-background-page">
    
-    
     <ion-card    class="business-details-card ">
     <img  src="{{bus.body_image}}" (click)="openBusinessUrl()" class="img-background" />
+       
     <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">
       <div class="top-left" >Sponsored</div>
     </div>
