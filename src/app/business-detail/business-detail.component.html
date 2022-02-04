@@ -2,13 +2,13 @@
 <ion-content [fullscreen]="true">
 
 
-  <ion-fab vertical="top" horizontal="end" slot="fixed" style="right: 57px;opacity: 0.25;">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="right: 57px;opacity: 0.25;top:50px">
     <ion-fab-button (click)="toogleBookmark()" size="small">
         <ion-icon *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
         <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="top" horizontal="end" slot="fixed" style="opacity: 0.25;">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="opacity: 0.25;top:50px">
     <ion-fab-button (click)="shareBusiness()" size="small">
       <ion-icon name="arrow-redo-outline"></ion-icon>
     </ion-fab-button>
