@@ -145,7 +145,7 @@ export class BusinessDetailComponent implements OnInit {
 
   async shareBusiness(){
     this.socialSharing.share(
-      this.bus.Name,
+      "Check out this great place from the Best of Local app",
       null,
       this.bus.body_image,
       "https://bestoflocal.app.link/redirect?page=|businessDetail|"+this.bus.qpId);
