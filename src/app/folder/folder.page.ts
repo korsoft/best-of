@@ -9,6 +9,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Plugins } from '@capacitor/core';
 import OnScreen from 'onscreen';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 const { Browser } = Plugins;
 
@@ -39,7 +41,9 @@ export class FolderPage implements OnInit {
      private businessService: BusinessService,
      public toastController: ToastController,
      private callNumber: CallNumber,
-     private socialSharing: SocialSharing) { }
+     private socialSharing: SocialSharing,
+     private geolocation: Geolocation,
+     private launchNavigator: LaunchNavigator) { }
     
     
   async ngOnInit() {  
@@ -138,6 +142,19 @@ export class FolderPage implements OnInit {
         }
       });
 
+    });
+  }
+
+  public openNavigator(bus){
+    console.log("open navigator",bus);
+    let latitude = parseFloat(bus.latitude);
+    let longitude = parseFloat(bus.longitude);
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.launchNavigator.navigate([latitude, longitude], {
+        start:  ""+resp.coords.latitude+","+resp.coords.longitude
+      });
+    }).catch((error) => {
+        console.log(error);
     });
   }
 

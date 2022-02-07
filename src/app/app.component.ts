@@ -131,7 +131,7 @@ export class AppComponent implements OnInit {
       icon: 'information-circle-outline'
     },
     {
-      title: 'Advertise Your Business',
+      title: 'Promote Your Business',
       url:'',
       action: (url,i) => {
         this.sendToExternalUrl('https://bestoflocal.app/advertise-your-business/');
@@ -345,8 +345,7 @@ export class AppComponent implements OnInit {
 
   async shareTheApp(){
     this.storage.get("location").then((loc)=>{ 
-      this.socialSharing.share("Check out the Best Of app to find the best of everything in "+loc.Name+" https://bit.ly/3eNGWkH",
-     "Hey, check out the Best Of");
+      this.socialSharing.share("THE BEST OF APP MAKES YOUR GOOD LIFE SIMPLE. EASY DOWNLOAD NOW");
   });   
   }
 

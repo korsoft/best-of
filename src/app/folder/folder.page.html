@@ -34,15 +34,15 @@
        <!-- Default Segment -->
     <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
       <ion-segment-button (click)="share(bus)">
-        <ion-icon name="share-social"></ion-icon>
+        <ion-icon name="arrow-redo"></ion-icon>
       </ion-segment-button>
       <ion-segment-button *ngIf="bus.showCall" (click)="call(bus)">
         <ion-icon name="call"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+      <ion-segment-button *ngIf="bus.showMap" (click)="openNavigator(bus)">
         <ion-icon name="location-sharp"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+      <ion-segment-button *ngIf="bus.showMap" (click)="openNavigator(bus)">
         <ion-label>{{bus.distance}} MI</ion-label>
       </ion-segment-button>
     </ion-segment>
