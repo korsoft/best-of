@@ -157,7 +157,6 @@ export class FolderPage implements OnInit {
         console.log(error);
     });
   }
-
   
   onScroll(event) {
     //console.log("event", event);
@@ -272,10 +271,13 @@ export class FolderPage implements OnInit {
   }
 
   public share(bus){
-    this.storage.get("location").then((loc)=>{ 
-            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
-           "Hey, check out the Best Of");
-        });
+    
+    this.socialSharing.share(
+      "Check out this great place from the Best of Local app",
+      null,
+      bus.body_image,
+      "https://bestoflocal.app.link/redirect?page=|businessDetail|"+bus.qpId);
+
   }
 
   public map(bus){
