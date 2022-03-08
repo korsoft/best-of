@@ -1,18 +1,18 @@
-<ion-header [translucent]="true" style="height: 20px;">
+<!--ion-header [translucent]="true" style="height: 20px;">
   <ion-toolbar>
     <ion-title></ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header -->
 
 <ion-content [fullscreen]="true">
 
-  <ion-fab vertical="top" horizontal="end" slot="fixed" style="right: 57px;opacity: 0.25">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="right: 57px;top:30px;opacity: 0.25">
     <ion-fab-button (click)="toogleBookmark()" size="small">
         <ion-icon *ngIf="!bookmark" name="bookmark-outline"></ion-icon>
         <ion-icon *ngIf="bookmark" name="bookmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="top" horizontal="end" slot="fixed" style="opacity: 0.25">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="top:30px;opacity: 0.25">
     <ion-fab-button (click)="shareBusiness()" size="small">
       <ion-icon name="arrow-redo-outline"></ion-icon>
     </ion-fab-button>
@@ -20,9 +20,9 @@
 
 
   
-  <div id="container" class="card-background-page">
+  <div id="container" class="card-background-page" [style.background-color]="bus.Logo_Background_Color">
    
-    <ion-card    class="business-details-card ">
+    <ion-card    class="business-details-card " [style.background-color]="bus.Logo_Background_Color">
     <img  src="{{bus.body_image}}" (click)="openBusinessUrl()" class="img-background" />
        
     <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">

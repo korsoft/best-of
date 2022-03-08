@@ -27,7 +27,6 @@ ion-item{ --border-color: #ebebeb; }
 }
 
 .business-details-card {
-   background-color: white !important;
    color:#6f7172 !important;
    margin: 0px;
    width: 100% !important;
@@ -56,7 +55,7 @@ ion-title {
    font-size: 20px !important;
 }
 .card-background-page {
-   background-color: white !important;
+   padding-top: 30px !important;
 }
 
 agm-map {
