@@ -48,11 +48,12 @@ export class LocationSearchComponent implements OnInit {
 
   async selectLocation(location){
     console.log("location",location);
-    this.storage.clear().then((val) => {
-      this.storage.set("location",location);
-      this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
-    });
-     
+    if(location.Lat && location.Lat!="" && location.Long && location.Long != ""){
+      this.storage.clear().then((val) => {
+        this.storage.set("location",location);
+        this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
+      });
+    }
   }
 
   public clearLocation(){
