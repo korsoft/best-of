@@ -39,9 +39,7 @@
     </ion-card>
     
     <ion-list class="business-details-list">
-      <ion-item (click)="openShareExperienceLink()" *ngIf="bus.Display_Share_Experience_Link && bus.Display_Share_Experience_Link == '1'" class="item-background-color">
-        <ion-icon name="arrow-redo"  class="detail-icon"></ion-icon><ion-label>SHARE YOUR PHOTOS & EXPERIENCES</ion-label>
-      </ion-item>
+      
 	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" class="item-background-color">
 	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> {{bus.call_label?bus.call_label+":":""}}{{bus.call}}</ion-label>
 	  </ion-item>
@@ -51,7 +49,9 @@
     <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; " class="item-background-color">
       <ion-icon name="{{prop.property==='URL'?'aperture':prop.property==='Email'?'mail':prop.property==='Phone'?'call':prop.property==='Facebook'?'logo-facebook':prop.property==='Instagram'?'logo-instagram':''}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
     </ion-item>
-    
+    <ion-item (click)="openShareExperienceLink()" *ngIf="bus.Display_Share_Experience_Link && bus.Display_Share_Experience_Link == '1'" class="item-background-color">
+      <ion-icon name="arrow-redo"  class="detail-icon"></ion-icon><ion-label>SHARE YOUR PHOTOS & EXPERIENCES</ion-label>
+    </ion-item>
     </ion-list>
     <agm-map *ngIf="bus.showMap"
 	   [latitude]="latitude"
