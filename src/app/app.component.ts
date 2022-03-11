@@ -345,7 +345,7 @@ export class AppComponent implements OnInit {
 
   async shareTheApp(){
     this.storage.get("location").then((loc)=>{ 
-      this.socialSharing.share("THE BEST OF APP MAKES YOUR GOOD LIFE SIMPLE. EASY DOWNLOAD NOW. https://bit.ly/3eNGWkH");
+      this.socialSharing.share("Hey, check out The BEST OF LOCAL app. It's the coolest, easiest way to find the best restaurants and more. Here's the download. https://bit.ly/3eNGWkH");
   });   
   }
 
