@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router , NavigationStart, NavigationEnd} from '@angular/router';
 
 import { DeviceService } from './services/device.service';
@@ -17,6 +17,7 @@ import { SearchPage } from './pages/search/search.page';
 
 const { Device } = Plugins;
 const { Browser } = Plugins;
+const { App } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -211,7 +212,8 @@ export class AppComponent implements OnInit {
     private socialSharing: SocialSharing,
     private storage: Storage,
     private menu: MenuController,
-    private deeplinks: Deeplinks
+    private deeplinks: Deeplinks,
+    private zone: NgZone
 
   ) {
     this.initializeApp();
@@ -220,27 +222,48 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
+
+      App.addListener('appUrlOpen', (data: any) => {
+        this.zone.run(() => {
+            // Example url: https://beerswift.app/tabs/tab2
+            // slug = /tabs/tab2
+
+            //alert("match: " + JSON.stringify(data));
+            //{"url":"https:\/\/bestoflocal.app.link\/redirect?page=%7CbusinessDetail%7C32194489","iosSourceApplication":"","iosOpenInPlace":""}
+            const page = data.url.split("redirect?page=").pop();
+            if(page){
+                this.router.navigateByUrl(page.replace(/%7C/g, '/'));
+            }
+            // If no match, do nothing - let regular routing
+            // logic take over
+        });
+    });
+
+      /*this.deeplinks.route({
+        '/temp': '/temp'
+      }).subscribe(match => {
+        alert("match: " + JSON.stringify(match));
+        console.log('Successfully matched route', match);
+      }, nomatch => {
+        alert("nomatch: " + JSON.stringify(nomatch));
+        console.error('Got a deeplink that didn\'t match', nomatch);
+        if(nomatch['$link']){
+          let linkData = nomatch['$link'];
+          if(linkData['extra'] && linkData['extra']['branch_data']){
+            let branchData = JSON.parse(linkData['extra']['branch_data']);
+            if(branchData['+alias'] && branchData['+alias'] == 'redirect' && branchData['page']){
+              let page = branchData['page'];
+              this.router.navigateByUrl(page.replace(/\|/g, '/'));
+            }
+          }
+        }
+      });*/
+
     this.statusBar.styleDefault();
     this.splashScreen.hide();
 
-    this.deeplinks.route({
-      '/temp': '/temp'
-    }).subscribe(match => {
-      //alert("match: " + JSON.stringify(match));
-      console.log('Successfully matched route', match);
-    }, nomatch => {
-      console.error('Got a deeplink that didn\'t match', nomatch);
-      if(nomatch['$link']){
-        let linkData = nomatch['$link'];
-        if(linkData['extra'] && linkData['extra']['branch_data']){
-          let branchData = JSON.parse(linkData['extra']['branch_data']);
-          if(branchData['+alias'] && branchData['+alias'] == 'redirect' && branchData['page']){
-            let page = branchData['page'];
-            this.router.navigateByUrl(page.replace(/\|/g, '/'));
-          }
-        }
-      }
-    });
+    
     
     Device.getInfo().then((info) => {
       this.deviceService.createDevice(info).subscribe();
