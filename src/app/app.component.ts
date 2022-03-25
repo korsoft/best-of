@@ -240,13 +240,13 @@ export class AppComponent implements OnInit {
         });
     });
 
-      /*this.deeplinks.route({
+      this.deeplinks.route({
         '/temp': '/temp'
       }).subscribe(match => {
-        alert("match: " + JSON.stringify(match));
+        //alert("match: " + JSON.stringify(match));
         console.log('Successfully matched route', match);
       }, nomatch => {
-        alert("nomatch: " + JSON.stringify(nomatch));
+        //alert("nomatch: " + JSON.stringify(nomatch));
         console.error('Got a deeplink that didn\'t match', nomatch);
         if(nomatch['$link']){
           let linkData = nomatch['$link'];
@@ -258,7 +258,7 @@ export class AppComponent implements OnInit {
             }
           }
         }
-      });*/
+      });
 
     this.statusBar.styleDefault();
     this.splashScreen.hide();
