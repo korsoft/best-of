@@ -61,6 +61,18 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
             <string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
         </edit-config>
+        <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
+            <array>
+                <string>applinks:bestoflocal.app.link</string>
+                <string>applinks:bestoflocal-alternate.app.link</string>
+            </array>
+        </config-file>
+        <config-file parent="com.apple.developer.associated-domains" target="*-Release.plist">
+            <array>
+                <string>applinks:bestoflocal.app.link</string>
+                <string>applinks:bestoflocal-alternate.app.link</string>
+            </array>
+        </config-file>
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
