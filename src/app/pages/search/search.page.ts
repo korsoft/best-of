@@ -68,16 +68,16 @@ export class SearchPage implements OnInit {
         return;
       }
 
-      this.businessService.searchBusinessByName(loc.qpId,searchTerm.toUpperCase()).subscribe((business:Array<any>)=>{
+      this.businessService.searchBusinessByName(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((business:Array<any>)=>{
         if(business && business.length>0)
           result = result.concat(business);
-        this.businessService.searchBusinessBySummary(loc.qpId,searchTerm.toUpperCase()).subscribe((list:Array<any>)=>{
+        this.businessService.searchBusinessBySummary(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list:Array<any>)=>{
           if(list && list.length>0)
             result = result.concat(list);
-          this.businessService.searchBusinessByBody(loc.qpId,searchTerm.toUpperCase()).subscribe((list2:Array<any>)=>{
+          this.businessService.searchBusinessByBody(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list2:Array<any>)=>{
             if(list2 && list2.length>0)
               result = result.concat(list2);
-              this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase()).subscribe((list3:Array<any>)=>{
+              this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list3:Array<any>)=>{
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{

@@ -66,7 +66,7 @@ export class BusinessDetailComponent implements OnInit {
      this.location = loc;
    });
 
-   this.businessService.getBusinessById(this.id).subscribe((data)=>{
+   this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data)=>{
       if(data){
         console.log("business details",data);
         this.bus=data;
@@ -80,6 +80,7 @@ export class BusinessDetailComponent implements OnInit {
         }
         if(this.bus.call){
           this.bus.showCall=true;
+          
         }else{
           this.bus.showCall=false;
         }

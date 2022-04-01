@@ -11,6 +11,7 @@ import { Plugins } from '@capacitor/core';
 import OnScreen from 'onscreen';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { DeviceService } from '../services/device.service';
 
 const { Browser } = Plugins;
 
@@ -33,6 +34,7 @@ export class FolderPage implements OnInit {
   private localImage:Array<any>=[];
   public loading = true;
   private os = null;
+  public device:any;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -43,13 +45,15 @@ export class FolderPage implements OnInit {
      private callNumber: CallNumber,
      private socialSharing: SocialSharing,
      private geolocation: Geolocation,
-     private launchNavigator: LaunchNavigator) { }
+     private launchNavigator: LaunchNavigator,
+     private deviceService: DeviceService) { }
     
     
   async ngOnInit() {  
     this.loading=true;
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.device = await this.deviceService.getDevice();
   
     this.storage.get("location").then((loc)=> {
       if(!loc){
@@ -73,9 +77,9 @@ export class FolderPage implements OnInit {
           if(!this.fullSubcategories.length){
              if(this.location){
                 
-               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id).subscribe((data1:Array<any>)=>{
+               this.businessService.getBusinessByLocationAndCategory(loc.qpId,this.id,this.device.uuid).subscribe((data1:Array<any>)=>{
                  console.log("data1",data1);
-                this.businessService.getBusinessByLocationAndCategory2(loc.qpId,this.id).subscribe((data2:Array<any>)=>{
+                this.businessService.getBusinessByLocationAndCategory2(loc.qpId,this.id,this.device.uuid).subscribe((data2:Array<any>)=>{
                   console.log("data2",data2);
                   let dataTmp = data1;
                   dataTmp = dataTmp.concat(data2);

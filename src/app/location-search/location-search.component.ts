@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../location.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { DeviceService } from '../services/device.service';
 
 @Component({
   selector: 'app-location-search',
@@ -13,20 +14,25 @@ export class LocationSearchComponent implements OnInit {
  
   public locations:Array<any>=[];
   public filterLocations:Array<any>=[];
+  public device:any;
 
   constructor(private router: Router,
   	private locationService:LocationService,
-    private storage: Storage) { }
+    private storage: Storage,
+    private deviceService: DeviceService) { }
 
   ngOnInit() {
-  	this.locationService.getLocations().subscribe(
-  		(data:Array<any>)=>{
-        data.sort((a,b)=>{
-          return a.Display_Order - b.Display_Order;
+    this.deviceService.getDevice().then((device)=>{
+      this.locationService.getLocations(device.uuid).subscribe(
+        (data:Array<any>)=>{
+          data.sort((a,b)=>{
+            return a.Display_Order - b.Display_Order;
+          });
+             this.locations = data;
+             this.filterLocations= data;
         });
-           this.locations = data;
-           this.filterLocations= data;
-  		});
+    });
+  	
   }
 
    async filterList(evt) {

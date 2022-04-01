@@ -50,7 +50,7 @@ export class FavoritesPage implements OnInit {
       if(bookmarks && bookmarks.length>0){
         bookmarks.forEach((item)=>{
           console.log("item",item);
-          this.businessService.getBusinessById(item.Business).subscribe((bookmark:any)=>{
+          this.businessService.getBusinessById(item.Business,this.device.uuid).subscribe((bookmark:any)=>{
             if(bookmark){
               console.log("bookmark",bookmark);
               bookmark.showMap=true;

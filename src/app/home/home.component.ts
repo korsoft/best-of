@@ -192,7 +192,7 @@ export class HomeComponent implements OnInit {
   }*/ 
 
   private getLocation(latitude,longitude,locationName){
-    this.locationService.getLocations().subscribe(
+    this.locationService.getLocations(this.device.uuid).subscribe(
             (data:Array<any>)=>{
               
                   if(data.length>0){
