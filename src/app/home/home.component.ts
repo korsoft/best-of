@@ -14,6 +14,7 @@ import { LoaderService } from '../services/loader.service';
 import { LocationCategoriesService } from '../services/location-categories.service';
 
 import { Platform } from '@ionic/angular';
+import { DeviceService } from '../services/device.service';
 const { Browser } = Plugins;
 declare var google: any;
 
@@ -62,12 +63,12 @@ export class HomeComponent implements OnInit {
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
+  public device:any;
 
   @ViewChild(IonContent) pageTop: IonContent;
   
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
-    private device: Device,
     public mapsApiLoader: MapsAPILoader,
     private wrapper: GoogleMapsAPIWrapper,
     private cdr:ChangeDetectorRef,
@@ -76,14 +77,15 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private storage: Storage,
     private ionLoader: LoaderService,
+    private deviceService: DeviceService,
     private locationCategoriesService:LocationCategoriesService,
     public platform: Platform) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
   }
 
-  ngOnInit() {
-    
+  async ngOnInit() {
+    this.device = await this.deviceService.getDevice();
   }
 
   async setOption(option,cat){
@@ -131,10 +133,10 @@ export class HomeComponent implements OnInit {
 
   async getChatUrl(){
     let location = await this.storage.get('location');
+    console.log("getChatUrl",location);
     if(location){
-      console.log("getChatUrl",location.Chat_Url);
-      if(location.Chat_Url && location.Chat_Url.length>3)
-        Browser.open({ url: location.Chat_Url })
+      if(location.Home_Card_URL && location.Home_Card_URL.length>3)
+        Browser.open({ url: location.Home_Card_URL })
     }
   }
 

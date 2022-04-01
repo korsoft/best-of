@@ -36,6 +36,7 @@ export class BusinessDetailComponent implements OnInit {
   public bookmark:any;
   public device:any;
   public location:any;
+  public isRestaurant:boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
