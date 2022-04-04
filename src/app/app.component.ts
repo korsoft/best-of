@@ -295,10 +295,10 @@ export class AppComponent implements OnInit {
                 this.deviceService.createDevice(info).subscribe();
                 //this.fcmService.initPush(info.uuid);
               });
-              this.storage.get("location").then((location) => {
-                this.locationName = "BEST OF " + location.Name;
-              });
             }
+            this.storage.get("location").then((location) => {
+              this.locationName = "BEST OF " + location.Name;
+            });
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }
        }
