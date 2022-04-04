@@ -132,12 +132,6 @@ export class BusinessDetailComponent implements OnInit {
       return 'logo-instagram';
   }
 
-  public isSocialNetwork(property){
-    if(property.toLowerCase() === 'facebook' || property.toLowerCase() === 'instagram')
-        return true;
-    return false;
-  }  
-
   public call(bus){
     this.callNumber.callNumber(bus.call, true);
   }
