@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Best of</string>
-    <string name="title_activity_main">Best of</string>
+    <string name="app_name">Best of Local</string>
+    <string name="title_activity_main">Best of Local</string>
     <string name="package_name">bestofventures.app.bestoflocal</string>
     <string name="custom_url_scheme">bestofventures.app.bestoflocal</string>
 </resources>

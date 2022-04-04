@@ -1,6 +1,6 @@
 {
   "appId": "bestofventures.app.bestoflocal",
-  "appName": "Best of",
+  "appName": "Best of Local",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

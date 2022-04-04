@@ -111,6 +111,32 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
+  public getPropertyIcon(property){
+    if(property.toLowerCase()==='appointment')
+      return 'checkbox';
+    else if(property.toLowerCase()==='takeout/delivery')
+      return 'basket';
+    else if(property.toLowerCase()==='menu')
+      return 'restaurant';
+    else if(property.toLowerCase()==='reservations')
+      return 'calendar';
+    else if(property.toLowerCase()==='url')
+      return 'aperture';
+    else if(property.toLowerCase()==='email')
+      return 'mail';
+    else if(property.toLowerCase()==='phone')
+      return 'call';
+    else if(property.toLowerCase()==='facebook')
+      return 'logo-facebook';
+    else if(property.toLowerCase()==='instagram')
+      return 'logo-instagram';
+  }
+
+  public isSocialNetwork(property){
+    if(property.toLowerCase() === 'facebook' || property.toLowerCase() === 'instagram')
+        return true;
+    return false;
+  }  
 
   public call(bus){
     this.callNumber.callNumber(bus.call, true);
