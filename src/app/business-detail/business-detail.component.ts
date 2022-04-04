@@ -88,7 +88,7 @@ export class BusinessDetailComponent implements OnInit {
        
         this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
           this.properties=props.filter((p)=>{
-             return (p.label!=null && p.label!=="");
+             return (p.label!=null && p.label!=="" && p.property!=="Facebook" && p.property!=="Instagram");
           });
           console.log("business properties",this.properties);
           if(this.device)

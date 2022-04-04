@@ -84,8 +84,8 @@ export class HomeComponent implements OnInit {
     this.wrapper = wrapper;
   }
 
-  async ngOnInit() {
-    this.device = await this.deviceService.getDevice();
+  ngOnInit() {
+    
   }
 
   async setOption(option,cat){
@@ -335,6 +335,8 @@ export class HomeComponent implements OnInit {
   async ionViewWillEnter(){
   
     //this.pageTop.scrollToTop(0);
+
+    this.device = await this.deviceService.getDevice();
 
     if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))

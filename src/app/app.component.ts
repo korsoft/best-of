@@ -202,6 +202,8 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  public locationName:string = "";
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -292,6 +294,9 @@ export class AppComponent implements OnInit {
                 console.log("device",info);
                 this.deviceService.createDevice(info).subscribe();
                 //this.fcmService.initPush(info.uuid);
+              });
+              this.storage.get("location").then((location) => {
+                this.locationName = "BEST OF " + location.Name;
               });
             }
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
