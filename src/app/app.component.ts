@@ -297,7 +297,7 @@ export class AppComponent implements OnInit {
               });
             }
             this.storage.get("location").then((location) => {
-              this.locationName = "BEST OF " + location.Name;
+              this.locationName = location.Name;
             });
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }
