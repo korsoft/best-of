@@ -272,6 +272,10 @@ export class AppComponent implements OnInit {
       //this.fcmService.initPush(info.uuid);
     });
 
+    this.storage.get("location").then((location) => {
+      this.locationName = location.Name;
+    });
+
     this.router.events.subscribe((event) => {
 
       console.log("event",event);
