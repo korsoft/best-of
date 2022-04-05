@@ -87,9 +87,38 @@ export class BusinessDetailComponent implements OnInit {
         }
        
         this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
-          this.properties=props.filter((p)=>{
+          let propArray=props.filter((p)=>{
              return (p.label!=null && p.label!=="" && p.property!=="Facebook" && p.property!=="Instagram");
           });
+          for(let i=0;i<propArray.length;i++){
+            let p = propArray[i];
+            if(p.property.toLowerCase()==='menu')
+              p.position = 1;
+            else if(p.property.toLowerCase()==='url')
+              p.position = 2;
+            else if(p.property.toLowerCase()==='reservations')
+              p.position = 3;
+            else if(p.property.toLowerCase()==='appointment')
+              p.position = 4;
+            else if(p.property.toLowerCase()==='takeout/delivery')
+              p.position = 5;
+            else if(p.property.toLowerCase()==='email')
+              p.position = 6;
+            else
+              p.position = 99;
+          
+        }
+        propArray.sort(function(a,b){
+            if(a.position>b.position)
+              return 1;
+            else if(b.position>a.position)
+              return -1;
+            else
+              return 0;
+          });
+
+          this.properties = propArray;
+          
           console.log("business properties",this.properties);
           if(this.device)
             this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
