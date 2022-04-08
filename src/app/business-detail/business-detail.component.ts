@@ -209,15 +209,15 @@ export class BusinessDetailComponent implements OnInit {
   	
   async propAction(prop){
     
-    if(prop.property==="URL"){
-      Browser.open({ url: prop.value });
-    }else if(prop.property==="Email"){
+    if(prop.property==="Email"){
       this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
     }else if(prop.property==="Phone"){
       this.callNumber.callNumber(prop.value, true);
     } else if(prop.property==="Facebook"){
       Browser.open({ url: prop.value });
     } else if(prop.property==="Instagram"){
+      Browser.open({ url: prop.value });
+    } else { //URL, Menu, Reservations, Takeout/Delivery, Appointment
       Browser.open({ url: prop.value });
     }
   }
