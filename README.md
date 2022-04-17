@@ -20,6 +20,7 @@ y volver a correr el comando.
 Para generar el aab se procede a moverse a la carpeta platforms/android. Allí se corre 
 el archivo gradlew bundle y al finalizar se encuentra el abb en  app/build/outputs/bundle/release. 
 
-
+Important!!!
+node 14.19.1
 
 
