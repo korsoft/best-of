@@ -20,6 +20,7 @@ import { LocationSearchModule } from './location-search/location-search.module'
 import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -58,6 +59,7 @@ import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
     GoogleMapsAPIWrapper,
     CallNumber,
     SocialSharing,
+    EmailComposer,
     InAppBrowser,
     Device,
     HTTP,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, provideRoutes } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
 import { LoaderService } from '../services/loader.service';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Plugins } from '@capacitor/core';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
@@ -51,7 +52,8 @@ export class BusinessDetailComponent implements OnInit {
      private socialSharing: SocialSharing,
      private geolocation: Geolocation,
      private launchNavigator: LaunchNavigator,
-     private clipboard: Clipboard) { }
+     private clipboard: Clipboard,
+     private emailComposer: EmailComposer) { }
 
   async ngOnInit() {
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -208,9 +210,38 @@ export class BusinessDetailComponent implements OnInit {
 
   	
   async propAction(prop){
-    
+   
     if(prop.property==="Email"){
-      this.socialSharing.shareViaEmail(prop.value,prop.value,[]);
+      console.log("email...");
+      // Check if sharing via email is supported
+      this.emailComposer.getClients().then((apps: []) => {
+        console.log("apps",JSON.stringify(apps));
+        //if (apps.length>0) {
+          let email = {
+            to: prop.value,
+            subject: prop.label,
+            body: prop.label
+          }
+          
+          // Send a text message using default options
+          this.emailComposer.open(email).then(()=>{
+            console.log("opening email client...");
+          }).catch(er => console.log(JSON.stringify(er)));
+       //}
+       }).catch(e => {
+         console.log(JSON.stringify(e));
+       });
+
+      /*this.socialSharing.canShareViaEmail().then(() => {
+        this.socialSharing.shareViaEmail(prop.label,prop.label,["augusto.moguel@gmail.com"]).then(()=>{
+          console.log("share email");
+        }).catch((e)=>{
+          console.log(JSON.stringify(e));
+        });
+      }).catch((e) => {
+        console.log(JSON.stringify(e));
+      });*/
+      
     }else if(prop.property==="Phone"){
       this.callNumber.callNumber(prop.value, true);
     } else if(prop.property==="Facebook"){
