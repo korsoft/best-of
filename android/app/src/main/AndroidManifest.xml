@@ -55,10 +55,25 @@
     <uses-feature android:name="android.hardware.location.gps" />
     <!-- Network API -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- Navigator.getUserMedia -->
     <!-- Video -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- Audio -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <!-- URI share between apps-->
+    <uses-permission android:name="android.permission.FLAG_GRANT_READ_URI_PERMISSION" />
+    <uses-permission android:name="android.permission.FLAG_GRANT_WRITE_URI_PERMISSION" />
+
+    <uses-permission android:name="com.google.android.gm.permission.READ_GMAIL"/>
+    <uses-permission android:name="com.google.android.gm.permission.WRITE_GMAIL"/>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="*" />
+        </intent>
+    </queries>
+    
 </manifest>
