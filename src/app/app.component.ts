@@ -268,13 +268,19 @@ export class AppComponent implements OnInit {
     
     
     Device.getInfo().then((info) => {
+      console.log("device info",info)
       this.deviceService.createDevice(info).subscribe();
       //this.fcmService.initPush(info.uuid);
     });
 
-    this.storage.get("location").then((location) => {
-      this.locationName = location.Name;
-    });
+    setTimeout(()=>{
+      this.storage.get("location").then((location) => {
+        console.log("location",location);
+        if(location)
+          this.locationName = location.Name;
+      });
+    },500);
+    
 
     this.router.events.subscribe((event) => {
 
@@ -301,7 +307,8 @@ export class AppComponent implements OnInit {
               });
             }
             this.storage.get("location").then((location) => {
-              this.locationName = location.Name;
+              if(location)
+                this.locationName = location.Name;
             });
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
           }

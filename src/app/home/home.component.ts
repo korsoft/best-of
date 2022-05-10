@@ -1,6 +1,5 @@
 import { Component, OnInit,ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Device } from '@ionic-native/device/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
@@ -16,6 +15,7 @@ import { LocationCategoriesService } from '../services/location-categories.servi
 import { Platform } from '@ionic/angular';
 import { DeviceService } from '../services/device.service';
 const { Browser } = Plugins;
+const { Device } = Plugins;
 declare var google: any;
 
 interface Marker {
@@ -337,7 +337,10 @@ export class HomeComponent implements OnInit {
     //this.pageTop.scrollToTop(0);
 
     this.device = await this.deviceService.getDevice();
+    if(!this.device)
+      this.device = await Device.getInfo();
 
+    
     if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))
       return;
