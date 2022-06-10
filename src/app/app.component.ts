@@ -363,6 +363,10 @@ export class AppComponent implements OnInit {
     /*this.bottomPages.forEach((item)=>{
       item.icon = item.icon.replace('-sunburst-','-grey-');
     });*/
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "open_instagram"
+    });
     let location = await this.storage.get('location');
     if(location){
       console.log("getInstagramUrl",location.Instagram_Url);
@@ -372,6 +376,10 @@ export class AppComponent implements OnInit {
   }
 
   async getChatUrl(){
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "open_chat"
+    });
     this.bottomPages.forEach((item)=>{
       item.icon = item.icon.replace('-sunburst-','-grey-');
     });
@@ -384,12 +392,21 @@ export class AppComponent implements OnInit {
   }
 
   async shareTheApp(){
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "share_app"
+    });
     this.storage.get("location").then((loc)=>{ 
       this.socialSharing.share("Hey, check out The BEST OF LOCAL app. It's the coolest, easiest way to find the best restaurants and more. Here's the download. https://bit.ly/3eNGWkH");
   });   
   }
 
   async sendToExternalUrl(gotoUrl){
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "open_external_url",
+      url: gotoUrl
+    });
     Browser.open({ url: gotoUrl })
   }
 

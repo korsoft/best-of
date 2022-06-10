@@ -12,6 +12,7 @@ import OnScreen from 'onscreen';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceService } from '../services/device.service';
+import { FcmService } from '../services/fcm.service';
 
 const { Browser } = Plugins;
 
@@ -46,7 +47,8 @@ export class FolderPage implements OnInit {
      private socialSharing: SocialSharing,
      private geolocation: Geolocation,
      private launchNavigator: LaunchNavigator,
-     private deviceService: DeviceService) { }
+     private deviceService: DeviceService,
+     private fcmService : FcmService) { }
     
     
   async ngOnInit() {  
@@ -150,6 +152,11 @@ export class FolderPage implements OnInit {
   }
 
   public openNavigator(bus){
+   this.fcmService.analyticsLogEvent("screen_action",{
+      page: "categories",
+      action: "open_navigator",
+      business: bus.Name
+    });
     console.log("open navigator",bus);
     let latitude = parseFloat(bus.latitude);
     let longitude = parseFloat(bus.longitude);
@@ -193,7 +200,9 @@ export class FolderPage implements OnInit {
 
   async ionViewWillEnter(){
     
-
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "categories_page"
+    });
     
 
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-become-of-sponsor',
@@ -12,7 +13,8 @@ export class BecomeOfSponsorPage implements OnInit {
   public url:SafeResourceUrl;
 
   constructor(
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+    private fcmService:FcmService
   ) { }
 
   ngOnInit() {
@@ -20,7 +22,10 @@ export class BecomeOfSponsorPage implements OnInit {
     
   }
 
-  ionViewWillEnter(){
+  async ionViewWillEnter(){
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "become_a_sponsor"
+    });
     this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://bestofventures.app/organization/76/dp/home/Classified_User_Registration');
     
   }

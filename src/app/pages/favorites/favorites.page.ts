@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Plugins } from '@capacitor/core';
+import { FcmService } from 'src/app/services/fcm.service';
 const { Browser } = Plugins;
 
 @Component({
@@ -30,13 +31,17 @@ export class FavoritesPage implements OnInit {
     private storage: Storage,
     private router: Router,
     private callNumber: CallNumber,
-     private socialSharing: SocialSharing) { }
+     private socialSharing: SocialSharing,
+     private fcmService: FcmService) { }
 
     ngOnInit(){
 
     }
 
  async ionViewWillEnter(){
+  await this.fcmService.analyticsLogEvent("screen_view",{
+    page: "favorites_page"
+  });
     this.bookmarks = [];
     this.fullBusiness = [];
     this.location = await this.storage.get("location");

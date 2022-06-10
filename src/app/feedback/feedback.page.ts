@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-feedback',
@@ -16,7 +17,8 @@ export class FeedbackPage implements OnInit {
   constructor(
     private storage: Storage,
     private geolocation: Geolocation,
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+    private fcmService:FcmService
   ) { }
 
   ngOnInit() {
@@ -25,6 +27,9 @@ export class FeedbackPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    this.fcmService.analyticsLogEvent("screen_view",{
+      page: "feedback_page"
+    });
     this.url = null;
     this.geolocation.getCurrentPosition().then((resp) => {
         this.storage.get("location").then((loc)=>{ 

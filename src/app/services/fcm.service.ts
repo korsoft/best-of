@@ -8,7 +8,8 @@ import {
 } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { DevicePushService } from './device-push.service';
- 
+import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
+
 const { PushNotifications } = Plugins;
  
 @Injectable({
@@ -17,11 +18,20 @@ const { PushNotifications } = Plugins;
 export class FcmService {
  
   constructor(private router: Router,
-    private devicePushService:DevicePushService) { }
+    private devicePushService:DevicePushService, 
+    private firebaseAnalytics: FirebaseAnalytics) { }
  
   initPush(uuid) {
     if (Capacitor.platform !== 'web') {
       this.registerPush(uuid);
+    }
+  }
+
+  async analyticsLogEvent(event_name, params){
+    try {
+      await this.firebaseAnalytics.logEvent(event_name, params);
+    } catch(e){
+      console.error("analytics log error ",e);
     }
   }
  

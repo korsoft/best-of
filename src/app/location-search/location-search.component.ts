@@ -3,6 +3,7 @@ import { LocationService } from '../location.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { DeviceService } from '../services/device.service';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-location-search',
@@ -19,7 +20,8 @@ export class LocationSearchComponent implements OnInit {
   constructor(private router: Router,
   	private locationService:LocationService,
     private storage: Storage,
-    private deviceService: DeviceService) { }
+    private deviceService: DeviceService,
+    private fcmService: FcmService) { }
 
   ngOnInit() {
     this.deviceService.getDevice().then((device)=>{
@@ -31,6 +33,10 @@ export class LocationSearchComponent implements OnInit {
              this.locations = data;
              this.filterLocations= data;
         });
+    });
+
+    this.fcmService.analyticsLogEvent("screen_view",{
+      page: "location_search"
     });
   	
   }

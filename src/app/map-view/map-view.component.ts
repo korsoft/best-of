@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { AgmMap } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LoaderService } from '../services/loader.service';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-map-view',
@@ -22,7 +23,8 @@ export class MapViewComponent implements OnInit  {
   
   constructor(private geolocation: Geolocation,
     public platform: Platform,
-    private ionLoader: LoaderService) {
+    private ionLoader: LoaderService,
+    private fcmService:FcmService) {
     console.log(platform.height());
     this.height = platform.height() - 56;
 
@@ -33,6 +35,10 @@ export class MapViewComponent implements OnInit  {
   }
 
   async ionViewWillEnter(){
+
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "business_map"
+    });
     
      this.business = window.history.state.business;
      this.destination.lat= parseFloat(this.business.latitude);

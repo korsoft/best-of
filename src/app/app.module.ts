@@ -28,6 +28,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
 import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
+import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
 
 
 
@@ -65,6 +66,7 @@ import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
     HTTP,
     Clipboard,
     Deeplinks,
+    FirebaseAnalytics,
     LaunchNavigator,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },

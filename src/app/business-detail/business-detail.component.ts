@@ -15,6 +15,7 @@ import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
 import { Plugins } from '@capacitor/core';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
+import { FcmService } from '../services/fcm.service';
 
 const { Browser } = Plugins;
 
@@ -53,9 +54,15 @@ export class BusinessDetailComponent implements OnInit {
      private geolocation: Geolocation,
      private launchNavigator: LaunchNavigator,
      private clipboard: Clipboard,
-     private emailComposer: EmailComposer) { }
+     private emailComposer: EmailComposer,
+     private fcmService: FcmService) { }
 
   async ngOnInit() {
+
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "business_details"
+    });
+
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
    
    await this.ionLoader.showLoader();
@@ -69,10 +76,15 @@ export class BusinessDetailComponent implements OnInit {
      this.location = loc;
    });
 
-   this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data)=>{
+   this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data:any)=>{
       if(data){
         console.log("business details",data);
         this.bus=data;
+        this.fcmService.analyticsLogEvent("screen_action",{
+          page: "business_details",
+          action:'view_details',
+          business: data.Name
+        });
         if(this.bus.latitude &&  this.bus.longitude &&
           this.bus.latitude !="0" &&  this.bus.longitude!="0"){
             this.bus.showMap=true;
@@ -164,22 +176,40 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   public call(bus){
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action:'call',
+      business: bus.Name
+    });
     this.callNumber.callNumber(bus.call, true);
   }
 
   public share(bus){
-    
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action:'share',
+      business: bus.Name
+    });
     this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+this.location.Name+"'' https://bit.ly/3eNGWkH",
     "Hey, check out the Best Of");
     
   }
 
   public map(bus){
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_map",
+      business: bus.Name
+    });
     //this.router.navigateByUrl('/mapView',{state:{"business":bus}});
     this.openNavigator(null);
   }
 
   public copyAddress(bus){
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action: "copy_address",
+      business: bus.Name
+    });
     console.log("copy address",bus.address);
     this.clipboard.copy(bus.address);
     this.presentToast("Address copied!");
@@ -187,6 +217,11 @@ export class BusinessDetailComponent implements OnInit {
 
   public openNavigator(event){
     console.log("open navigator",event);
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action:"open_navigator",
+      business: this.bus.Name
+    });
     this.geolocation.getCurrentPosition().then((resp) => {
       this.launchNavigator.navigate([this.latitude, this.longitude], {
         start:  ""+resp.coords.latitude+","+resp.coords.longitude
@@ -197,6 +232,11 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   async shareBusiness(){
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action: "share",
+      business: this.bus.Name
+    });
     this.socialSharing.share(
       "Here's a great place I want you to check out",
       null,
@@ -212,6 +252,11 @@ export class BusinessDetailComponent implements OnInit {
   async propAction(prop){
    
     if(prop.property==="Email"){
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "email",
+        business: this.bus.Name
+      });
       console.log("email...");
       // Check if sharing via email is supported
       this.emailComposer.getClients().then((apps: []) => {
@@ -245,15 +290,36 @@ export class BusinessDetailComponent implements OnInit {
     }else if(prop.property==="Phone"){
       this.callNumber.callNumber(prop.value, true);
     } else if(prop.property==="Facebook"){
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "facebook",
+        business: this.bus.Name
+      });
       Browser.open({ url: prop.value });
     } else if(prop.property==="Instagram"){
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "instagram",
+        business: this.bus.Name
+      });
       Browser.open({ url: prop.value });
     } else { //URL, Menu, Reservations, Takeout/Delivery, Appointment
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "open_url",
+        business: this.bus.Name,
+        url: prop.value
+      });
       Browser.open({ url: prop.value });
     }
   }
 
   async openBusinessUrl(){
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "business_details",
+      action: "open_url_logo",
+      business: this.bus.Name
+    });
     console.log("openBusinessUrl",this.bus);
     if(this.bus && this.bus.Business_Logo_URL && this.bus.Business_Logo_URL.length>0){
       Browser.open({ url: this.bus.Business_Logo_URL });
@@ -263,12 +329,22 @@ export class BusinessDetailComponent implements OnInit {
   public async toogleBookmark(){
      await this.ionLoader.showLoader();
     if(this.bookmark){
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "remove_bookmark",
+        business: this.bus.Name
+      });
       this.bookmarkService.deleteBookmark(this.bookmark.qpId).subscribe((res)=>{
         this.bookmark=null;
         this.ionLoader.hideLoader();
       });
 
     }else{
+      await this.fcmService.analyticsLogEvent("screen_action",{
+        page: "business_details",
+        action: "create_bookmark",
+        business: this.bus.Name
+      });
       this.bookmarkService.createBookmark(this.device.uuid,this.bus.qpId).subscribe((res)=>{
         this.bookmark=res;
         this.ionLoader.hideLoader();

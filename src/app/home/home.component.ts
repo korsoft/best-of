@@ -122,15 +122,33 @@ export class HomeComponent implements OnInit {
   	}else{*/
       switch (cat.action_type) {
         case "1":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_buzz"
+          });
           this.router.navigateByUrl('/website/Buzz');
           break;
         case "2":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_weather"
+          });
           this.router.navigateByUrl('/website/Weather');
           break;
         case "3":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category_url",
+            url: cat.categoryUrl
+          });
           Browser.open({ url: cat.categoryUrl });
           break;
         default:
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category",
+            category: cat.cat_name
+          });
           this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+cat.cat_name);
           break;
       }
@@ -201,6 +219,11 @@ export class HomeComponent implements OnInit {
   }*/ 
 
   private getLocation(latitude,longitude,locationName){
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "go_to_location",
+      location: locationName
+    });
     this.locationService.getLocations(this.device.uuid).subscribe(
             (data:Array<any>)=>{
               
@@ -342,6 +365,10 @@ export class HomeComponent implements OnInit {
   async ionViewWillEnter(){
   
     //this.pageTop.scrollToTop(0);
+
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "home"
+    });
 
     this.device = await this.deviceService.getDevice();
     if(!this.device){

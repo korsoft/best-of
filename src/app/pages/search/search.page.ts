@@ -8,6 +8,7 @@ import { DeviceService } from 'src/app/services/device.service';
 import { Plugins } from '@capacitor/core';
 import { Storage } from '@ionic/storage';
 import { LoaderService } from 'src/app/services/loader.service';
+import { FcmService } from 'src/app/services/fcm.service';
 const { Browser } = Plugins;
 
 @Component({
@@ -25,7 +26,8 @@ export class SearchPage implements OnInit {
     private router: Router,
     private callNumber: CallNumber,
      private socialSharing: SocialSharing,
-     private ionLoader: LoaderService) { }
+     private ionLoader: LoaderService,
+     private fcmService:FcmService) { }
 
   public businessList:Array<any> = [];
   public location={"name":"",latitude:0,longitude:0};
@@ -35,6 +37,9 @@ export class SearchPage implements OnInit {
   }
 
   async ionViewWillEnter(){
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "search_page"
+    });
     this.location = await this.storage.get("location");
     if(!this.location){
       this.presentToast("No data for this location");
@@ -53,6 +58,12 @@ export class SearchPage implements OnInit {
     if (!searchTerm || searchTerm.length<2) {
       return;
     }
+
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "search",
+      action: "search_term",
+      term: searchTerm
+    });
     
     this.businessList= [];
 
