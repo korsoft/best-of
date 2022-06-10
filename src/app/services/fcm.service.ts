@@ -21,13 +21,14 @@ export class FcmService {
  
   initPush(uuid) {
     if (Capacitor.platform !== 'web') {
-      //this.registerPush(uuid);
+      this.registerPush(uuid);
     }
   }
  
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {
+        console.log("registerPush granted");
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
@@ -38,35 +39,36 @@ export class FcmService {
     PushNotifications.addListener(
       'registration',
       (token: PushNotificationToken) => {
-        this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
-            console.log("token generate")
+        console.log("pushRegistration token=",token.value);
+        /*this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
+            console.log("PushNotificationToken.tokenGenerated")
         }, error => {
            if(error.error){
                this.devicePushService.create(uuid,token.value).subscribe();
            }
-        });
+        });*/
       }
     );
  
     PushNotifications.addListener('registrationError', (error: any) => {
-      console.log('Error: ' + JSON.stringify(error));
+      console.log('PushNotifications.registrationError: ' + JSON.stringify(error));
     });
  
     PushNotifications.addListener(
       'pushNotificationReceived',
-      async (notification: PushNotification) => {
-        console.log('Push received: ' + JSON.stringify(notification));
+       (notification: PushNotification) => {
+        console.log('pushNotificationReceived: ',JSON.stringify(notification));
       }
     );
  
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
-      async (notification: PushNotificationActionPerformed) => {
-        const data = notification.notification.data;
-        console.log('Action performed: ' + JSON.stringify(notification.notification));
-        if (data.detailsId) {
+        (notification: PushNotificationActionPerformed) => {
+        //const data = notification.notification.data;
+        console.log('Action performed: ', JSON.stringify(notification));
+        /*if (data.detailsId) {
           this.router.navigateByUrl(`/notification/${data.detailsId}`);
-        }
+        }*/
       }
     );
   }

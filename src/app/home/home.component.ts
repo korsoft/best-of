@@ -14,6 +14,7 @@ import { LocationCategoriesService } from '../services/location-categories.servi
 
 import { Platform } from '@ionic/angular';
 import { DeviceService } from '../services/device.service';
+import { FcmService } from '../services/fcm.service';
 const { Browser } = Plugins;
 const { Device } = Plugins;
 declare var google: any;
@@ -79,6 +80,7 @@ export class HomeComponent implements OnInit {
     private ionLoader: LoaderService,
     private deviceService: DeviceService,
     private locationCategoriesService:LocationCategoriesService,
+    private fcmService : FcmService,
     public platform: Platform) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
@@ -337,9 +339,9 @@ export class HomeComponent implements OnInit {
     //this.pageTop.scrollToTop(0);
 
     this.device = await this.deviceService.getDevice();
-    if(!this.device)
+    if(!this.device){
       this.device = await Device.getInfo();
-
+    }
     
     if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))

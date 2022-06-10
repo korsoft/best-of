@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 import { SearchPage } from './pages/search/search.page';
+import { FcmService } from './services/fcm.service';
 
 
 const { Device } = Plugins;
@@ -210,7 +211,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private deviceService:DeviceService,
     private router: Router,
-    //private fcmService:FcmService,
+    private fcmService:FcmService,
     private socialSharing: SocialSharing,
     private storage: Storage,
     private menu: MenuController,
@@ -270,7 +271,7 @@ export class AppComponent implements OnInit {
     Device.getInfo().then((info) => {
       console.log("device info",info)
       this.deviceService.createDevice(info).subscribe();
-      //this.fcmService.initPush(info.uuid);
+      this.fcmService.initPush(info.uuid);
     });
 
     setTimeout(()=>{
