@@ -271,7 +271,7 @@ export class AppComponent implements OnInit {
     Device.getInfo().then((info) => {
       console.log("device info",info)
       this.deviceService.createDevice(info).subscribe();
-      this.fcmService.initPush(info.uuid);
+      //this.fcmService.initPush(info.uuid);
     });
 
     setTimeout(()=>{

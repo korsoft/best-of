@@ -87,7 +87,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    Device.getInfo().then((info) => {
+      console.log("device info",info)
+      //this.deviceService.createDevice(info).subscribe();
+      this.fcmService.initPush(info.uuid);
+    });
+
   }
 
   async setOption(option,cat){
