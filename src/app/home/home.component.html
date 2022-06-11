@@ -18,7 +18,8 @@
       <ion-img  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
      
       <div class="gradientback">
-        <div class="card-title" *ngIf="!category.hide_name" style="top: 0px;" >{{category.cat_name}}</div>
+        <div class="card-title" *ngIf="!category.hide_name" 
+            style="top: 0px;font-family: HelmetRegular !important;-webkit-text-stroke:0px !important; font-size: 45px !important; font-weight: normal !important;" >{{category.cat_name}}</div>
       </div>
     </ion-card>
 

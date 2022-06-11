@@ -48,6 +48,34 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: "FamiliarProBold";
+  src: url("assets/fonts/Familiar-Pro-Bold.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "HelmetRegular";
+  src: url("assets/fonts/Helmet-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AlteHaasGroteskRegular";
+  src: url("assets/fonts/AlteHaasGroteskRegular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AlteHaasGroteskBold";
+  src: url("assets/fonts/AlteHaasGroteskBold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
 * {
   font-family: 'SF Pro' !important;
 }

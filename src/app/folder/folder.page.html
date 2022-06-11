@@ -17,8 +17,9 @@
     
     <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories" *ngFor="let category of subcategories; let i = index; "  >
     <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-    <div class="card-title" *ngIf="!category.hide_name"></div>   
-     <div class="card-label" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
+    <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
+     <div class="card-label"
+       style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
     </ion-card>
 
     <ion-card  *ngFor="let bus of business; let ind = index; " class="card-basic-style-business" >
