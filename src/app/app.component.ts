@@ -14,6 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 import { SearchPage } from './pages/search/search.page';
 import { FcmService } from './services/fcm.service';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 
 
 const { Device } = Plugins;
@@ -29,9 +30,8 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public devi="";
   public backUrl:String = 'home';
+  public appVersionNumber:String = '';
   private backUrlHistorical:Array<String> = [];
-
-
 
   public appPages = [
     {
@@ -216,8 +216,8 @@ export class AppComponent implements OnInit {
     private storage: Storage,
     private menu: MenuController,
     private deeplinks: Deeplinks,
-    private zone: NgZone
-
+    private zone: NgZone,
+    private appVersion : AppVersion
   ) {
     this.initializeApp();
   }
@@ -227,6 +227,12 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
 
 
+     this.appVersion.getVersionNumber().then(version => {
+      this.appVersionNumber = version;
+      console.log("appVersion",this.appVersionNumber);
+     }).catch(reason => {
+      console.log("get app version error",reason);
+     });
       App.addListener('appUrlOpen', (data: any) => {
         this.zone.run(() => {
             // Example url: https://beerswift.app/tabs/tab2
