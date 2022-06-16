@@ -39,6 +39,7 @@ export class LocationSearchComponent implements OnInit {
       page: "location_search"
     });
   	
+    this.fcmService.analyticsSetCurrentScreen("Location Search");
   }
 
    async filterList(evt) {

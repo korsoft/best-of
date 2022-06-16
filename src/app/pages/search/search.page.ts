@@ -40,6 +40,9 @@ export class SearchPage implements OnInit {
     await this.fcmService.analyticsLogEvent("screen_view",{
       page: "search_page"
     });
+
+    await this.fcmService.analyticsSetCurrentScreen("Search");
+
     this.location = await this.storage.get("location");
     if(!this.location){
       this.presentToast("No data for this location");

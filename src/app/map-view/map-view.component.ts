@@ -40,6 +40,8 @@ export class MapViewComponent implements OnInit  {
       page: "business_map"
     });
     
+    await this.fcmService.analyticsSetCurrentScreen("Business Map View");
+
      this.business = window.history.state.business;
      this.destination.lat= parseFloat(this.business.latitude);
      this.destination.lng= parseFloat(this.business.longitude);

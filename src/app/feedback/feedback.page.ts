@@ -30,6 +30,7 @@ export class FeedbackPage implements OnInit {
     this.fcmService.analyticsLogEvent("screen_view",{
       page: "feedback_page"
     });
+    this.fcmService.analyticsSetCurrentScreen("Feedback");
     this.url = null;
     this.geolocation.getCurrentPosition().then((resp) => {
         this.storage.get("location").then((loc)=>{ 

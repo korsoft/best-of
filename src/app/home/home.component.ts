@@ -370,6 +370,8 @@ export class HomeComponent implements OnInit {
       page: "home"
     });
 
+    await this.fcmService.analyticsSetCurrentScreen("Home");
+
     this.device = await this.deviceService.getDevice();
     if(!this.device){
       this.device = await Device.getInfo();

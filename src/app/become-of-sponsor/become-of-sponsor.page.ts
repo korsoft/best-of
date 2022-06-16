@@ -26,6 +26,7 @@ export class BecomeOfSponsorPage implements OnInit {
     await this.fcmService.analyticsLogEvent("screen_view",{
       page: "become_a_sponsor"
     });
+    await this.fcmService.analyticsSetCurrentScreen("Become of Sponsor");
     this.url =this.sanitizer.bypassSecurityTrustResourceUrl('https://bestofventures.app/organization/76/dp/home/Classified_User_Registration');
     
   }

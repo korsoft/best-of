@@ -42,6 +42,8 @@ export class FavoritesPage implements OnInit {
   await this.fcmService.analyticsLogEvent("screen_view",{
     page: "favorites_page"
   });
+  await this.fcmService.analyticsSetCurrentScreen("Favorites");
+  
     this.bookmarks = [];
     this.fullBusiness = [];
     this.location = await this.storage.get("location");

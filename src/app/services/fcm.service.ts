@@ -34,6 +34,14 @@ export class FcmService {
       console.error("analytics log error ",e);
     }
   }
+
+  async analyticsSetCurrentScreen(screen_name){
+    try {
+      await this.firebaseAnalytics.setCurrentScreen(screen_name);
+    } catch(e){
+      console.error("analytics log error",e);
+    }
+  }
  
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {

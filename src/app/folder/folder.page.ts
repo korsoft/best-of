@@ -204,6 +204,7 @@ export class FolderPage implements OnInit {
       page: "categories_page"
     });
     
+    await this.fcmService.analyticsSetCurrentScreen("Categories/Subcategories");
 
   }
 

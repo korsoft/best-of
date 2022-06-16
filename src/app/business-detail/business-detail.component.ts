@@ -63,6 +63,8 @@ export class BusinessDetailComponent implements OnInit {
       page: "business_details"
     });
 
+    await this.fcmService.analyticsSetCurrentScreen("Business Details");
+
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
    
    await this.ionLoader.showLoader();
