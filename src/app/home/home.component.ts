@@ -95,6 +95,18 @@ export class HomeComponent implements OnInit {
 
   }
 
+  async doRefresh(event) {
+    console.log('Begin async operation');
+
+    await this.loadPage();
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 3000);
+    
+  }
+  
   async setOption(option,cat){
 
     let locationObj = await this.storage.get('location');
@@ -381,7 +393,12 @@ export class HomeComponent implements OnInit {
       !this.activatedRoute.snapshot.queryParamMap.get('reload')))
       return;
     
+    await this.loadPage();
+    
+  }
 
+
+  async loadPage(){
     let locationStorage = await this.storage.get("location");
 
     let location = locationStorage ? locationStorage.Name : this.activatedRoute.snapshot.paramMap.get('location');
@@ -406,8 +423,7 @@ export class HomeComponent implements OnInit {
               }
           });
       });
-  }
-
+  } 
 
 
   scrollCustomImplementation(element: HTMLElement,up) {

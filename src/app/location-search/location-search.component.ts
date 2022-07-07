@@ -35,11 +35,24 @@ export class LocationSearchComponent implements OnInit {
         });
     });
 
+  
+
     this.fcmService.analyticsLogEvent("screen_view",{
       page: "location_search"
     });
   	
     this.fcmService.analyticsSetCurrentScreen("Location Search");
+  }
+
+
+  async doRefresh(event) {
+    console.log('Begin async operation');
+
+    this.ngOnInit();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
   }
 
    async filterList(evt) {

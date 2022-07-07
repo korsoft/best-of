@@ -156,6 +156,14 @@ export class BusinessDetailComponent implements OnInit {
 
   }
 
+  async doRefresh(event) {
+    console.log('Begin async operation');
+
+    await this.ngOnInit();
+    event.target.complete();
+    
+  }
+
   public getPropertyIcon(property){
     if(property.toLowerCase()==='appointment')
       return 'checkbox';

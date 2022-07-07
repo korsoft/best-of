@@ -6,6 +6,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="1" pullMin="100" pullMax="200">
+    <ion-refresher-content
+      pullingIcon="lines-small"
+      pullingText="Pull to refresh"
+      refreshingSpinner="lines-small"
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div #container id="container" class="card-background-page">
     <ion-card  *ngIf="localImage[location.picture_home]" (click)="getChatUrl()" class="card-basic-style selected ">
       <ion-img  [src]="getImage(location.picture_home)" class="img-background"  ></ion-img>
