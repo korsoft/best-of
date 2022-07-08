@@ -30,6 +30,7 @@ import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
 import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
 
 
 
@@ -68,6 +69,7 @@ import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
     Clipboard,
     Deeplinks,
     FirebaseAnalytics,
+    FirebaseAuthentication,
     LaunchNavigator,
     AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

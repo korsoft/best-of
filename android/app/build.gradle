@@ -40,4 +40,10 @@ dependencies {
 
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.browser:browser:1.3.0'
+    }
+}
+
 apply from: 'capacitor.build.gradle'

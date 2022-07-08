@@ -44,6 +44,11 @@
     <param name="onload" value="$ANALYTICS_COLLECTION_ENABLED"/>
   </feature>
 
+  <feature name="FirebaseAuthentication">
+    <param name="ios-package" value="FirebaseAuthenticationPlugin"/>
+    <param name="onload" value="false"/>
+  </feature>
+
   <feature name="Geolocation">
     <param name="ios-package" value="CDVLocation"/>
   </feature>

@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { DevicePushService } from './device-push.service';
 import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
+import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
 
 const { PushNotifications } = Plugins;
  
@@ -19,13 +20,15 @@ export class FcmService {
  
   constructor(private router: Router,
     private devicePushService:DevicePushService, 
-    private firebaseAnalytics: FirebaseAnalytics) { }
+    private firebaseAnalytics: FirebaseAnalytics,
+    private firebaseAuthentication: FirebaseAuthentication) { }
  
   initPush(uuid) {
     if (Capacitor.platform !== 'web') {
       this.registerPush(uuid);
     }
   }
+  
 
   async analyticsLogEvent(event_name, params){
     try {
@@ -41,6 +44,10 @@ export class FcmService {
     } catch(e){
       console.error("analytics log error",e);
     }
+  }
+
+  async registerByEmailAndPassword(email:string, password:string){
+    return await this.firebaseAuthentication.createUserWithEmailAndPassword(email,password);
   }
  
   private registerPush(uuid) {
