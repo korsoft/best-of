@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form style="padding-top: 50px;padding-bottom: 50px;" [formGroup]="registerForm"  (ngSubmit)="submit()">
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" inputmode="email" formControlName="email" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" inputmode="text" formControlName="password" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Confirm password</ion-label>
+      <ion-input type="password" inputmode="text" formControlName="repassword" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="text-align: center;">
+        If you  have an account, please
+        <ion-button (click)="gotoLogin()" expand="block" color="warning">Login</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

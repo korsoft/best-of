@@ -100,21 +100,12 @@ export class HomeComponent implements OnInit {
 
     await this.loadPage();
 
-  
-    try {
-      let success = await this.fcmService.registerByEmailAndPassword("augusto20220708@yopmail.com","A123456789");
-      console.log(JSON.stringify(success)); //"OK"
-    } catch(error){
-      console.log(error); //string message
-    }
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
     }, 3000);
     
   }
-
-  async
   
   async setOption(option,cat){
 

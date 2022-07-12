@@ -39,6 +39,13 @@ export class FavoritesPage implements OnInit {
     }
 
  async ionViewWillEnter(){
+
+  let currentUser = await this.fcmService.getCurrentUser();
+
+  if(!currentUser){
+    this.router.navigateByUrl("/login");
+    return;
+  }
   await this.fcmService.analyticsLogEvent("screen_view",{
     page: "favorites_page"
   });

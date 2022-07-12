@@ -31,6 +31,7 @@ import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -53,7 +54,8 @@ import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authen
     MapViewModule,
     BusinessDetailModule,
     LocationSearchModule,
-    HammerModule
+    HammerModule,
+    AuthModule
   ],
   providers: [
     StatusBar,

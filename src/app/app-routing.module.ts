@@ -4,6 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { MapViewComponent } from './map-view/map-view.component';
 import { BusinessDetailComponent } from './business-detail/business-detail.component';
 import { LocationSearchComponent } from './location-search/location-search.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ResetComponent } from './auth/reset/reset.component';
 
 
 const routes: Routes = [
@@ -15,6 +18,18 @@ const routes: Routes = [
   {
     path: 'folder/:location/:id/:name',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'resetPassword',
+    component: ResetComponent
   },
   {
     path: 'home',
@@ -54,14 +69,13 @@ const routes: Routes = [
   },
   {
     path: 'feedback',
-    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule)
+    loadChildren: () => import('./feedback/feedback.module').then( m => m.FeedbackPageModule),
+    
   },
   {
     path: 'become-of-sponsor',
     loadChildren: () => import('./become-of-sponsor/become-of-sponsor.module').then( m => m.BecomeOfSponsorPageModule)
   }
-
-
 ];
 
 @NgModule({

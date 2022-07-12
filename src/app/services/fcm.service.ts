@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { DevicePushService } from './device-push.service';
 import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
 import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
-
 const { PushNotifications } = Plugins;
  
 @Injectable({
@@ -46,10 +45,39 @@ export class FcmService {
     }
   }
 
+  async loginByEmailAndPassword(email:string,password:string){
+    return await this.firebaseAuthentication.signInWithEmailAndPassword(email,password);
+  }
+
+  async resetPassword(email:string){
+    await this.firebaseAuthentication.sendPasswordResetEmail(email);
+  }
+
+  async getCurrentUser() {
+    try {
+      let currentUser = await this.firebaseAuthentication.getCurrentUser();
+      console.log(JSON.stringify(currentUser));
+      return currentUser;
+    } catch(error){
+      console.log("error",error);
+    }
+    return null;
+  }
+
+  async logout(){
+    try {
+      await this.firebaseAuthentication.signOut();
+      return true;
+    } catch(error){
+      console.log(error);
+      return false;
+    }
+  }
+
   async registerByEmailAndPassword(email:string, password:string){
     return await this.firebaseAuthentication.createUserWithEmailAndPassword(email,password);
   }
- 
+
   private registerPush(uuid) {
     PushNotifications.requestPermission().then((permission) => {
       if (permission.granted) {

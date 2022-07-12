@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form style="padding-top: 50px;padding-bottom: 50px;" [formGroup]="loginForm"  (ngSubmit)="submit()">
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" inputmode="email" formControlName="email" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" inputmode="text" formControlName="password" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col style="text-align: center;">
+        <ion-button color="danger" type="submit" expand="block" >Sign In</ion-button>
+      </ion-col>
+    </ion-row>  
+  </form>
+  <div style="text-align: center;margin-top: 25px;">
+    <a href="/resetPassword" class="small-text">Forgot Password?</a>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="text-align: center;">
+        If you don't have an account, please
+        <ion-button (click)="gotoRegister()" expand="block" color="warning">Register</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
