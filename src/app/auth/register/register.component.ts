@@ -45,7 +45,8 @@ export class RegisterComponent implements OnInit {
     }
     try {
       let response = await this.fcmService.registerByEmailAndPassword(this.registerForm.value.email,this.registerForm.value.password);
-      this.router.navigateByUrl('/login');
+      await this.presentToast("Account was created. Please check your email to verify the account");
+      this.router.navigateByUrl('/favorites');
     } catch(error){
       console.log(error);
       await this.presentToast(error);

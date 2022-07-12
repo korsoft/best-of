@@ -10,7 +10,7 @@ export class BookmarkService {
 
   public createBookmark(uuid,business){
   	
-  	return this.httpClient.post(`https://api.bestofventures.app/api/user/1/activity/396`,{"answers":{"Device":uuid,"Business":business},tracking: "true",trackingdevice: uuid});
+  	return this.httpClient.post(`https://api.bestofventures.app/api/user/1/activity/396`,{"answers":{"FirebaseUID":uuid,"Business":business},tracking: "true",trackingdevice: uuid});
 
   }
 
@@ -21,10 +21,10 @@ export class BookmarkService {
   }
 
   public getBookMarks(uuid){
-     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/396`,{params: {filters:'{"where":[{"q_3700":"'+uuid+'"}]}'}});
+     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/396`,{params: {filters:'{"where":[{"q_4807":"'+uuid+'"}]}'}});
   }
 
   public getBookMark(uuid,business){
-     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/396`,{params: {filters:'{"where":[{"q_3700":"'+uuid+'"},{"q_3701":"'+business+'"}]}',tracking: "true",trackingdevice: uuid}});
+     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/396`,{params: {filters:'{"where":[{"q_4807":"'+uuid+'"},{"q_3701":"'+business+'"}]}',tracking: "true",trackingdevice: uuid}});
   }
 }

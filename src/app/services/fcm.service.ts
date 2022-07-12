@@ -75,7 +75,9 @@ export class FcmService {
   }
 
   async registerByEmailAndPassword(email:string, password:string){
-    return await this.firebaseAuthentication.createUserWithEmailAndPassword(email,password);
+    let response = await this.firebaseAuthentication.createUserWithEmailAndPassword(email,password);
+    await this.firebaseAuthentication.sendEmailVerification();
+    return response;
   }
 
   private registerPush(uuid) {

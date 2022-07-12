@@ -31,6 +31,10 @@ export class LoginComponent implements OnInit {
     this.router.navigateByUrl('/register');
   }
 
+  gotoReset(){
+    this.router.navigateByUrl('/reset');
+  }
+
   async submit(){
     console.log("submit form....");
     if(!this.loginForm.valid){

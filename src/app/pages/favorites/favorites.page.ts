@@ -40,12 +40,6 @@ export class FavoritesPage implements OnInit {
 
  async ionViewWillEnter(){
 
-  let currentUser = await this.fcmService.getCurrentUser();
-
-  if(!currentUser){
-    this.router.navigateByUrl("/login");
-    return;
-  }
   await this.fcmService.analyticsLogEvent("screen_view",{
     page: "favorites_page"
   });
@@ -59,7 +53,8 @@ export class FavoritesPage implements OnInit {
       return;
     }
     this.device = await this.deviceService.getDevice();
-    this.bookmarkService.getBookMarks(this.device.uuid).subscribe((bookmarks:Array<any>)=>{
+    let currentUser = await this.fcmService.getCurrentUser();
+    this.bookmarkService.getBookMarks(currentUser.uid).subscribe((bookmarks:Array<any>)=>{
       console.log("bookmarks",bookmarks);
       if(bookmarks && bookmarks.length>0){
         bookmarks.forEach((item)=>{

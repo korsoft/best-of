@@ -20,6 +20,13 @@
         
       </ion-content>
       <ion-footer  >
+        <ion-toolbar *ngIf="isLogged">
+          <ion-title style="font-size:small;text-align: left;">
+            <ion-button (click)="logout()" expand="block" fill="clear" shape="round">
+              Logout
+            </ion-button>
+          </ion-title>
+        </ion-toolbar>
         <ion-toolbar>
           <ion-title style="font-size:small;text-align: right;">Version: {{appVersionNumber}}</ion-title>
         </ion-toolbar>

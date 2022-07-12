@@ -59,6 +59,8 @@ export class BusinessDetailComponent implements OnInit {
 
   async ngOnInit() {
 
+    let currentUser = await this.fcmService.getCurrentUser();
+
     await this.fcmService.analyticsLogEvent("screen_view",{
       page: "business_details"
     });
@@ -136,14 +138,15 @@ export class BusinessDetailComponent implements OnInit {
           this.properties = propArray;
           
           console.log("business properties",this.properties);
-          if(this.device)
-            this.bookmarkService.getBookMark(this.device.uuid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
+          if(currentUser != null && currentUser.uid){
+            this.bookmarkService.getBookMark(currentUser.uid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
               if(bookmark.length){
                 this.bookmark = bookmark[0];
               }else{
                 this.bookmark = null;
               }
             });
+          }
           this.ionLoader.hideLoader();
         });
         
@@ -337,6 +340,11 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   public async toogleBookmark(){
+     let currentUser = await this.fcmService.getCurrentUser();
+     if(currentUser == null || !currentUser.uid){
+       this.router.navigateByUrl('/login');
+       return;
+     }
      await this.ionLoader.showLoader();
     if(this.bookmark){
       await this.fcmService.analyticsLogEvent("screen_action",{
@@ -355,7 +363,8 @@ export class BusinessDetailComponent implements OnInit {
         action: "create_bookmark",
         business: this.bus.Name
       });
-      this.bookmarkService.createBookmark(this.device.uuid,this.bus.qpId).subscribe((res)=>{
+      
+      this.bookmarkService.createBookmark(currentUser.uid,this.bus.qpId).subscribe((res)=>{
         this.bookmark=res;
         this.ionLoader.hideLoader();
       });

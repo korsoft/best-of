@@ -187,7 +187,8 @@ export class AppComponent implements OnInit {
     },
     {
       url:'/favorites',
-      internalPage: true,
+      internalPage: false,
+      isFavorites: true,
       icon: 'custom-grey-bookmark'
     },
     {
@@ -204,6 +205,7 @@ export class AppComponent implements OnInit {
   ];
 
   public locationName:string = "";
+  public isLogged:boolean = false;
 
   constructor(
     private platform: Platform,
@@ -287,6 +289,12 @@ export class AppComponent implements OnInit {
           this.locationName = location.Name;
       });
     },500);
+
+    setTimeout(async ()=> {
+      await this.checkUserLogged();
+    },500);
+
+   
     
 
     this.router.events.subscribe((event) => {
@@ -318,7 +326,10 @@ export class AppComponent implements OnInit {
                 this.locationName = location.Name;
             });
             this.appPages[0].url = decodeURIComponent(event.url).replace("?reload=true","");
-          }
+          } 
+
+          this.checkUserLogged();
+
        }
        
      })
@@ -330,7 +341,12 @@ export class AppComponent implements OnInit {
 
   }
 
-  
+
+  async logout(){
+    await this.fcmService.logout();
+    this.isLogged = false;
+    this.router.navigateByUrl('/home');
+  }
 
   openMenu(){
     this.menu.enable(true, 'first');
@@ -338,11 +354,26 @@ export class AppComponent implements OnInit {
   }
 
   showBackButton(){
-    return !this.router.url.includes("/home");
+    let canShow = !this.router.url.includes("/home") && !this.router.url.includes("/login")
+                    && !this.router.url.includes("/register") && !this.router.url.includes("/reset");
+    if(!canShow){
+      this.clearBackUrls();
+    }
+
+    if(this.backUrlHistorical.includes('/login') || this.backUrlHistorical.includes('/register') || this.backUrlHistorical.includes('/reset')){
+      canShow = false;
+      this.clearBackUrls();
+    }
+
+    return canShow;
   }
 
   getBackUrl(){
     return this.backUrlHistorical[this.backUrlHistorical.length-1];
+  }
+
+  clearBackUrls(){
+    this.backUrlHistorical = [];
   }
 
   changePageSelected(newUrl){
@@ -355,13 +386,21 @@ export class AppComponent implements OnInit {
     if(page && page.length>0)
       page[0].icon = page[0].icon.replace('-grey-','-sunburst-');
   }
-  gotoPage(page){
+  async gotoPage(page){
     if(page.internalPage === true){
       this.router.navigateByUrl(page.url);
     } else if(page.isShareTheApp === true){
       this.shareTheApp();
     } else if(page.isChatUrl === true){
       this.getChatUrl();
+    } else if(page.isFavorites === true){
+      let currentUser = await this.fcmService.getCurrentUser();
+
+      if(!currentUser){
+        this.router.navigateByUrl('/login');
+        return;
+      }
+      this.router.navigateByUrl('/favorites');
     }
   }
 
@@ -379,6 +418,12 @@ export class AppComponent implements OnInit {
       if(location.Instagram_Url && location.Instagram_Url.length>3)
         Browser.open({ url: location.Instagram_Url })
     }
+  }
+
+  async checkUserLogged(){
+    let currentUser = await this.fcmService.getCurrentUser();
+    console.log("currentUser",currentUser);
+    this.isLogged = currentUser !== null && currentUser.uid;
   }
 
   async getChatUrl(){
