@@ -5,6 +5,8 @@ import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Facebook } from '@awesome-cordova-plugins/facebook/ngx';
+
 
 
 
@@ -19,6 +21,9 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    Facebook
   ]
 })
 export class AuthModule { }

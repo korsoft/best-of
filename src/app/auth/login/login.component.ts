@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm.service';
+import { Facebook, FacebookLoginResponse } from '@awesome-cordova-plugins/facebook/ngx';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private fcmService: FcmService,
     private toastController: ToastController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private fb: Facebook
   ) { }
 
   ngOnInit() {
@@ -32,7 +34,16 @@ export class LoginComponent implements OnInit {
   }
 
   gotoReset(){
-    this.router.navigateByUrl('/reset');
+    this.router.navigateByUrl('/resetPassword');
+  }
+
+  async loginByFacebook(){
+    try {
+      let response:FacebookLoginResponse = await this.fb.login(['public_profile', 'email']);
+      console.log(response);
+    } catch(error){
+      console.log(error);
+    }
   }
 
   async submit(){

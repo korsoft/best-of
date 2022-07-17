@@ -18,7 +18,17 @@
     </ion-item>
     <ion-row>
       <ion-col style="text-align: center;">
-        <ion-button color="danger" type="submit" expand="block" >Sign In</ion-button>
+        <ion-button color="medium" type="submit" expand="block" >Sign In</ion-button>
+      </ion-col>
+    </ion-row>  
+    <ion-row>
+      <ion-col style="text-align: center;">
+        OR
+      </ion-col>
+    </ion-row>  
+    <ion-row>
+      <ion-col style="text-align: center;">
+        <ion-button (click)="loginByFacebook()" color="tertiary" expand="block" >Sign In with Facebook</ion-button>
       </ion-col>
     </ion-row>  
   </form>
@@ -29,7 +39,7 @@
     <ion-row>
       <ion-col style="text-align: center;">
         If you don't have an account, please
-        <ion-button (click)="gotoRegister()" expand="block" color="warning">Register</ion-button>
+        <ion-button (click)="gotoRegister()" expand="block" color="medium">Register</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

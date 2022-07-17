@@ -4,4 +4,6 @@
     <string name="title_activity_main">Best of Local</string>
     <string name="package_name">bestofventures.app.bestoflocal</string>
     <string name="custom_url_scheme">bestofventures.app.bestoflocal</string>
+    <string name="fb_app_id">869290007336995</string>
+    <string name="fb_app_name">Best Of</string>
 </resources>

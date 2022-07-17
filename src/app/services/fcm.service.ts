@@ -57,7 +57,9 @@ export class FcmService {
     try {
       let currentUser = await this.firebaseAuthentication.getCurrentUser();
       console.log(JSON.stringify(currentUser));
-      return currentUser;
+      if(currentUser && currentUser.uid)
+        return currentUser;
+      return null;
     } catch(error){
       console.log("error",error);
     }
