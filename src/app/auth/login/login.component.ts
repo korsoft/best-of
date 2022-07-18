@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm.service';
 import { Facebook, FacebookLoginResponse } from '@awesome-cordova-plugins/facebook/ngx';
+import '@cyril-colin/capacitor-google-auth';
+
+import {  Plugins } from '@capacitor/core';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +47,23 @@ export class LoginComponent implements OnInit {
     } catch(error){
       console.log(error);
     }
+  }
+
+  async loginByGoogle(){
+    try {
+        let googleUser = await Plugins.GoogleAuth.signIn();
+        console.log(JSON.stringify(googleUser));
+        let idToken = googleUser.authentication.idToken;
+        let serverAuthCode = googleUser.serverAuthCode;
+        console.log("idToken",idToken);
+        if(idToken){
+          let response = await this.fcmService.loginByGoogle(idToken, serverAuthCode);
+          console.log(response);
+          this.router.navigateByUrl('/favorites');
+        }
+      } catch(error){
+        console.log(error);
+      }
   }
 
   async submit(){

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { DevicePushService } from './device-push.service';
 import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
 import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 const { PushNotifications } = Plugins;
  
 @Injectable({
@@ -18,6 +19,7 @@ const { PushNotifications } = Plugins;
 export class FcmService {
  
   constructor(private router: Router,
+    private httpClient: HttpClient,
     private devicePushService:DevicePushService, 
     private firebaseAnalytics: FirebaseAnalytics,
     private firebaseAuthentication: FirebaseAuthentication) { }
@@ -47,6 +49,39 @@ export class FcmService {
 
   async loginByEmailAndPassword(email:string,password:string){
     return await this.firebaseAuthentication.signInWithEmailAndPassword(email,password);
+  }
+
+  async loginByGoogle(idToken:string, serverAuthCode:string){
+    
+    console.log("getting accessToken...");
+    /*const body = {
+      client_id: '133405061081-jpmdn4l7k9jt2rrauik6hj751323bo4r.apps.googleusercontent.com',
+      client_secret: 'AIzaSyDOOb32Z5Sj3EcvsTb-KlTdL1MWYf7A1NY',
+      code: serverAuthCode,
+      grant_type: 'authorization_code',
+      redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
+    };*/
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    let params: HttpParams = new HttpParams();
+    params = params.set('code', serverAuthCode);
+    params = params.set('client_id', '133405061081-jpmdn4l7k9jt2rrauik6hj751323bo4r.apps.googleusercontent.com');
+    params = params.set('client_secret', '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');
+    params = params.set('grant_type', 'authorization_code');
+    params = params.set('redirect_uri','urn:ietf:wg:oauth:2.0:oob');
+    const options = {
+      headers: headers,
+      params: params
+    };
+    const url = 'https://oauth2.googleapis.com/token';
+
+    let authResponse = await this.httpClient.post(url,{}, options).toPromise();
+
+    console.log("authResponse",JSON.stringify(authResponse));
+    let accessToken = authResponse['access_token'];
+    
+    return await this.firebaseAuthentication.signInWithGoogle(idToken,accessToken);
   }
 
   async resetPassword(email:string){

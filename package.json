@@ -32,6 +32,7 @@
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "^2.4.7",
     "@capacitor/ios": "^2.4.7",
+    "@cyril-colin/capacitor-google-auth": "^2.1.4",
     "@ionic-native/action-sheet": "^5.36.0",
     "@ionic-native/call-number": "^5.27.0",
     "@ionic-native/core": "^5.0.7",
