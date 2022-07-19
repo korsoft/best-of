@@ -9,5 +9,7 @@
 		<string>applinks:bestoflocal.app.link</string>
 		<string>applinks:bestoflocal-alternate.app.link</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array/>
 </dict>
 </plist>

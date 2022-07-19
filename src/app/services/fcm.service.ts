@@ -51,17 +51,14 @@ export class FcmService {
     return await this.firebaseAuthentication.signInWithEmailAndPassword(email,password);
   }
 
+
+  async loginByFacebook(accessToken:string){
+    return await this.firebaseAuthentication.signInWithFacebook(accessToken);
+  }
+
   async loginByGoogle(idToken:string, serverAuthCode:string){
     
     console.log("getting accessToken...");
-    /*const body = {
-      client_id: '133405061081-jpmdn4l7k9jt2rrauik6hj751323bo4r.apps.googleusercontent.com',
-      client_secret: 'AIzaSyDOOb32Z5Sj3EcvsTb-KlTdL1MWYf7A1NY',
-      code: serverAuthCode,
-      grant_type: 'authorization_code',
-      redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
-    };*/
-
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
     let params: HttpParams = new HttpParams();

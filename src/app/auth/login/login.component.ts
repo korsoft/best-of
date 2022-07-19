@@ -42,8 +42,13 @@ export class LoginComponent implements OnInit {
 
   async loginByFacebook(){
     try {
-      let response:FacebookLoginResponse = await this.fb.login(['public_profile', 'email']);
-      console.log(response);
+      let response:FacebookLoginResponse = await this.fb.login(['email']);
+      console.log("response facebook",JSON.stringify(response));
+      if(response && response.authResponse){
+        let responseAuth = await this.fcmService.loginByFacebook(response.authResponse.accessToken);
+        console.log(response);
+        this.router.navigateByUrl('/favorites');
+      }
     } catch(error){
       console.log(error);
     }

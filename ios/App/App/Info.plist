@@ -30,9 +30,10 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>capacitor</string>
-				<string>fb869290007336995FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string>
+				<string>fb869290007336995suffix</string>
 				<string>OTHER_APP_SCHEMES_PLACEHOLDER</string>
 				<string>com.googleusercontent.apps.133405061081-6bdf1mtodasb84bqumjsfrq1erksstrv</string>
+				<string>869290007336995</string>
 			</array>
 		</dict>
 	</array>
@@ -63,6 +64,7 @@
 		<string>mailto</string>
 		<string>fbapi</string>
 		<string>fb-messenger-api</string>
+		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
@@ -121,16 +123,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>FacebookUrlSchemeSuffix</key>
-	<string>FACEBOOK_URL_SCHEME_SUFFIX_PLACEHOLDER</string>
-	<key>FacebookDisplayName</key>
-	<string>Best Of</string>
+	<string>suffix</string>
 	<key>FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER</key>
-	<string>FACEBOOK_ADVERTISER_ID_COLLECTION_PLACEHOLDER</string>
+	<string>false</string>
 	<key>FacebookAppID</key>
 	<string>869290007336995</string>
-	<key>FacebookHybridAppEvents</key>
-	<string>$FACEBOOK_HYBRID_APP_EVENTS</string>
-	<key>FacebookAutoLogAppEventsEnabled_PLACEHOLDER</key>
-	<string>FACEBOOK_AUTO_LOG_APP_EVENTS_PLACEHOLDER</string>
+	<key>FacebookClientToken</key>
+	<string>df5bc9e6beace929c8d0b7682c100f04</string>
+	<key>FacebookDisplayName</key>
+	<string>Best Of</string>
 </dict>
 </plist>
