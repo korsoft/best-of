@@ -25,7 +25,7 @@
     <ion-card  *ngFor="let bus of business; let ind = index; " class="card-basic-style-business" >
       
     <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true" ></ion-img>
-    <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">
+    <div class="container-top-left" *ngIf="is_classifieds =='1' && bus.is_classified && bus.is_classified == '1'">
       <div class="top-left" >Sponsored</div>
     </div>
     <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   

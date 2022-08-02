@@ -36,6 +36,7 @@ export class FolderPage implements OnInit {
   public loading = true;
   private os = null;
   public device:any;
+  public is_classifieds:any=null;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -76,6 +77,10 @@ export class FolderPage implements OnInit {
             return (cat.cat_name===this.folder);  
           });
           this.fullSubcategories=this.subcategories;
+          let cat = val.find(c => c.qpId === Number(this.id));
+          if(cat){
+            this.is_classifieds = cat.is_classifieds;
+          }
           if(!this.fullSubcategories.length){
              if(this.location){
                 
@@ -230,7 +235,7 @@ export class FolderPage implements OnInit {
 
   goToBussinesDetail(bus){
     if(!bus.default_link)
-      this.router.navigateByUrl('/businessDetail/'+bus.qpId);
+      this.router.navigateByUrl('/businessDetail/'+bus.qpId+'?is_classifieds='+this.is_classifieds);
     else{
       Browser.open({ url: bus.default_link })
     }

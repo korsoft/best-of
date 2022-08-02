@@ -39,6 +39,7 @@ export class BusinessDetailComponent implements OnInit {
   public device:any;
   public location:any;
   public isRestaurant:boolean = false;
+  public is_classifieds:any = null;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -68,6 +69,9 @@ export class BusinessDetailComponent implements OnInit {
     await this.fcmService.analyticsSetCurrentScreen("Business Details");
 
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.is_classifieds = this.activatedRoute.snapshot.queryParamMap.get('is_classifieds') ?? '0';
+
    
    await this.ionLoader.showLoader();
    

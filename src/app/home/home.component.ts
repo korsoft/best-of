@@ -281,6 +281,7 @@ export class HomeComponent implements OnInit {
                                              if(Number(locationCats[i].category)==value.qpId){
                                                value.cat_sort_id= locationCats[i].order;
                                                value.categoryUrl = locationCats[i].Category_URL;
+                                               value.is_classifieds = locationCats[i].is_classifieds ?? '0';
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;
