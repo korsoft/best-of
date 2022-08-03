@@ -9,6 +9,7 @@ import { Plugins } from '@capacitor/core';
 import { Storage } from '@ionic/storage';
 import { LoaderService } from 'src/app/services/loader.service';
 import { FcmService } from 'src/app/services/fcm.service';
+import { SettingsService } from 'src/app/services/settings.service';
 const { Browser } = Plugins;
 
 @Component({
@@ -27,13 +28,18 @@ export class SearchPage implements OnInit {
     private callNumber: CallNumber,
      private socialSharing: SocialSharing,
      private ionLoader: LoaderService,
-     private fcmService:FcmService) { }
+     private fcmService:FcmService,
+     private settingsService: SettingsService) { }
 
   public businessList:Array<any> = [];
   public location={"name":"",latitude:0,longitude:0};
   public device:any;
 
-  ngOnInit() {
+  public sponsoredLabel:string = '';
+
+  async ngOnInit() {
+    this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
+      console.log("sponsoredLabel",this.sponsoredLabel);
   }
 
   async ionViewWillEnter(){

@@ -15,6 +15,7 @@ import { LocationCategoriesService } from '../services/location-categories.servi
 import { Platform } from '@ionic/angular';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
+import { SettingsService } from '../services/settings.service';
 const { Browser } = Plugins;
 const { Device } = Plugins;
 declare var google: any;
@@ -81,6 +82,7 @@ export class HomeComponent implements OnInit {
     private deviceService: DeviceService,
     private locationCategoriesService:LocationCategoriesService,
     private fcmService : FcmService,
+    private settingsService : SettingsService,
     public platform: Platform) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
@@ -92,6 +94,8 @@ export class HomeComponent implements OnInit {
       //this.deviceService.createDevice(info).subscribe();
       this.fcmService.initPush(info.uuid);
     });
+
+    this.settingsService.reloadGlobalSettings();
 
   }
 

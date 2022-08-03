@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm.service';
 import { Facebook, FacebookLoginResponse } from '@awesome-cordova-plugins/facebook/ngx';
 import '@cyril-colin/capacitor-google-auth';
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private fcmService: FcmService,
     private toastController: ToastController,
     private formBuilder: FormBuilder,
-    private fb: Facebook
+    private fb: Facebook,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -42,15 +44,36 @@ export class LoginComponent implements OnInit {
 
   async loginByFacebook(){
     try {
-      let response:FacebookLoginResponse = await this.fb.login(['email']);
-      console.log("response facebook",JSON.stringify(response));
-      if(response && response.authResponse){
-        let responseAuth = await this.fcmService.loginByFacebook(response.authResponse.accessToken);
-        console.log(response);
+      /*let response:FacebookLoginResponse = await this.fb.login(['email']);
+      console.log("response facebook",JSON.stringify(response));*/
+      let accessToken:string = null; 
+      try {
+        accessToken = await this.fb.getAccessToken();
+      } catch(error2){
+        console.log(error2);
+      }
+      if(!accessToken){
+        try {
+          let response:FacebookLoginResponse = await this.fb.login(['email']);
+          if(response && response.authResponse){
+            accessToken = response.authResponse.accessToken;
+          }
+        } catch(error3){
+          console.log(error3);
+        }
+      }
+      if(!accessToken){
+        accessToken = await this.fb.getAccessToken();
+      }
+      console.log("accessToken",accessToken);
+      if(accessToken){
+        let responseAuth = await this.fcmService.loginByFacebook(accessToken);
+        console.log(responseAuth);
         this.router.navigateByUrl('/favorites');
       }
     } catch(error){
       console.log(error);
+      await this.presentToast(error);
     }
   }
 

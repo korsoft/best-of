@@ -16,6 +16,7 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 import { Plugins } from '@capacitor/core';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
 import { FcmService } from '../services/fcm.service';
+import { SettingsService } from '../services/settings.service';
 
 const { Browser } = Plugins;
 
@@ -40,6 +41,7 @@ export class BusinessDetailComponent implements OnInit {
   public location:any;
   public isRestaurant:boolean = false;
   public is_classifieds:any = null;
+  public sponsoredLabel:string = '';
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -56,7 +58,8 @@ export class BusinessDetailComponent implements OnInit {
      private launchNavigator: LaunchNavigator,
      private clipboard: Clipboard,
      private emailComposer: EmailComposer,
-     private fcmService: FcmService) { }
+     private fcmService: FcmService,
+     private settingsService : SettingsService) { }
 
   async ngOnInit() {
 
@@ -67,6 +70,9 @@ export class BusinessDetailComponent implements OnInit {
     });
 
     await this.fcmService.analyticsSetCurrentScreen("Business Details");
+
+    this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
+    console.log("sponsoredLabel",this.sponsoredLabel);
 
   	this.id = this.activatedRoute.snapshot.paramMap.get('id');
 

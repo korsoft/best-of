@@ -13,6 +13,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
+import { SettingsService } from '../services/settings.service';
 
 const { Browser } = Plugins;
 
@@ -37,6 +38,7 @@ export class FolderPage implements OnInit {
   private os = null;
   public device:any;
   public is_classifieds:any=null;
+  public sponsoredLabel:string='';
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -49,7 +51,8 @@ export class FolderPage implements OnInit {
      private geolocation: Geolocation,
      private launchNavigator: LaunchNavigator,
      private deviceService: DeviceService,
-     private fcmService : FcmService) { }
+     private fcmService : FcmService,
+     private settingsService : SettingsService) { }
     
     
   async ngOnInit() {  
@@ -57,6 +60,9 @@ export class FolderPage implements OnInit {
     this.folder = this.activatedRoute.snapshot.paramMap.get('name');
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.device = await this.deviceService.getDevice();
+
+    this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
+    console.log("sponsoredLabel",this.sponsoredLabel);
   
     this.storage.get("location").then((loc)=> {
       if(!loc){

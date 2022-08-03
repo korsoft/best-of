@@ -9,6 +9,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Plugins } from '@capacitor/core';
 import { FcmService } from 'src/app/services/fcm.service';
+import { SettingsService } from 'src/app/services/settings.service';
 const { Browser } = Plugins;
 
 @Component({
@@ -22,6 +23,7 @@ export class FavoritesPage implements OnInit {
   public bookmarks:Array<any>=[];
   public fullBusiness:Array<any>=[];
   public location={"name":"",latitude:0,longitude:0};
+  public sponsoredLabel:string = '';
 
   constructor(
     private bookmarkService : BookmarkService, 
@@ -32,10 +34,12 @@ export class FavoritesPage implements OnInit {
     private router: Router,
     private callNumber: CallNumber,
      private socialSharing: SocialSharing,
-     private fcmService: FcmService) { }
+     private fcmService: FcmService,
+     private settingsService: SettingsService) { }
 
-    ngOnInit(){
-
+    async ngOnInit(){
+      this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
+      console.log("sponsoredLabel",this.sponsoredLabel);
     }
 
  async ionViewWillEnter(){
