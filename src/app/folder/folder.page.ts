@@ -61,6 +61,10 @@ export class FolderPage implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.device = await this.deviceService.getDevice();
 
+    this.is_classifieds = this.activatedRoute.snapshot.queryParamMap.get('is_classifieds') ?? '0';
+
+    console.log("is_classifieds",this.is_classifieds);
+
     this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
     console.log("sponsoredLabel",this.sponsoredLabel);
   
@@ -83,9 +87,10 @@ export class FolderPage implements OnInit {
             return (cat.cat_name===this.folder);  
           });
           this.fullSubcategories=this.subcategories;
-          let cat = val.find(c => c.qpId === Number(this.id));
-          if(cat){
-            this.is_classifieds = cat.is_classifieds;
+          let subcat = val.find(c => c.qpId === Number(this.id));
+          console.log("subcat",subcat);
+          if(subcat){
+            this.is_classifieds = subcat.is_classifieds;
           }
           if(!this.fullSubcategories.length){
              if(this.location){
