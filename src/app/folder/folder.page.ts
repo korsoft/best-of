@@ -114,6 +114,47 @@ export class FolderPage implements OnInit {
                         return b1.sort_order - b2.sort_order; 
 
                       });
+                      
+                      let firsts = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '1');
+                      let seconds = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '2');
+                      data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '1');
+                      data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '2');
+                      console.log("firsts",firsts);
+                      console.log("seconds",seconds);
+                      let first = null;
+                      let second = null;
+                      if(firsts.length>0){ //random select only 1 first
+                        let firstIndex = Math.floor(Math.random()*firsts.length);
+                         first = firsts[firstIndex];
+                         firsts.splice(firstIndex,1);
+                      }
+                      if(seconds.length>0){ //random select only 1 second
+                        let secondIndex = Math.floor(Math.random()*seconds.length);
+                        second = seconds[secondIndex];
+                        seconds.splice(secondIndex,1);
+                      }
+
+                      let dataT = [];
+                      if(first){
+                        dataT = dataT.concat(first);
+                      }
+                      if(second){
+                        dataT = dataT.concat(second);
+                      }
+                      if(firsts.length>0){
+                        dataT = dataT.concat(...firsts);
+                      }
+                      if(seconds.length>0){
+                        dataT = dataT.concat(...seconds);
+                      }
+                      if(data.length>0){
+                        dataT = dataT.concat(...data);
+                      }
+
+
+
+                    data = dataT;
+
                     this.fullBusiness = data;
                     this.business = data;
                     for (var i = 0; i < this.business.length; i++) {
