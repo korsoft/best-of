@@ -6,6 +6,7 @@ import { ResetComponent } from './reset/reset.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Facebook } from '@awesome-cordova-plugins/facebook/ngx';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 
 
@@ -14,7 +15,8 @@ import { Facebook } from '@awesome-cordova-plugins/facebook/ngx';
   declarations: [
     LoginComponent,
     RegisterComponent,
-    ResetComponent
+    ResetComponent,
+    DeleteAccountComponent
   ],
   imports: [
     IonicModule,

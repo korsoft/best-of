@@ -7,6 +7,7 @@ import { LocationSearchComponent } from './location-search/location-search.compo
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ResetComponent } from './auth/reset/reset.component';
+import { DeleteAccountComponent } from './auth/delete-account/delete-account.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'resetPassword',
     component: ResetComponent
+  },
+  {
+    path: 'deleteAccount',
+    component: DeleteAccountComponent
   },
   {
     path: 'home',

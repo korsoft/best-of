@@ -175,7 +175,6 @@ export class AppComponent implements OnInit {
     },*/  
     
     
-    
   ];
 
   public bottomPages = [
@@ -346,6 +345,10 @@ export class AppComponent implements OnInit {
     await this.fcmService.logout();
     this.isLogged = false;
     this.router.navigateByUrl('/home');
+  }
+
+  async deleteAccount(){
+    this.router.navigateByUrl('/deleteAccount');
   }
 
   openMenu(){

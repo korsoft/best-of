@@ -56,6 +56,11 @@ export class FcmService {
     return await this.firebaseAuthentication.signInWithFacebook(accessToken);
   }
 
+  async deleteAccount(){
+    let currentUser = await this.firebaseAuthentication.getCurrentUser();
+    currentUser?.delete();
+  }
+
   async loginByGoogle(idToken:string, serverAuthCode:string){
     
     console.log("getting accessToken...");
