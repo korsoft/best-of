@@ -36,7 +36,22 @@ export class RegisterComponent implements OnInit {
   async submit(){
     console.log("submit form....");
     if(!this.registerForm.valid){
-      await this.presentToast("All fields required");
+      if(this.registerForm.controls.email.errors){
+        if(this.registerForm.controls.email.errors.required)
+          await this.presentToast("Email is required");
+        else
+          await this.presentToast("Email is not valid");
+      } else if(this.registerForm.controls.password.errors){
+        if(this.registerForm.controls.password.errors.required)
+          await this.presentToast("Password is required");
+        else
+          await this.presentToast("Minimum password length 6 characters");
+      } else if(this.registerForm.controls.repassword.errors){
+        if(this.registerForm.controls.repassword.errors.required)
+          await this.presentToast("Confirm Password is required");
+        else
+          await this.presentToast("Minimum confirm password length 6 characters");
+      }
       return;
     }
     if(this.registerForm.value.password !== this.registerForm.value.repassword){

@@ -57,8 +57,9 @@ export class FcmService {
   }
 
   async deleteAccount(){
-    let currentUser = await this.firebaseAuthentication.getCurrentUser();
-    currentUser?.delete();
+    await this.firebaseAuthentication.updateProfile({
+      displayName: "DELETED"
+    });
   }
 
   async loginByGoogle(idToken:string, serverAuthCode:string){
@@ -94,7 +95,7 @@ export class FcmService {
     try {
       let currentUser = await this.firebaseAuthentication.getCurrentUser();
       console.log(JSON.stringify(currentUser));
-      if(currentUser && currentUser.uid)
+      if(currentUser && currentUser.uid && (!currentUser.displayName || currentUser.displayName !== "DELETED"))
         return currentUser;
       return null;
     } catch(error){

@@ -69,7 +69,12 @@ export class LoginComponent implements OnInit {
       if(accessToken){
         let responseAuth = await this.fcmService.loginByFacebook(accessToken);
         console.log(responseAuth);
-        this.router.navigateByUrl('/favorites');
+        let currentUser = await this.fcmService.getCurrentUser();
+        if(currentUser)
+          this.router.navigateByUrl('/favorites');
+        else 
+          await this.presentToast("User/Password wrong");
+          
       }
     } catch(error){
       console.log(error);
@@ -87,7 +92,11 @@ export class LoginComponent implements OnInit {
         if(idToken){
           let response = await this.fcmService.loginByGoogle(idToken, serverAuthCode);
           console.log(response);
-          this.router.navigateByUrl('/favorites');
+          let currentUser = await this.fcmService.getCurrentUser();
+          if(currentUser)
+            this.router.navigateByUrl('/favorites');
+          else 
+            await this.presentToast("User/Password wrong");
         }
       } catch(error){
         console.log(error);
@@ -97,12 +106,26 @@ export class LoginComponent implements OnInit {
   async submit(){
     console.log("submit form....");
     if(!this.loginForm.valid){
-      await this.presentToast("All fields required");
+      if(this.loginForm.controls.email.errors){
+        if(this.loginForm.controls.email.errors.required)
+          await this.presentToast("Email is required");
+        else
+          await this.presentToast("Email is not valid");
+      } else if(this.loginForm.controls.password.errors){
+        if(this.loginForm.controls.password.errors.required)
+          await this.presentToast("Password is required");
+        else
+          await this.presentToast("Minimum password length 6 characters");
+      }
       return;
     }
     try {
       await this.fcmService.loginByEmailAndPassword(this.loginForm.value.email,this.loginForm.value.password);
-      this.router.navigateByUrl('/favorites');
+      let currentUser = await this.fcmService.getCurrentUser();
+      if(currentUser)
+        this.router.navigateByUrl('/favorites');
+      else 
+         await this.presentToast("User/Password wrong");
     } catch(error){
       console.log(error);
       await this.presentToast(error);

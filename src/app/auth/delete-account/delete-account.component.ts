@@ -42,6 +42,7 @@ export class DeleteAccountComponent implements OnInit {
     try {
       console.log("delete account....");
       await this.fcmService.deleteAccount();
+      await this.presentToast("Account deleted");
       this.router.navigateByUrl('/home');
     } catch(error){
       console.log(error);
