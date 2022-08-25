@@ -5,6 +5,8 @@ import { ToastController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm.service';
 import { Facebook, FacebookLoginResponse } from '@awesome-cordova-plugins/facebook/ngx';
+import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
+
 import '@cyril-colin/capacitor-google-auth';
 
 import {  Plugins } from '@capacitor/core';
@@ -17,6 +19,7 @@ import {  Plugins } from '@capacitor/core';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  showLoginByApple:boolean = false;
 
   constructor(
     private router: Router,
@@ -24,6 +27,7 @@ export class LoginComponent implements OnInit {
     private toastController: ToastController,
     private formBuilder: FormBuilder,
     private fb: Facebook,
+    private signInWithApple: SignInWithApple,
     private platform: Platform
   ) { }
 
@@ -32,6 +36,8 @@ export class LoginComponent implements OnInit {
       email: ['',[Validators.required, Validators.email]],
       password: ['', [Validators.required,Validators.minLength(6)]]
       });
+
+      this.showLoginByApple = this.platform.is('ios');
   }
 
   gotoRegister(){
@@ -92,6 +98,29 @@ export class LoginComponent implements OnInit {
         if(idToken){
           let response = await this.fcmService.loginByGoogle(idToken, serverAuthCode);
           console.log(response);
+          let currentUser = await this.fcmService.getCurrentUser();
+          if(currentUser)
+            this.router.navigateByUrl('/favorites');
+          else 
+            await this.presentToast("User/Password wrong");
+        }
+      } catch(error){
+        console.log(error);
+      }
+  }
+
+  async loginByApple(){
+    try {
+        let response = await this.signInWithApple.signin({
+          requestedScopes: [
+            ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+            ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
+          ]
+        });
+        
+        if(response && response.identityToken){
+          let responseFbAuth = await this.fcmService.loginByAppleId(response.identityToken);
+          console.log(responseFbAuth);
           let currentUser = await this.fcmService.getCurrentUser();
           if(currentUser)
             this.router.navigateByUrl('/favorites');

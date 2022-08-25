@@ -36,6 +36,11 @@
         <ion-button (click)="loginByGoogle()" color="danger" expand="block" >Sign In with Google</ion-button>
       </ion-col>
     </ion-row>  
+    <ion-row *ngIf="showLoginByApple === true">
+      <ion-col style="text-align: center;">
+        <ion-button (click)="loginByApple()" color="light" fill="outline" expand="block" >Sign In with Apple</ion-button>
+      </ion-col>
+    </ion-row>  
   </form>
   <div style="text-align: center;margin-top: 25px;">
     <a (click)="gotoReset()" class="small-text">Forgot Password?</a>

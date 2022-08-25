@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Facebook } from '@awesome-cordova-plugins/facebook/ngx';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
+import { SignInWithApple } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 
 
@@ -25,7 +26,8 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
     ReactiveFormsModule
   ],
   providers: [
-    Facebook
+    Facebook,
+    SignInWithApple
   ]
 })
 export class AuthModule { }

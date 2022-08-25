@@ -56,6 +56,10 @@ export class FcmService {
     return await this.firebaseAuthentication.signInWithFacebook(accessToken);
   }
 
+  async loginByAppleId(identityToken:string){
+    return await this.firebaseAuthentication.signInWithApple(identityToken);
+  }
+
   async deleteAccount(){
     await this.firebaseAuthentication.updateProfile({
       displayName: "DELETED"
