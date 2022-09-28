@@ -43,6 +43,17 @@ export class BusinessDetailComponent implements OnInit {
   public is_classifieds:any = null;
   public sponsoredLabel:string = '';
 
+  public PROPERTY_TYPE = {
+    "33338836": "facebook",
+    "33338837": "instagram",
+    "33338838": "twitter",
+    "33338839": "youtube",
+    "33338840": "pinterest",
+    "33338841": "url",
+    "33338842": "email",
+    "33338843": "phone"
+  };
+
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
      private router: Router,
@@ -115,9 +126,25 @@ export class BusinessDetailComponent implements OnInit {
         }
        
         this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
+          console.log("props",props);
           let propArray=props.filter((p)=>{
              return (p.label!=null && p.label!=="" && p.property!=="Facebook" && p.property!=="Instagram");
           });
+          for(let i=1;i<=8;i++){
+            let mediaLink = `Media_Link_${i}`;
+            let mediaLinkType = `Media_Link_${i}_Type`;
+            let mediaLinkLabel = `Media_Link_${i}_Label`;
+            if(this.bus[mediaLink] && this.bus[mediaLinkType] && this.bus[mediaLinkLabel]){
+                propArray.push({
+                    "label":this.bus[mediaLinkLabel],
+                    "listing_id":0,
+                    "position":99,
+                    "property": this.PROPERTY_TYPE[this.bus[mediaLinkType]],
+                    "qpId": 0,
+                    "value":this.bus[mediaLink]
+                });
+            }
+          }
           for(let i=0;i<propArray.length;i++){
             let p = propArray[i];
             if(p.property.toLowerCase()==='menu')
@@ -196,6 +223,10 @@ export class BusinessDetailComponent implements OnInit {
       return 'logo-facebook';
     else if(property.toLowerCase()==='instagram')
       return 'logo-instagram';
+    else if(property.toLowerCase()==='twitter')
+      return 'logo-twitter';
+    else if(property.toLowerCase()==='youtube')
+      return 'logo-youtube';
   }
 
   public call(bus){

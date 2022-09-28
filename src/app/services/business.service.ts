@@ -20,6 +20,18 @@ export class BusinessService {
       '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_4256":"'+category2+'"}]}',tracking: "true",trackingdevice: uuid}});
  }
 
+  public getBusinessByLocationAndCategory3(idLocation,category3,uuid){
+    //category='%\\"'+category+'\\"%';
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_4920":"'+category3+'"}]}',tracking: "true",trackingdevice: uuid}});
+  }
+
+  public getBusinessByLocationAndCategory4(idLocation,category4,uuid){
+    //category='%\\"'+category+'\\"%';
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_4921":"'+category4+'"}]}',tracking: "true",trackingdevice: uuid}});
+  }
+
   public searchBusinessByName(idLocation,text,uuid){
     text='%'+text+'%';
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:

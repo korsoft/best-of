@@ -99,85 +99,93 @@ export class FolderPage implements OnInit {
                  console.log("data1",data1);
                 this.businessService.getBusinessByLocationAndCategory2(loc.qpId,this.id,this.device.uuid).subscribe((data2:Array<any>)=>{
                   console.log("data2",data2);
-                  let dataTmp = data1;
-                  dataTmp = dataTmp.concat(data2);
-                  let data = [];
-                  console.log("dataTmp",dataTmp);
-                  dataTmp.forEach((item)=>{
-                      var exists = data.find((item2)=>item2.qpId==item.qpId);
-                      if(!exists)
-                        data.push(item);
-                  });
-                  if(data.length){
-                    data.sort(
-                      (b1,b2)=>{
-                        return b1.sort_order - b2.sort_order; 
-
+                  this.businessService.getBusinessByLocationAndCategory3(loc.qpId,this.id,this.device.uuid).subscribe((data3:Array<any>)=>{
+                    console.log("data3",data3);
+                    this.businessService.getBusinessByLocationAndCategory4(loc.qpId,this.id,this.device.uuid).subscribe((data4:Array<any>)=>{
+                      console.log("data4",data4);
+                      let dataTmp = data1;
+                      dataTmp = dataTmp.concat(data2);
+                      dataTmp = dataTmp.concat(data3);
+                      dataTmp = dataTmp.concat(data4);
+                      let data = [];
+                      console.log("dataTmp",dataTmp);
+                      dataTmp.forEach((item)=>{
+                          var exists = data.find((item2)=>item2.qpId==item.qpId);
+                          if(!exists)
+                            data.push(item);
                       });
-                      
-                      let firsts = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '1');
-                      let seconds = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '2');
-                      data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '1');
-                      data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '2');
-                      console.log("firsts",firsts);
-                      console.log("seconds",seconds);
-                      let first = null;
-                      let second = null;
-                      if(firsts.length>0){ //random select only 1 first
-                        let firstIndex = Math.floor(Math.random()*firsts.length);
-                         first = firsts[firstIndex];
-                         firsts.splice(firstIndex,1);
-                      }
-                      if(seconds.length>0){ //random select only 1 second
-                        let secondIndex = Math.floor(Math.random()*seconds.length);
-                        second = seconds[secondIndex];
-                        seconds.splice(secondIndex,1);
-                      }
+                      if(data.length){
+                        data.sort(
+                          (b1,b2)=>{
+                            return b1.sort_order - b2.sort_order; 
 
-                      let dataT = [];
-                      if(first){
-                        dataT = dataT.concat(first);
-                      }
-                      if(second){
-                        dataT = dataT.concat(second);
-                      }
-                      if(firsts.length>0){
-                        dataT = dataT.concat(...firsts);
-                      }
-                      if(seconds.length>0){
-                        dataT = dataT.concat(...seconds);
-                      }
-                      if(data.length>0){
-                        dataT = dataT.concat(...data);
-                      }
+                          });
+                          
+                          let firsts = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '1');
+                          let seconds = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '2');
+                          data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '1');
+                          data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '2');
+                          console.log("firsts",firsts);
+                          console.log("seconds",seconds);
+                          let first = null;
+                          let second = null;
+                          if(firsts.length>0){ //random select only 1 first
+                            let firstIndex = Math.floor(Math.random()*firsts.length);
+                            first = firsts[firstIndex];
+                            firsts.splice(firstIndex,1);
+                          }
+                          if(seconds.length>0){ //random select only 1 second
+                            let secondIndex = Math.floor(Math.random()*seconds.length);
+                            second = seconds[secondIndex];
+                            seconds.splice(secondIndex,1);
+                          }
+
+                          let dataT = [];
+                          if(first){
+                            dataT = dataT.concat(first);
+                          }
+                          if(second){
+                            dataT = dataT.concat(second);
+                          }
+                          if(firsts.length>0){
+                            dataT = dataT.concat(...firsts);
+                          }
+                          if(seconds.length>0){
+                            dataT = dataT.concat(...seconds);
+                          }
+                          if(data.length>0){
+                            dataT = dataT.concat(...data);
+                          }
 
 
 
-                    data = dataT;
+                        data = dataT;
 
-                    this.fullBusiness = data;
-                    this.business = data;
-                    for (var i = 0; i < this.business.length; i++) {
-                      this.business[i].showMap=true;
-                      if(this.business[i].latitude &&  this.business[i].longitude &&
-                        this.business[i].latitude !="0" &&  this.business[i].longitude!="0"){
-                        this.business[i].distance = this.getDistanceFromLatLon(this.business[i].latitude,this.business[i].longitude,
-                                                       this.location.latitude, this.location.longitude  );
+                        this.fullBusiness = data;
+                        this.business = data;
+                        for (var i = 0; i < this.business.length; i++) {
+                          this.business[i].showMap=true;
+                          if(this.business[i].latitude &&  this.business[i].longitude &&
+                            this.business[i].latitude !="0" &&  this.business[i].longitude!="0"){
+                            this.business[i].distance = this.getDistanceFromLatLon(this.business[i].latitude,this.business[i].longitude,
+                                                          this.location.latitude, this.location.longitude  );
+                          }else{
+                            this.business[i].showMap=false;
+                          }
+                          if(this.business[i].call){
+                            this.business[i].showCall=true;
+                          }else{
+                            this.business[i].showCall=false;
+                          }
+                        }
+                        this.loading=false;
                       }else{
-                        this.business[i].showMap=false;
+                        this.fullBusiness = [];
+                        this.presentToast("No data for category");
+                        this.loading=false;
                       }
-                      if(this.business[i].call){
-                        this.business[i].showCall=true;
-                      }else{
-                        this.business[i].showCall=false;
-                      }
-                    }
-                    this.loading=false;
-                  }else{
-                    this.fullBusiness = [];
-                    this.presentToast("No data for category");
-                    this.loading=false;
-                  }
+                    });
+                  });
                 });
                });
               }else{
