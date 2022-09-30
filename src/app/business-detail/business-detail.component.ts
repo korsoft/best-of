@@ -305,7 +305,7 @@ export class BusinessDetailComponent implements OnInit {
   	
   async propAction(prop){
    
-    if(prop.property==="Email"){
+    if(prop.property.toLowerCase()==="email"){
       await this.fcmService.analyticsLogEvent("screen_action",{
         page: "business_details",
         action: "email",
@@ -341,16 +341,16 @@ export class BusinessDetailComponent implements OnInit {
         console.log(JSON.stringify(e));
       });*/
       
-    }else if(prop.property==="Phone"){
+    }else if(prop.property.toLowerCase()==="phone"){
       this.callNumber.callNumber(prop.value, true);
-    } else if(prop.property==="Facebook"){
+    } else if(prop.property.toLowerCase()==="facebook"){
       await this.fcmService.analyticsLogEvent("screen_action",{
         page: "business_details",
         action: "facebook",
         business: this.bus.Name
       });
       Browser.open({ url: prop.value });
-    } else if(prop.property==="Instagram"){
+    } else if(prop.property.toLowerCase()==="instagram"){
       await this.fcmService.analyticsLogEvent("screen_action",{
         page: "business_details",
         action: "instagram",
