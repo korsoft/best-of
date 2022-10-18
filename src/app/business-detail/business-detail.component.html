@@ -34,8 +34,8 @@
     <ion-card    class="business-details-card " [style.background-color]="bus.Logo_Background_Color">
     <img  src="{{bus.body_image}}" (click)="openBusinessUrl()" class="img-background" />
        
-    <div class="container-top-left" *ngIf="is_classifieds == '1' && bus.is_classified && bus.is_classified == '1'">
-      <div class="top-left" >{{sponsoredLabel}}</div>
+    <div class="container-top-left"  *ngIf="is_classifieds == '1' && bus.is_classified && bus.is_classified == '1'">
+      <div class="top-left" ><img src="../../assets/member.png"></div>
     </div>
     <!--div class="button-card-group">  
       <ion-fab-button *ngIf="bus.showMap" (click)="map(bus)" color="light" size="small" class="button-card"><ion-icon name="location-sharp"></ion-icon></ion-fab-button>

@@ -10,7 +10,7 @@
     <ion-card   *ngFor="let bus of businessList; let ind = index; "  class="card-basic-style-subcategories" >
       <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true" ></ion-img>
       <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">
-        <div class="top-left" >{{sponsoredLabel}}</div>
+        <div class="top-left" ><img src="../../../assets/member.png"></div>
       </div>
       <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
        <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
