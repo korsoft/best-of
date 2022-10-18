@@ -74,7 +74,14 @@ export class AppComponent implements OnInit {
       },
       icon: 'search-outline'
     },
-    
+    {
+      title: 'Share the App',
+      url: '',
+      action: (url,i) => {
+        this.shareTheApp(); 
+      },
+      icon: 'share-outline'
+    },
     {
       title: 'Chat',
       url:'',
@@ -109,12 +116,20 @@ export class AppComponent implements OnInit {
       icon: 'person-outline'
     },*/
     {
-      title: 'Share the App',
-      url: '',
+      title: 'List Your Business',
+      url:'',
       action: (url,i) => {
-        this.shareTheApp(); 
+        this.sendToExternalUrl('https://bestoflocal.app/advertise-your-business/');
       },
-      icon: 'share-outline'
+      icon: 'custom-megaphone'
+    },
+    {
+      title: 'Join Our Team',
+      url:'',
+      action: (url,i) => {
+        this.sendToExternalUrl('https://bestoflocal.app/join-our-team/');
+      },
+      icon: 'people-outline'
     },
     {
       title: 'FAQs',
@@ -131,22 +146,6 @@ export class AppComponent implements OnInit {
         this.sendToExternalUrl('https://bestoflocal.app/about/');
       },
       icon: 'information-circle-outline'
-    },
-    {
-      title: 'Promote Your Business',
-      url:'',
-      action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.app/advertise-your-business/');
-      },
-      icon: 'custom-megaphone'
-    },
-    {
-      title: 'Join Our Team',
-      url:'',
-      action: (url,i) => {
-        this.sendToExternalUrl('https://bestoflocal.app/join-our-team/');
-      },
-      icon: 'people-outline'
     },
     {
       title: 'Legal',
