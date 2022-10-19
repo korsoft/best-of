@@ -4,6 +4,9 @@
   margin-bottom: 0px;
 }
 
+.card-basic-style-subcategories {
+  border-radius: 10px !important;
+}
 .card-background-page .card-title {
   font-size: 2em;
   position: absolute;
@@ -23,6 +26,17 @@
 }
 .card-title {
 z-index:9;
+}
+
+.card-label-sub-category {
+  position: absolute;
+  bottom: 10px;
+  left: 8px;
+  font-size: 3.5em;
+  font-weight: bolder;
+  color: white;
+  text-align:left;
+  -webkit-text-stroke: 1px black;
 }
 
 .card-label{
@@ -48,6 +62,9 @@ z-index:9;
 
 @media (max-width: 576px) {
   .card-label {
+    font-size: 1.9em !important;
+  }
+  .card-label-sub-category {
     font-size: 1.9em !important;
   }
   .card-distance {

@@ -31,15 +31,35 @@ export class SearchPage implements OnInit {
      private fcmService:FcmService,
      private settingsService: SettingsService) { }
 
+     private localImage:Array<any>=[];
   public businessList:Array<any> = [];
   public location={"name":"",latitude:0,longitude:0};
   public device:any;
-
+  public subcategoriesList:Array<any> = [];
+  public subcategoriesSearch:Array<any> = [];
   public sponsoredLabel:string = '';
 
   async ngOnInit() {
     this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
       console.log("sponsoredLabel",this.sponsoredLabel);
+      this.subcategoriesList = await this.storage.get("subcategories");
+      console.log("subcategoriesList",this.subcategoriesList);
+
+      let image = "";
+      for (var i =  0; i < this.subcategoriesList.length; i++) {
+        image = await this.storage.get(this.subcategoriesList[i].cat_icon);
+        if(image){
+          this.localImage[this.subcategoriesList[i].cat_icon] = image;
+        }else{
+          image = String( await this.getBase64ImageFromUrl(this.subcategoriesList[i].cat_icon));
+                      
+          if(!image.startsWith("data:image/jpeg;base64,"))
+            image =  "data:image/jpeg;base64,"+image;
+
+          this.storage.set(this.subcategoriesList[i].cat_icon,image);
+          this.localImage[this.subcategoriesList[i].cat_icon]=image;
+        }
+      }
   }
 
   async ionViewWillEnter(){
@@ -118,6 +138,8 @@ export class SearchPage implements OnInit {
                       if(!exists)
                         this.businessList.push(item);
                   });
+                  this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
+                  console.log("subcategoriesSearch",this.subcategoriesSearch);
                   if(this.businessList.length == 0)
                     this.presentToast("No data");
                   console.log("business list",this.businessList);
@@ -131,6 +153,27 @@ export class SearchPage implements OnInit {
   
 
 
+    
+  }
+
+
+  async goToBussines(cat){
+    let locationObj = await this.storage.get('location');
+    console.log("cat",cat);
+    switch (cat.action_type) {
+      case "1":
+        this.router.navigateByUrl('/website/Buzz');
+        break;
+      case "2":
+        this.router.navigateByUrl('/website/Weather');
+        break;
+      case "3":
+        Browser.open({ url: cat.categoryUrl });
+        break;
+      default:
+        this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
+        break;
+    }
     
   }
 
@@ -183,5 +226,29 @@ export class SearchPage implements OnInit {
 
   private deg2rad(deg) {
     return deg * (Math.PI/180)
+  }
+
+  getImage(url){
+    return this.localImage[url];
+  }
+
+  async  getBase64ImageFromUrl(imageUrl) {
+    let res = await fetch(imageUrl);
+    let blob = await res.blob();
+    
+  //  console.log(blob.size);
+
+    let bytes = await new Response(blob).arrayBuffer();
+    return this.arrayBufferToBase64(bytes);
+  }
+
+  private arrayBufferToBase64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
   }
 }
