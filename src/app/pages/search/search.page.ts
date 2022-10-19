@@ -35,6 +35,8 @@ export class SearchPage implements OnInit {
   public businessList:Array<any> = [];
   public location={"name":"",latitude:0,longitude:0};
   public device:any;
+  public categoriesList:Array<any> = [];
+  public categoriesSearch:Array<any> = [];
   public subcategoriesList:Array<any> = [];
   public subcategoriesSearch:Array<any> = [];
   public sponsoredLabel:string = '';
@@ -42,10 +44,26 @@ export class SearchPage implements OnInit {
   async ngOnInit() {
     this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
       console.log("sponsoredLabel",this.sponsoredLabel);
+      this.categoriesList = await this.storage.get("categories");
+      console.log("categoriesList",this.categoriesList);
       this.subcategoriesList = await this.storage.get("subcategories");
       console.log("subcategoriesList",this.subcategoriesList);
 
       let image = "";
+      for (var i =  0; i < this.categoriesList.length; i++) {
+        image = await this.storage.get(this.categoriesList[i].cat_icon);
+        if(image){
+          this.localImage[this.categoriesList[i].cat_icon] = image;
+        }else{
+          image = String( await this.getBase64ImageFromUrl(this.categoriesList[i].cat_icon));
+                      
+          if(!image.startsWith("data:image/jpeg;base64,"))
+            image =  "data:image/jpeg;base64,"+image;
+
+          this.storage.set(this.categoriesList[i].cat_icon,image);
+          this.localImage[this.categoriesList[i].cat_icon]=image;
+        }
+      }
       for (var i =  0; i < this.subcategoriesList.length; i++) {
         image = await this.storage.get(this.subcategoriesList[i].cat_icon);
         if(image){
@@ -60,6 +78,7 @@ export class SearchPage implements OnInit {
           this.localImage[this.subcategoriesList[i].cat_icon]=image;
         }
       }
+
   }
 
   async ionViewWillEnter(){
@@ -81,8 +100,8 @@ export class SearchPage implements OnInit {
   
     if(evt.keyCode !== 13)
       return;
-      
-    const searchTerm = evt.srcElement.value;
+
+      const searchTerm = evt.srcElement.value;
 
     if (!searchTerm || searchTerm.length<2) {
       return;
@@ -94,6 +113,8 @@ export class SearchPage implements OnInit {
       term: searchTerm
     });
     
+    this.categoriesSearch = [];
+    this.subcategoriesSearch = [];
     this.businessList= [];
 
     
@@ -108,6 +129,7 @@ export class SearchPage implements OnInit {
         return;
       }
 
+      
       this.businessService.searchBusinessByName(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((business:Array<any>)=>{
         if(business && business.length>0)
           result = result.concat(business);
@@ -118,6 +140,10 @@ export class SearchPage implements OnInit {
             if(list2 && list2.length>0)
               result = result.concat(list2);
               this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list3:Array<any>)=>{
+                this.categoriesSearch = this.categoriesList.filter(cat => cat.cat_name.toLowerCase().includes(searchTerm.toLowerCase()));
+                console.log("categoriesSearch",this.categoriesSearch);
+                this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
+                console.log("subcategoriesSearch",this.subcategoriesSearch);
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{
@@ -138,8 +164,6 @@ export class SearchPage implements OnInit {
                       if(!exists)
                         this.businessList.push(item);
                   });
-                  this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
-                  console.log("subcategoriesSearch",this.subcategoriesSearch);
                   if(this.businessList.length == 0)
                     this.presentToast("No data");
                   console.log("business list",this.businessList);
@@ -176,6 +200,51 @@ export class SearchPage implements OnInit {
     }
     
   }
+
+  async setOption(cat){
+
+    let locationObj = await this.storage.get('location');
+
+    console.log("category",cat);
+
+    let is_classifieds = cat?.is_classifieds ?? '0';
+
+      switch (cat.action_type) {
+        case "1":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_buzz"
+          });
+          this.router.navigateByUrl('/website/Buzz');
+          break;
+        case "2":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_weather"
+          });
+          this.router.navigateByUrl('/website/Weather');
+          break;
+        case "3":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category_url",
+            url: cat.categoryUrl
+          });
+          Browser.open({ url: cat.categoryUrl });
+          break;
+        default:
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category",
+            category: cat.cat_name
+          });
+          this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+cat.cat_name+'?is_classifieds='+is_classifieds);
+          break;
+      }
+
+  	//}
+  }
+
 
   goToBussinesDetail(bus){
     if(!bus.default_link)
