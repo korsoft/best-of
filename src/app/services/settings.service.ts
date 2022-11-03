@@ -24,7 +24,7 @@ export class SettingsService {
   public async getValue(key:string){
     let settings = await this.storage.get(this.KEY);
     console.log("settings",settings);
-    return settings.find(s => s.Key === key)?.Value ?? '';
+    return settings != null ? (settings.find(s => s.Key === key)?.Value ?? '') : null;
   }
 
 }

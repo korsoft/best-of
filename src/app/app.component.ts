@@ -3,11 +3,11 @@ import { Router , NavigationStart, NavigationEnd} from '@angular/router';
 
 import { DeviceService } from './services/device.service';
 
-import { MenuController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 //import { FcmService } from './services/fcm.service';
-import {  Plugins } from '@capacitor/core';
+import {  AppState, Plugins } from '@capacitor/core';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -15,6 +15,8 @@ import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
 import { SearchPage } from './pages/search/search.page';
 import { FcmService } from './services/fcm.service';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { DeviceSettingsService } from './services/device-settings.service';
+import { DataSettingsService } from './services/data-settings.service';
 
 
 const { Device } = Plugins;
@@ -210,6 +212,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private deviceService:DeviceService,
+    private deviceSettingsService:DeviceSettingsService,
+    private dataSettingsService:DataSettingsService,
     private router: Router,
     private fcmService:FcmService,
     private socialSharing: SocialSharing,
@@ -217,7 +221,8 @@ export class AppComponent implements OnInit {
     private menu: MenuController,
     private deeplinks: Deeplinks,
     private zone: NgZone,
-    private appVersion : AppVersion
+    private appVersion : AppVersion,
+    private alertController: AlertController
   ) {
     this.initializeApp();
   }
@@ -248,6 +253,57 @@ export class AppComponent implements OnInit {
             // logic take over
         });
     });
+
+    App.addListener('appStateChange', (state: AppState) => {
+        if (state.isActive) {
+          Device.getInfo().then((info) => {
+            this.dataSettingsService.getDataSettings().toPromise().then((dataSettingsLst:any[]) => {
+              if(dataSettingsLst != null && dataSettingsLst.length>0){
+                let dataSettings:any = dataSettingsLst[0];
+                this.deviceSettingsService.getDeviceByUUID(info.uuid).toPromise().then((deviceLst:any[]) => {
+                  if(deviceLst != null && deviceLst.length > 0){
+                    let deviceSettings:any = deviceLst[0];
+                    deviceSettings.appVersion = info.appVersion;
+                    if(deviceSettings.appVersion != dataSettings.appVersion){
+                      this.presentToast();
+                    }
+                    let reloadData = deviceSettings.dataVersion != dataSettings.dataVersion;
+                    if(reloadData){
+                      deviceSettings.dataVersion = dataSettings.dataVersion;
+                    }
+                    console.log("deviceLst",deviceLst);
+                    this.deviceSettingsService.updateDevice(deviceSettings).toPromise().then((res) => {
+                      if(reloadData){
+                        this.storage.get("location").then((location)=>{
+                          this.storage.clear().then((val) => {
+                            this.storage.set("location",location);
+                            this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
+                          });
+                        });
+                      }
+                    });
+                  } else {
+                    const deviceSettings = {
+                      uuid: info.uuid,
+                      appVersion: info.appVersion,
+                      dataVersion: dataSettings.dataVersion
+                    }
+                    this.deviceSettingsService.createDevice(deviceSettings).toPromise().then((res) => {
+                      this.storage.get("location").then((location)=>{
+                        this.storage.clear().then((val) => {
+                          this.storage.set("location",location);
+                          this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
+                        });
+                      });
+                    });
+                  }
+                });
+              }
+            });
+          });
+        } 
+    });
+
 
       this.deeplinks.route({
         '/temp': '/temp'
@@ -461,6 +517,38 @@ export class AppComponent implements OnInit {
       url: gotoUrl
     });
     Browser.open({ url: gotoUrl })
+  }
+
+  async presentToast() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-alert-class',
+      header: 'Best of Local',
+      message: 'For the latest features and functionality, please update the Best of Local app',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm close: blah');
+          },
+        },
+        {
+          text: 'Update',
+          cssClass: 'primary',
+          handler: () => {
+            console.log('Confirm Okay');
+            if(this.platform.is('ios')){
+              Browser.open({ url: 'https://apps.apple.com/mx/app/best-of-local/id1537019225' });
+            } else {
+              Browser.open({ url: 'https://play.google.com/store/apps/details?id=bestofventures.app.bestoflocal' });
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
 }
