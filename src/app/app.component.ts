@@ -522,8 +522,8 @@ export class AppComponent implements OnInit {
   async presentToast() {
     const alert = await this.alertController.create({
       cssClass: 'my-alert-class',
-      header: 'Best of Local',
-      message: 'For the latest features and functionality, please update the Best of Local app',
+      header: 'APP UPDATE REQUIRED',
+      message: 'New content, better performance. Download the latest version of Best Of Local now.',
       buttons: [
         {
           text: 'Close',
