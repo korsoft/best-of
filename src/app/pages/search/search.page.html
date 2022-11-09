@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar showCancelButton="never"  (keypress)="searchBusiness($event)"  ></ion-searchbar>
+  <ion-item lines="none" >
+  <ion-searchbar showCancelButton="never"  (keypress)="searchBusiness($event)" [(ngModel)]="searchTextValue" ></ion-searchbar>
+  <ion-icon name="mic-outline" slot="end" (click)="searchBySpeech()"></ion-icon>
+</ion-item>
   <div id="container" class="card-background-page">
     <ion-card (click)="setOption(category);" class="card-basic-style-subcategories" *ngFor="let category of categoriesSearch; "  >
       <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>

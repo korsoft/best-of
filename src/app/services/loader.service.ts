@@ -47,4 +47,23 @@ export class LoaderService {
   }
 
 
+  async showSpeechVoice() {
+
+    let res = await this.loadingController.create({
+      message: "I'm listening..."
+    });
+    await res.present();
+  }
+
+  async hideSpeechVoice() {
+
+    this.loadingController.dismiss().then((res) => {
+      console.log('Loading dismissed!', res);
+    }).catch((error) => {
+      console.log('error', error);
+    });
+
+  }
+
+
 }

@@ -32,7 +32,7 @@ import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/n
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
 import { AuthModule } from './auth/auth.module';
-
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 
 
@@ -74,6 +74,7 @@ import { AuthModule } from './auth/auth.module';
     FirebaseAuthentication,
     LaunchNavigator,
     AppVersion,
+    SpeechRecognition,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     {

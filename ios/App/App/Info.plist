@@ -100,6 +100,8 @@
 	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>The app uses speech recognition for searching</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Store camera photos to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>

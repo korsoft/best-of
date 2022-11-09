@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { BusinessService } from 'src/app/services/business.service';
 import { DeviceService } from 'src/app/services/device.service';
 import { Plugins } from '@capacitor/core';
@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage';
 import { LoaderService } from 'src/app/services/loader.service';
 import { FcmService } from 'src/app/services/fcm.service';
 import { SettingsService } from 'src/app/services/settings.service';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 const { Browser } = Plugins;
 
 @Component({
@@ -29,7 +30,10 @@ export class SearchPage implements OnInit {
      private socialSharing: SocialSharing,
      private ionLoader: LoaderService,
      private fcmService:FcmService,
-     private settingsService: SettingsService) { }
+     private settingsService: SettingsService,
+     private speechRecognition: SpeechRecognition,
+     private platform: Platform,
+     private chRef: ChangeDetectorRef) { }
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
@@ -40,8 +44,24 @@ export class SearchPage implements OnInit {
   public subcategoriesList:Array<any> = [];
   public subcategoriesSearch:Array<any> = [];
   public sponsoredLabel:string = '';
+  public searchTextValue:string = '';
 
   async ngOnInit() {
+
+    let isAvailable:boolean = await this.speechRecognition.isRecognitionAvailable();
+    console.log("SpeechRecognition is available",isAvailable);
+    if(isAvailable){
+      let hasPermissions:boolean = await this.speechRecognition.hasPermission();
+      console.log("SpeechRecognition has permissions",hasPermissions);
+      if(!hasPermissions){
+        try {
+          await this.speechRecognition.requestPermission();
+        } catch(e){
+          console.log(e);
+        }
+      }
+    }
+
     this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
       console.log("sponsoredLabel",this.sponsoredLabel);
       this.categoriesList = await this.storage.get("categories");
@@ -96,6 +116,43 @@ export class SearchPage implements OnInit {
     this.device = await this.deviceService.getDevice();
   }
 
+  async searchBySpeech(){
+
+    await this.ionLoader.showSpeechVoice();
+
+    this.speechRecognition.startListening({showPartial: true, matches: 1}).subscribe(
+      async (matches: string[]) => { 
+        console.log("searches",matches);
+ 
+        await this.stopSearchBySpeech(matches.join(' '));
+      },
+      (onerror) => console.log('error:', onerror)
+    );
+    
+  }
+  async stopSearchBySpeech(text){
+
+      console.log("stopSearchBySpeech",text);
+    
+      this.searchTextValue = text.trim();
+
+    if(this.platform.is('ios')){
+      await this.speechRecognition.stopListening()
+    }
+
+    await this.ionLoader.hideSpeechVoice();
+        
+      await this.searchBusiness({
+        "keyCode":13,
+        "srcElement": {
+          "value": this.searchTextValue
+        }
+      });
+
+      
+    
+  }
+  
   async searchBusiness(evt) {
   
     if(evt.keyCode !== 13)
@@ -141,9 +198,9 @@ export class SearchPage implements OnInit {
               result = result.concat(list2);
               this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list3:Array<any>)=>{
                 this.categoriesSearch = this.categoriesList.filter(cat => cat.cat_name.toLowerCase().includes(searchTerm.toLowerCase()));
-                console.log("categoriesSearch",this.categoriesSearch);
+                //console.log("categoriesSearch",this.categoriesSearch);
                 this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
-                console.log("subcategoriesSearch",this.subcategoriesSearch);
+                //console.log("subcategoriesSearch",this.subcategoriesSearch);
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{
@@ -166,7 +223,8 @@ export class SearchPage implements OnInit {
                   });
                   if(this.businessList.length == 0)
                     this.presentToast("No data");
-                  console.log("business list",this.businessList);
+                  //console.log("business list",this.businessList);
+                  this.chRef.detectChanges();
                   this.ionLoader.hideLoader();
               });
           });
