@@ -15,7 +15,7 @@ export class LoaderService {
 
     this.loadingController.create({
       message: 'This Loader Will Auto Hide in 2 Seconds',
-      duration: 2000
+      duration: 2000,
     }).then((res) => {
       res.present();
 
@@ -50,9 +50,11 @@ export class LoaderService {
   async showSpeechVoice() {
 
     let res = await this.loadingController.create({
-      message: "I'm listening..."
+      message: "I'm listening...",
+      backdropDismiss:true
     });
     await res.present();
+    return res;
   }
 
   async hideSpeechVoice() {

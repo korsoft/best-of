@@ -118,7 +118,14 @@ export class SearchPage implements OnInit {
 
   async searchBySpeech(){
 
-    await this.ionLoader.showSpeechVoice();
+    let loading = await this.ionLoader.showSpeechVoice();
+
+    loading.onDidDismiss().then(async () => {
+      console.log("onDidDismiss");
+      if(this.platform.is('ios')){
+        await this.speechRecognition.stopListening()
+      }
+    });
 
     this.speechRecognition.startListening({showPartial: true, matches: 1}).subscribe(
       async (matches: string[]) => { 
@@ -135,10 +142,6 @@ export class SearchPage implements OnInit {
       console.log("stopSearchBySpeech",text);
     
       this.searchTextValue = text.trim();
-
-    if(this.platform.is('ios')){
-      await this.speechRecognition.stopListening()
-    }
 
     await this.ionLoader.hideSpeechVoice();
         
