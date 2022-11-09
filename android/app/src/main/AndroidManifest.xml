@@ -91,5 +91,11 @@
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
     </queries>
+    <queries>
+        <intent>
+            <action 
+            android:name="android.speech.RecognitionService"/>
+        </intent>
+    </queries>
     
 </manifest>
