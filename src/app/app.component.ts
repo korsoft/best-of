@@ -520,35 +520,42 @@ export class AppComponent implements OnInit {
   }
 
   async presentToast() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-alert-class',
-      header: 'APP UPDATE REQUIRED',
-      message: 'New content, better performance. Download the latest version of Best Of Local now.',
-      buttons: [
-        {
-          text: 'Close',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('Confirm close: blah');
+    let currentTime = new Date().getTime();
+    let lastTime = await this.storage.get('lastRememberUpdateApp');
+    console.log("currentTime: " + currentTime + " lastTime: " + lastTime);
+    if(currentTime > lastTime){
+      let currentTimePlusOneHour = new Date(currentTime + (1 * 60 * 60 * 1000)); //increase an hour
+      await this.storage.set("lastRememberUpdateApp",currentTimePlusOneHour.getTime());
+      const alert = await this.alertController.create({
+        cssClass: 'my-alert-class',
+        header: 'APP UPDATE REQUIRED',
+        message: 'New content, better performance. Download the latest version of Best Of Local now.',
+        buttons: [
+          {
+            text: 'Close',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm close');
+            },
           },
-        },
-        {
-          text: 'Update',
-          cssClass: 'primary',
-          handler: () => {
-            console.log('Confirm Okay');
-            if(this.platform.is('ios')){
-              Browser.open({ url: 'https://apps.apple.com/mx/app/best-of-local/id1537019225' });
-            } else {
-              Browser.open({ url: 'https://play.google.com/store/apps/details?id=bestofventures.app.bestoflocal' });
-            }
+          {
+            text: 'Update',
+            cssClass: 'primary',
+            handler: () => {
+              console.log('Confirm Okay');
+              if(this.platform.is('ios')){
+                Browser.open({ url: 'https://apps.apple.com/mx/app/best-of-local/id1537019225' });
+              } else {
+                Browser.open({ url: 'https://play.google.com/store/apps/details?id=bestofventures.app.bestoflocal' });
+              }
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
 
-    await alert.present();
+      await alert.present();
+    }
   }
 
 }
