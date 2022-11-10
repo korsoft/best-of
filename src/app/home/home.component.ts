@@ -11,7 +11,7 @@ import {  Plugins } from '@capacitor/core';
 import { IonContent, LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
 import { LocationCategoriesService } from '../services/location-categories.service';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Platform } from '@ionic/angular';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
@@ -83,7 +83,8 @@ export class HomeComponent implements OnInit {
     private locationCategoriesService:LocationCategoriesService,
     private fcmService : FcmService,
     private settingsService : SettingsService,
-    public platform: Platform) {
+    public platform: Platform,
+    private socialSharing: SocialSharing) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
   }
@@ -184,6 +185,20 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  async shareCategory(category){
+    let locationObj = await this.storage.get('location');
+    let is_classifieds = category?.is_classifieds ?? '0';
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "category",
+      action: "share",
+      category: category.cat_name
+    });
+    this.socialSharing.share(
+      `Check out the ${category.cat_name} on Best of Local`,
+      null,
+      null, //this.bus.body_image,
+      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${category.qpId}|${category.cat_name}?is_classifieds=${is_classifieds}`);
+  }
 
   gotoSearch(){
       this.router.navigateByUrl('/search');
@@ -263,6 +278,8 @@ export class HomeComponent implements OnInit {
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
                         this.locationCategoriesService.getCategoriesId(loc.qpId).subscribe(async (locationCats:Array<any>)=>{
+
+                          console.log("locationCats",locationCats);
                          
                           this.storage.get("categories").then(async (val) => {
 
@@ -279,6 +296,7 @@ export class HomeComponent implements OnInit {
                                 await  this.ionLoader.showLoader();
                                 this.categoryService.getCategorys().subscribe(
                                     async (cats:Array<any>)=>{
+                                      
                                        
                                         cats = cats.filter((value)=>{
                                            for (var i = locationCats.length - 1; i >= 0; i--) {
@@ -289,6 +307,7 @@ export class HomeComponent implements OnInit {
                                                value.cat_sort_id= locationCats[i].order;
                                                value.categoryUrl = locationCats[i].Category_URL;
                                                value.is_classifieds = locationCats[i].is_classifieds ?? '0';
+                                               value.Share = locationCats[i].Share ?? '0';
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;
