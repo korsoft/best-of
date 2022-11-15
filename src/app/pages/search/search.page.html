@@ -11,20 +11,20 @@
 </ion-item>
   <div id="container" class="card-background-page">
     <ion-card (click)="setOption(category);" class="card-basic-style-subcategories" *ngFor="let category of categoriesSearch; "  >
-      <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-      <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
-       <div class="card-label-sub-category"
+      <ion-img  (click)="setOption(category);" [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
+      <div class="card-title" (click)="setOption(category);" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
+       <div class="card-label-sub-category" (click)="setOption(category);"
          style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important" *ngIf="!category.hide_name">{{category.cat_name}}</div>  
       </ion-card>
     <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories" *ngFor="let category of subcategoriesSearch; let i = index; "  >
-      <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-      <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
-       <div class="card-label-sub-category"
+      <ion-img  [src]="getImage(category.cat_icon)" (click)="goToBussines(category)" class="img-background" ></ion-img>
+      <div class="card-title" (click)="goToBussines(category)" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
+       <div class="card-label-sub-category" (click)="goToBussines(category)"
          style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
       </ion-card>
     <ion-card   *ngFor="let bus of businessList; let ind = index; "  class="card-basic-style-subcategories" >
       <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true" ></ion-img>
-      <div class="container-top-left" *ngIf="bus.is_classified && bus.is_classified == '1'">
+      <div class="container-top-left" (click)="goToBussinesDetail(bus)" *ngIf="bus.is_classified && bus.is_classified == '1'">
         <div class="top-left" ><img src="../../../assets/member.png"></div>
       </div>
       <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   

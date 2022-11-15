@@ -226,9 +226,10 @@ export class SearchPage implements OnInit {
               result = result.concat(list2);
               this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list3:Array<any>)=>{
                 this.categoriesSearch = this.categoriesList.filter(cat => cat.cat_name.toLowerCase().includes(searchTerm.toLowerCase()));
-                //console.log("categoriesSearch",this.categoriesSearch);
+                console.log("categoriesSearch",this.categoriesSearch);
+                console.log(this.categoriesList);
                 this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
-                //console.log("subcategoriesSearch",this.subcategoriesSearch);
+                console.log("subcategoriesSearch",this.subcategoriesSearch);
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{
@@ -334,7 +335,7 @@ export class SearchPage implements OnInit {
 
   goToBussinesDetail(bus){
     if(!bus.default_link)
-      this.router.navigateByUrl('/businessDetail/'+bus.qpId);
+      this.router.navigateByUrl('/businessDetail/'+bus.qpId+'?is_classifieds='+bus.is_classified);
     else{
       Browser.open({ url: bus.default_link })
     }
