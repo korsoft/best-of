@@ -109,3 +109,8 @@
 .segment-buttons {
   z-index: 99;
 }
+
+
+ion-fab-button {
+  --background:transparent !important;
+}

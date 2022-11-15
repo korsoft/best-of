@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit {
       category: category.cat_name
     });
     this.socialSharing.share(
-      `Check out the ${category.cat_name} on Best of Local`,
+      `Check out ${category.cat_name} on Best of Local`,
       null,
       null, //this.bus.body_image,
       `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${category.qpId}|${category.cat_name}?is_classifieds=${is_classifieds}`);

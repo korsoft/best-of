@@ -87,6 +87,7 @@ export class FolderPage implements OnInit {
             return (cat.cat_name===this.folder);  
           });
           this.fullSubcategories=this.subcategories;
+          console.log("subcategories",this.subcategories);
           let subcat = val.find(c => c.qpId === Number(this.id));
           console.log("subcat",subcat);
           if(subcat){
@@ -312,6 +313,22 @@ export class FolderPage implements OnInit {
       duration: 5000
     });
     toast.present();
+  }
+
+  async shareSubCategory(subcategory){
+    console.log("share subcategory",subcategory);
+    let locationObj = await this.storage.get('location');
+    let is_classifieds = subcategory?.is_classifieds ?? '0';
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "subcategory",
+      action: "share",
+      subcategory: subcategory.subcat_name
+    });
+    this.socialSharing.share(
+      `Check out ${subcategory.subcat_name} on Best of Local`,
+      null,
+      null, //this.bus.body_image,
+      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${subcategory.qpId}|${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`);
   }
 
   

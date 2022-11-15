@@ -11,6 +11,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { FcmService } from 'src/app/services/fcm.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 const { Browser } = Plugins;
 
 @Component({
@@ -33,7 +34,8 @@ export class SearchPage implements OnInit {
      private settingsService: SettingsService,
      private speechRecognition: SpeechRecognition,
      private platform: Platform,
-     private chRef: ChangeDetectorRef) { }
+     private chRef: ChangeDetectorRef,
+     private diagnostic: Diagnostic) { }
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
@@ -118,24 +120,49 @@ export class SearchPage implements OnInit {
 
   async searchBySpeech(){
 
-    let loading = await this.ionLoader.showSpeechVoice();
+    let available = await this.speechRecognition.isRecognitionAvailable();
 
-    loading.onDidDismiss().then(async () => {
-      console.log("onDidDismiss");
-      if(this.platform.is('ios')){
-        await this.speechRecognition.stopListening()
-      }
-    });
+    let hasPermission = await this.speechRecognition.hasPermission();
 
-    this.speechRecognition.startListening({showPartial: true, matches: 1}).subscribe(
-      async (matches: string[]) => { 
-        console.log("searches",matches);
- 
-        await this.stopSearchBySpeech(matches.join(' '));
-      },
-      (onerror) => console.log('error:', onerror)
-    );
-    
+    if(available && hasPermission){
+
+      let loading = await this.ionLoader.showSpeechVoice();
+
+      loading.onDidDismiss().then(async () => {
+        console.log("onDidDismiss");
+        if(this.platform.is('ios')){
+          try {
+            await this.speechRecognition.stopListening();
+          } catch(error){
+            console.log(error);
+          }
+        }
+      });
+
+      
+
+      this.speechRecognition.startListening({showPartial: true, matches: 1}).subscribe(
+        async (matches: string[]) => { 
+          console.log("searches",matches);
+
+          await this.stopSearchBySpeech(matches.join(' '));
+        },
+        async (onerror) => {
+          console.log('error:', onerror);
+          try {
+            await this.ionLoader.hideSpeechVoice();
+          } catch(error){
+            console.log(error);
+          }     
+          try {
+            await this.speechRecognition.stopListening();
+          } catch(error){
+            console.log(error);
+          }
+        }
+      );
+  
+    }
   }
   async stopSearchBySpeech(text){
 
