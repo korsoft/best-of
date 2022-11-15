@@ -11,7 +11,6 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { FcmService } from 'src/app/services/fcm.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
-import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 const { Browser } = Plugins;
 
 @Component({
@@ -34,8 +33,7 @@ export class SearchPage implements OnInit {
      private settingsService: SettingsService,
      private speechRecognition: SpeechRecognition,
      private platform: Platform,
-     private chRef: ChangeDetectorRef,
-     private diagnostic: Diagnostic) { }
+     private chRef: ChangeDetectorRef) { }
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
