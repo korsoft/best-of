@@ -45,30 +45,45 @@
     <ion-card-subtitle *ngIf="bus.summary && bus.summary.length>0" class="summary">
       {{bus.summary}}
     </ion-card-subtitle>
+    
     </ion-card>
+    <ion-grid   *ngIf="ad != null && ad.qpId"  class="address-container">
+      <ion-row>
+        <ion-col>
+          <img src="{{ad.Ad_Image}}" (click)="openAdurl()" width="100%">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     
     <ion-list class="business-details-list">
       
 	  <ion-item *ngIf="bus.showCall" (click)="call(bus)" class="item-background-color">
 	    <ion-icon name="call" class="detail-icon"></ion-icon><ion-label> {{bus.call_label?bus.call_label+":":""}}{{bus.call}}</ion-label>
 	  </ion-item>
-	  <ion-item *ngIf="bus.showMap" (press)="copyAddress(bus)" (click)="map(bus)" class="item-background-color">
-	    <ion-icon name="map" class="detail-icon"></ion-icon><ion-label> {{bus.address_label?bus.address_label+":":""}}{{bus.address}}</ion-label>
-	  </ion-item>
-    <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; " class="item-background-color">
+	  <ion-item (click)="propAction(prop)" *ngFor="let prop of properties; " class="item-background-color">
         <ion-icon name="{{getPropertyIcon(prop.property)}}" class="detail-icon"></ion-icon><ion-label> {{prop.label}}</ion-label>
     </ion-item>
     <ion-item (click)="openShareExperienceLink()" *ngIf="bus.Display_Share_Experience_Link && bus.Display_Share_Experience_Link == '1'" class="item-background-color">
       <ion-icon name="arrow-redo"  class="detail-icon"></ion-icon><ion-label>SHARE YOUR PHOTOS & EXPERIENCES</ion-label>
     </ion-item>
     </ion-list>
-    <agm-map *ngIf="bus.showMap"
-	   [latitude]="latitude"
-	   [longitude]="longitude">
-	    
-	       <agm-marker [latitude]="latitude" [longitude]="longitude" (markerClick)="openNavigator($event)"></agm-marker>
-     
-    </agm-map>
+    <ion-grid  *ngIf="bus.showMap" class="address-container">
+      <ion-row>
+        <ion-col>
+          <ion-label (press)="copyAddress(bus)" (click)="map(bus)"> {{bus.address_label?bus.address_label+":":""}}{{bus.address}}</ion-label>
+        </ion-col>
+        <ion-col>
+          <agm-map *ngIf="bus.showMap"
+            [latitude]="latitude"
+            [longitude]="longitude"
+            [zoom]="zoomMap"
+            style="height: 100px;">
+          <agm-marker [latitude]="latitude" [iconUrl]="pinUrl" [longitude]="longitude" (markerClick)="openNavigator($event)"></agm-marker> 
+       </agm-map>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
 
 
   </div>

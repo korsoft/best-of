@@ -42,6 +42,17 @@ export class BusinessDetailComponent implements OnInit {
   public isRestaurant:boolean = false;
   public is_classifieds:any = null;
   public sponsoredLabel:string = '';
+  public ad: any = null;
+
+  public pinUrl = {
+    url: './assets/pin.png',
+    scaledSize: {
+        width: 30,
+        height: 30
+    }
+  };
+
+  public zoomMap = 7;
 
   public PROPERTY_TYPE = {
     "33338836": "facebook",
@@ -105,6 +116,12 @@ export class BusinessDetailComponent implements OnInit {
       if(data){
         console.log("business details",data);
         this.bus=data;
+        if(this.bus.ad && this.bus.ad.length>0){
+          this.businessService.getAdById(this.bus.ad,this.device.uuid).subscribe((adObj:any)=>{
+            this.ad = adObj;
+            console.log("Ad",this.ad);
+          });
+        }
         this.fcmService.analyticsLogEvent("screen_action",{
           page: "business_details",
           action:'view_details',
@@ -300,6 +317,12 @@ export class BusinessDetailComponent implements OnInit {
 
   async openShareExperienceLink(){
     Browser.open({ url: this.location.Share_Experience_Link });
+  }
+
+  async openAdurl(){
+    const url = this.bus.ad_URL != null && this.bus.ad_URL.length > 0 ? this.bus.ad_URL : this.ad.Ad_Link;
+    if(url != null && url.length>0)
+      Browser.open({ url: url });
   }
 
   	

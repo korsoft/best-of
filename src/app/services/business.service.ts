@@ -60,5 +60,9 @@ export class BusinessService {
      return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388/qp/${id}`,{params:{tracking: "true",trackingdevice: uuid}});
   }
 
+  public getAdById(id, uuid){
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/528/qp/${id}`,{params:{tracking: "true",trackingdevice: uuid}});
+  }
+
   
 }
