@@ -28,6 +28,7 @@ const { Browser } = Plugins;
   styleUrls: ['./business-detail.component.scss'],
 })
 export class BusinessDetailComponent implements OnInit {
+  
   id:string;
   public bus:any={
   	"qpId":0,"listing_id":"","location":"","category":"","sort_order":"","status":"","Name":"","summary":"",
@@ -122,6 +123,15 @@ export class BusinessDetailComponent implements OnInit {
             console.log("Ad",this.ad);
           });
         }
+        if(this.bus.Photos && this.bus.Photos.length>1){
+          this.bus.photosArray = JSON.parse(this.bus.Photos);
+          console.log("photos",this.bus.photosArray);
+        }
+        if(this.bus.Videos && this.bus.Videos.length>1){
+          this.bus.videosArray = JSON.parse(this.bus.Videos);
+          console.log("videos",this.bus.videosArray);
+        }
+
         this.fcmService.analyticsLogEvent("screen_action",{
           page: "business_details",
           action:'view_details',

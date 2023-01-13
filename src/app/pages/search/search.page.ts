@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Platform, ToastController } from '@ionic/angular';
+import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { BusinessService } from 'src/app/services/business.service';
 import { DeviceService } from 'src/app/services/device.service';
 import { Plugins } from '@capacitor/core';
@@ -11,6 +11,8 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { FcmService } from 'src/app/services/fcm.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+import { SearchFilterModal } from './search-filter.modal';
+import SearchFilter from '../../interfaces/SearchFilter';
 const { Browser } = Plugins;
 
 @Component({
@@ -33,7 +35,8 @@ export class SearchPage implements OnInit {
      private settingsService: SettingsService,
      private speechRecognition: SpeechRecognition,
      private platform: Platform,
-     private chRef: ChangeDetectorRef) { }
+     private chRef: ChangeDetectorRef,
+     private modalController: ModalController) { }
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
@@ -45,6 +48,11 @@ export class SearchPage implements OnInit {
   public subcategoriesSearch:Array<any> = [];
   public sponsoredLabel:string = '';
   public searchTextValue:string = '';
+
+  public filters: SearchFilter = {
+    newBusiness: false,
+    memberBusiness: false
+  }
 
   async ngOnInit() {
 
@@ -215,16 +223,16 @@ export class SearchPage implements OnInit {
       }
 
       
-      this.businessService.searchBusinessByName(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((business:Array<any>)=>{
+      this.businessService.searchBusinessByName(loc.qpId,searchTerm.toUpperCase(),this.device.uuid, this.filters).subscribe((business:Array<any>)=>{
         if(business && business.length>0)
           result = result.concat(business);
-        this.businessService.searchBusinessBySummary(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list:Array<any>)=>{
+        this.businessService.searchBusinessBySummary(loc.qpId,searchTerm.toUpperCase(),this.device.uuid, this.filters).subscribe((list:Array<any>)=>{
           if(list && list.length>0)
             result = result.concat(list);
-          this.businessService.searchBusinessByBody(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list2:Array<any>)=>{
+          this.businessService.searchBusinessByBody(loc.qpId,searchTerm.toUpperCase(),this.device.uuid, this.filters).subscribe((list2:Array<any>)=>{
             if(list2 && list2.length>0)
               result = result.concat(list2);
-              this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid).subscribe((list3:Array<any>)=>{
+              this.businessService.searchBusinessByCategories(loc.qpId,searchTerm.toUpperCase(),this.device.uuid, this.filters).subscribe((list3:Array<any>)=>{
                 this.categoriesSearch = this.categoriesList.filter(cat => cat.cat_name.toLowerCase().includes(searchTerm.toLowerCase()));
                 console.log("categoriesSearch",this.categoriesSearch);
                 console.log(this.categoriesList);
@@ -265,6 +273,15 @@ export class SearchPage implements OnInit {
 
 
     
+  }
+
+  async openSearchFilterModal() {
+    const modal = await this.modalController.create({
+      component: SearchFilterModal,
+      swipeToClose: true,
+      componentProps: { 'filters': this.filters }
+    });
+    return await modal.present();
   }
 
 
@@ -407,4 +424,6 @@ export class SearchPage implements OnInit {
     }
     return window.btoa(binary);
   }
+
 }
+

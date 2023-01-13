@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import SearchFilter from '../interfaces/SearchFilter';
 
 @Injectable({
   providedIn: 'root'
@@ -32,28 +33,32 @@ export class BusinessService {
       '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"},{"q_4921":"'+category4+'"}]}',tracking: "true",trackingdevice: uuid}});
   }
 
-  public searchBusinessByName(idLocation,text,uuid){
+  public searchBusinessByName(idLocation,text,uuid, filters: SearchFilter){
     text='%'+text+'%';
+    let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3620":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3620":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
  }
 
-  public searchBusinessBySummary(idLocation,text,uuid){
+  public searchBusinessBySummary(idLocation,text,uuid, filters: SearchFilter){
   text='%'+text+'%';
+  let extraFilters = this.buildFilters(filters);
   return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-    '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3621":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+    '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3621":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
   }
 
-  public searchBusinessByBody(idLocation,text,uuid){
+  public searchBusinessByBody(idLocation,text,uuid, filters: SearchFilter){
     text='%'+text+'%';
+    let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_3622":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3622":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
   }
 
-  public searchBusinessByCategories(idLocation,text,uuid){
+  public searchBusinessByCategories(idLocation,text,uuid, filters: SearchFilter){
     text='%'+text+'%';
+    let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}],"whereLike":[{"q_4639":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_4639":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
   }
 
   public getBusinessById(id,uuid){
@@ -64,5 +69,16 @@ export class BusinessService {
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/528/qp/${id}`,{params:{tracking: "true",trackingdevice: uuid}});
   }
 
+  private buildFilters(filters: SearchFilter): String {
+    let filtersStr = '';
+    if(filters.newBusiness === true){
+      filtersStr += `,{"q_4955":"1"}`;
+    }
+    if(filters.memberBusiness === true){
+      filtersStr += `,{"q_3783":"1"}`;
+    }
+    return filtersStr;
+
+  }
   
 }

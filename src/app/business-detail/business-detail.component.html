@@ -70,6 +70,21 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+    <ion-slides pager="true" *ngIf="bus.photosArray && bus.photosArray.length>0" style="background-color: #fff;">
+      <ion-slide *ngFor="let image of bus.photosArray ">
+        <img src="{{image}}" style='height: 100%; width: 100%; object-fit: fill'>
+      </ion-slide>
+    </ion-slides>
+    
+    <ion-slides pager="true" *ngIf="bus.videosArray && bus.videosArray.length>0" style="background-color: #fff;">
+      <ion-slide *ngFor="let video of bus.videosArray ">
+        <video width="100%"  controls>
+          <source src="{{video}}" type="video/mp4" style='height: 100%; width: 100%; object-fit: fill'>
+            Your device does not support the video player.
+        </video>
+      </ion-slide>
+    </ion-slides>
     
     <agm-map *ngIf="bus.showMap"
 	   [latitude]="latitude"
