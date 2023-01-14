@@ -194,7 +194,7 @@ export class SearchPage implements OnInit {
     if(evt.keyCode !== 13)
       return;
 
-      const searchTerm = evt.srcElement.value;
+      const searchTerm = evt.srcElement.value?.trim();
 
     if (!searchTerm || searchTerm.length<2) {
       return;
