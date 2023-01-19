@@ -71,20 +71,16 @@
       </ion-row>
     </ion-grid>
 
-    <ion-slides pager="true" *ngIf="bus.photosArray && bus.photosArray.length>0" style="background-color: #fff;">
-      <ion-slide *ngFor="let image of bus.photosArray ">
-        <img src="{{image}}" style='height: 100%; width: 100%; object-fit: fill'>
+    <ion-slides pager="true" *ngIf="bus.photosArray && bus.photosArray.length>0" [options]="slideOpts" [style.height.px]="sliderImageHeight" style="background-color: #fff;">
+      <ion-slide *ngFor="let image of bus.photosArray " [style.height.px]="sliderImageHeight">
+        <img src="{{image}}" [style.height.px]="sliderImageHeight" style='width: 100%; object-fit: fill'>
       </ion-slide>
     </ion-slides>
     
-    <ion-slides pager="true" *ngIf="bus.videosArray && bus.videosArray.length>0" style="background-color: #fff;">
-      <ion-slide *ngFor="let video of bus.videosArray ">
-        <video width="100%"  controls>
-          <source src="{{video}}" type="video/mp4" style='height: 100%; width: 100%; object-fit: fill'>
-            Your device does not support the video player.
-        </video>
-      </ion-slide>
-    </ion-slides>
+    <div class="video-container" *ngIf="bus.Video_Thumbnail && bus.Video_Thumbnail.length>2">
+      <img src="{{bus.Video_Thumbnail}}" (click)="openVideo()" [style.height.px]="sliderImageHeight" style='width: 250px; object-fit: fill'>
+      <img class="play-icon" (click)="openVideo()" src="../../assets/play.png" width="80px">
+    </div>
     
     <agm-map *ngIf="bus.showMap"
 	   [latitude]="latitude"

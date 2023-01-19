@@ -8,7 +8,7 @@ import { BookmarkService } from '../services/bookmark.service';
 import { DeviceService } from '../services/device.service';
 import { BusinessPropertiesService } from '../services/business-properties.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
@@ -66,6 +66,20 @@ export class BusinessDetailComponent implements OnInit {
     "33338843": "phone"
   };
 
+  public slideOpts = {
+    slidesPerView: 1.6,
+    spaceBetween: 10,
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 75,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    }
+  };
+
+  public sliderImageHeight: number;
+
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
      private router: Router,
@@ -82,11 +96,17 @@ export class BusinessDetailComponent implements OnInit {
      private clipboard: Clipboard,
      private emailComposer: EmailComposer,
      private fcmService: FcmService,
-     private settingsService : SettingsService) { }
+     private settingsService : SettingsService,
+     private platform: Platform) { }
 
   async ngOnInit() {
 
     let currentUser = await this.fcmService.getCurrentUser();
+
+    this.sliderImageHeight = this.platform.height() / 4;
+
+
+    console.log("sliderImageHeight",this.sliderImageHeight);
 
     await this.fcmService.analyticsLogEvent("screen_view",{
       page: "business_details"
@@ -127,11 +147,7 @@ export class BusinessDetailComponent implements OnInit {
           this.bus.photosArray = JSON.parse(this.bus.Photos);
           console.log("photos",this.bus.photosArray);
         }
-        if(this.bus.Videos && this.bus.Videos.length>1){
-          this.bus.videosArray = JSON.parse(this.bus.Videos);
-          console.log("videos",this.bus.videosArray);
-        }
-
+        
         this.fcmService.analyticsLogEvent("screen_action",{
           page: "business_details",
           action:'view_details',
@@ -335,6 +351,10 @@ export class BusinessDetailComponent implements OnInit {
       Browser.open({ url: url });
   }
 
+  async openVideo(){
+    if(this.bus.Video_URL != null && this.bus.Video_URL.length>0)
+      Browser.open({ url: this.bus.Video_URL });
+  }
   	
   async propAction(prop){
    

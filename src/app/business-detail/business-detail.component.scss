@@ -84,3 +84,16 @@ ion-toolbar {
       background-color: white !important;
       color: #6f7172 !important;
    }
+
+   .video-container {
+      background-color: #fff;
+      padding-top: 10px;
+      padding-bottom: 5px;
+
+   }
+
+   .video-container .play-icon {
+      position: relative;
+      top: -70px;
+      left: -40%;
+   }
