@@ -8,7 +8,7 @@ import { BookmarkService } from '../services/bookmark.service';
 import { DeviceService } from '../services/device.service';
 import { BusinessPropertiesService } from '../services/business-properties.service';
 import { Router } from '@angular/router';
-import { Platform, ToastController } from '@ionic/angular';
+import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
@@ -17,6 +17,8 @@ import { Plugins } from '@capacitor/core';
 import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
 import { FcmService } from '../services/fcm.service';
 import { SettingsService } from '../services/settings.service';
+import BusinessMedia, { BusinessMediaType } from '../interfaces/BusinessMedia';
+import { BusinessMediaModal } from './business-media.page';
 
 const { Browser } = Plugins;
 
@@ -97,7 +99,8 @@ export class BusinessDetailComponent implements OnInit {
      private emailComposer: EmailComposer,
      private fcmService: FcmService,
      private settingsService : SettingsService,
-     private platform: Platform) { }
+     private platform: Platform,
+     private modalController: ModalController) { }
 
   async ngOnInit() {
 
@@ -354,6 +357,23 @@ export class BusinessDetailComponent implements OnInit {
   async openVideo(){
     if(this.bus.Video_URL != null && this.bus.Video_URL.length>0)
       Browser.open({ url: this.bus.Video_URL });
+  }
+
+  async openMedia(url: string, type: string) {
+    if(type === 'video'){
+      await this.openVideo();
+      return;
+    }
+    const media: BusinessMedia = {
+      url,
+      type: type === 'image' ? BusinessMediaType.image : BusinessMediaType.video
+    };
+    const modal = await this.modalController.create({
+      component: BusinessMediaModal,
+      swipeToClose: true,
+      componentProps: { media }
+    });
+    return await modal.present();
   }
   	
   async propAction(prop){

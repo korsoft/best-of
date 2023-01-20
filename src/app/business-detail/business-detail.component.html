@@ -72,14 +72,14 @@
     </ion-grid>
 
     <ion-slides pager="true" *ngIf="bus.photosArray && bus.photosArray.length>0" [options]="slideOpts" [style.height.px]="sliderImageHeight" style="background-color: #fff;">
-      <ion-slide *ngFor="let image of bus.photosArray " [style.height.px]="sliderImageHeight">
-        <img src="{{image}}" [style.height.px]="sliderImageHeight" style='width: 100%; object-fit: fill'>
+      <ion-slide *ngFor="let image of bus.photosArray" [style.height.px]="sliderImageHeight">
+        <img src="{{image}}" [style.height.px]="sliderImageHeight" (click)="openMedia(image,'image')" style='width: 100%; object-fit: fill'>
       </ion-slide>
     </ion-slides>
     
-    <div class="video-container" *ngIf="bus.Video_Thumbnail && bus.Video_Thumbnail.length>2">
-      <img src="{{bus.Video_Thumbnail}}" (click)="openVideo()" [style.height.px]="sliderImageHeight" style='width: 250px; object-fit: fill'>
-      <img class="play-icon" (click)="openVideo()" src="../../assets/play.png" width="80px">
+    <div class="video-container" *ngIf="bus.Video_Thumbnail && bus.Video_URL && bus.Video_Thumbnail.length>2 && bus.Video_URL">
+      <img src="{{bus.Video_Thumbnail}}" (click)="openMedia(bus.Video_URL,'video')" [style.height.px]="sliderImageHeight" style='width: 250px; object-fit: fill'>
+      <img class="play-icon" (click)="openMedia(bus.Video_URL,'video')" src="../../assets/play.png" width="80px">
     </div>
     
     <agm-map *ngIf="bus.showMap"

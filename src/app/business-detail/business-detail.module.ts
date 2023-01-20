@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { BusinessDetailComponent } from './business-detail.component';
 import { IonicModule } from '@ionic/angular';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { BusinessMediaModal } from './business-media.page';
 
 
 
 @NgModule({
-  declarations: [BusinessDetailComponent],
+  declarations: [BusinessDetailComponent,BusinessMediaModal],
   imports: [
     CommonModule,
     FormsModule,
