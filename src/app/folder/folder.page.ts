@@ -369,7 +369,7 @@ export class FolderPage implements OnInit {
   public share(bus){
     
     this.socialSharing.share(
-      "Here's a great place I want you to check out",
+      "Here's an invite to a great place on the Best Of Local app",
       null,
       null, //bus.body_image,
       "https://bestoflocal.app.link/redirect?page=|businessDetail|"+bus.qpId);

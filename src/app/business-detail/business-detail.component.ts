@@ -69,7 +69,7 @@ export class BusinessDetailComponent implements OnInit {
   };
 
   public slideOpts = {
-    slidesPerView: 1.6,
+    slidesPerView: 1.9,
     spaceBetween: 10,
     coverflowEffect: {
       rotate: 50,
@@ -106,7 +106,7 @@ export class BusinessDetailComponent implements OnInit {
 
     let currentUser = await this.fcmService.getCurrentUser();
 
-    this.sliderImageHeight = this.platform.height() / 4;
+    this.sliderImageHeight = this.platform.height() / 6;
 
 
     console.log("sliderImageHeight",this.sliderImageHeight);
@@ -338,7 +338,7 @@ export class BusinessDetailComponent implements OnInit {
       business: this.bus.Name
     });
     this.socialSharing.share(
-      "Here's a great place I want you to check out",
+      "Here's an invite to a great place on the Best Of Local app",
       null,
       null, //this.bus.body_image,
       "https://bestoflocal.app.link/redirect?page=|businessDetail|"+this.bus.qpId);

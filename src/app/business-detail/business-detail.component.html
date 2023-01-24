@@ -78,7 +78,7 @@
     </ion-slides>
     
     <div class="video-container" *ngIf="bus.Video_Thumbnail && bus.Video_URL && bus.Video_Thumbnail.length>2 && bus.Video_URL">
-      <img src="{{bus.Video_Thumbnail}}" (click)="openMedia(bus.Video_URL,'video')" [style.height.px]="sliderImageHeight" style='width: 250px; object-fit: fill'>
+      <img src="{{bus.Video_Thumbnail}}" (click)="openMedia(bus.Video_URL,'video')" [style.height.px]="sliderImageHeight" style='width: 200px; object-fit: fill'>
       <img class="play-icon" (click)="openMedia(bus.Video_URL,'video')" src="../../assets/play.png" width="80px">
     </div>
     
