@@ -162,12 +162,15 @@ export class FolderPage implements OnInit {
                             dataT = dataT.concat(secondLevelPost1);
                           }
                           if(firsts.length>0){
+                            this.shuffleArray(firsts);
                             dataT = dataT.concat(...firsts);
                           }
                           if(seconds.length>0){
+                            this.shuffleArray(seconds);
                             dataT = dataT.concat(...seconds);
                           }
                           if(data.length>0){
+                            this.shuffleArray(data);
                             dataT = dataT.concat(...data);
                           }
 
@@ -229,6 +232,16 @@ export class FolderPage implements OnInit {
 
     });
   }
+
+  private shuffleArray = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
+  
 
   public openNavigator(bus){
    this.fcmService.analyticsLogEvent("screen_action",{
