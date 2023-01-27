@@ -128,25 +128,38 @@ export class FolderPage implements OnInit {
                           data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '2');
                           console.log("firsts",firsts);
                           console.log("seconds",seconds);
-                          let first = null;
-                          let second = null;
-                          if(firsts.length>0){ //random select only 1 first
+                          let firstLevelPost1 = null;
+                          let firstLevelPost2 = null;
+                          let secondLevelPost1 = null;
+                          if(firsts.length>0){ //random select only 2 first level
                             let firstIndex = Math.floor(Math.random()*firsts.length);
-                            first = firsts[firstIndex];
+                            firstLevelPost1 = firsts[firstIndex];
                             firsts.splice(firstIndex,1);
+                            if(firsts.length>0){
+                              firstIndex = Math.floor(Math.random()*firsts.length);
+                              firstLevelPost2 = firsts[firstIndex];
+                              firsts.splice(firstIndex,1);
+                            }
                           }
                           if(seconds.length>0){ //random select only 1 second
                             let secondIndex = Math.floor(Math.random()*seconds.length);
-                            second = seconds[secondIndex];
+                            secondLevelPost1 = seconds[secondIndex];
                             seconds.splice(secondIndex,1);
                           }
 
+                          console.log("firstLevelPost1",firstLevelPost1);
+                          console.log("firstLevelPost2",firstLevelPost2);
+                          console.log("secondLevelPost1",secondLevelPost1);
+
                           let dataT = [];
-                          if(first){
-                            dataT = dataT.concat(first);
+                          if(firstLevelPost1){
+                            dataT = dataT.concat(firstLevelPost1);
                           }
-                          if(second){
-                            dataT = dataT.concat(second);
+                          if(firstLevelPost2){
+                            dataT = dataT.concat(firstLevelPost2);
+                          }
+                          if(secondLevelPost1){
+                            dataT = dataT.concat(secondLevelPost1);
                           }
                           if(firsts.length>0){
                             dataT = dataT.concat(...firsts);
