@@ -35,8 +35,10 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
+	<string>NO</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
-	<string>$ANALYTICS_COLLECTION_ENABLED</string>
+	<string>YES</string>
 	<key>FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER</key>
 	<string>false</string>
 	<key>FacebookAppID</key>
