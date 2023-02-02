@@ -25,6 +25,10 @@ If you are building locally you can just edit that file and change the following
 to
 
 <service android:name="com.getcapacitor.CapacitorFirebaseMessagingService" android:stopWithTask="false" android:exported="true">
+
+and 
+
+<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:enabled="true" android:exported="true">
 ``````
 
 
