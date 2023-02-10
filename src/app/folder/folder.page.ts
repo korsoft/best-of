@@ -38,6 +38,7 @@ export class FolderPage implements OnInit {
   private os = null;
   public device:any;
   public is_classifieds:any=null;
+  public classified_category:string = '0';
   public sponsoredLabel:string='';
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -62,6 +63,7 @@ export class FolderPage implements OnInit {
     this.device = await this.deviceService.getDevice();
 
     this.is_classifieds = this.activatedRoute.snapshot.queryParamMap.get('is_classifieds') ?? '0';
+    this.classified_category = this.activatedRoute.snapshot.queryParamMap.get('classified_category') ?? '0';
 
     console.log("is_classifieds",this.is_classifieds);
 
@@ -122,10 +124,10 @@ export class FolderPage implements OnInit {
 
                           });
                           
-                          let firsts = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '1');
-                          let seconds = data.filter(item => this.is_classifieds == '1' && item.is_classified && item.is_classified == '1' && item.carousel_level && item.carousel_level == '2');
-                          data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '1');
-                          data = data.filter(item => this.is_classifieds != '1' || !item.is_classified || item.is_classified != '1' || !item.carousel_level || item.carousel_level != '2');
+                          let firsts = data.filter(item => item.carousel_level && item.carousel_level == '1');
+                          let seconds = data.filter(item => item.carousel_level && item.carousel_level == '2');
+                          data = data.filter(item => !item.carousel_level || item.carousel_level != '1');
+                          data = data.filter(item => !item.carousel_level || item.carousel_level != '2');
                           console.log("firsts",firsts);
                           console.log("seconds",seconds);
                           let firstLevelPost1 = null;

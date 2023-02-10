@@ -121,6 +121,8 @@ export class HomeComponent implements OnInit {
 
     let is_classifieds = cat?.is_classifieds ?? '0';
 
+    let classified_category = cat?.classified_category ?? '0';
+
   	/*if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
@@ -169,7 +171,7 @@ export class HomeComponent implements OnInit {
             action: "go_to_category",
             category: cat.cat_name
           });
-          this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+cat.cat_name+'?is_classifieds='+is_classifieds);
+          this.router.navigateByUrl(`/folder/${locationObj.qpId}/${cat.qpId}/${cat.cat_name}?is_classifieds=${is_classifieds}&classified_category=${classified_category}`);
           break;
       }
 
