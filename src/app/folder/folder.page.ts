@@ -39,6 +39,7 @@ export class FolderPage implements OnInit {
   public device:any;
   public is_classifieds:any=null;
   public classified_category:string = '0';
+  public classified_subcategory:string = '0';
   public sponsoredLabel:string='';
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -94,6 +95,7 @@ export class FolderPage implements OnInit {
           console.log("subcat",subcat);
           if(subcat){
             this.is_classifieds = subcat.is_classifieds;
+            this.classified_subcategory = subcat.classified_category;
           }
           if(!this.fullSubcategories.length){
              if(this.location){
