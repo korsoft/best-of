@@ -26,9 +26,9 @@
       </ion-fab-button>
     </ion-fab>
 
-    <ion-fab vertical="top" *ngIf="category.classified_category == '1'" horizontal="end" style="margin-inline:0px;top:90px;right: 0px; z-index: 999;">
+    <!-- ion-fab vertical="top" *ngIf="category.classified_category == '1'" horizontal="end" style="margin-inline:0px;top:90px;right: 0px; z-index: 999;">
         <img src="../../assets/sponsored.png" (click)="goToBussines(category)" width="200px">
-    </ion-fab>
+    </ion-fab -->
 
     <div class="card-title" (click)="goToBussines(category)" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
      <div class="card-label" (click)="goToBussines(category)"
