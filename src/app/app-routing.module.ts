@@ -69,6 +69,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
   },
   {
+    path: 'favorites/:fromFirebaseUID',
+    loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
     path: 'search',
     loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
   },
@@ -80,7 +84,16 @@ const routes: Routes = [
   {
     path: 'become-of-sponsor',
     loadChildren: () => import('./become-of-sponsor/become-of-sponsor.module').then( m => m.BecomeOfSponsorPageModule)
-  }
+  },
+  {
+    path: 'favorites-shared',
+    loadChildren: () => import('./pages/favorites-shared/favorites-shared.module').then( m => m.FavoritesSharedPageModule)
+  },
+  {
+    path: 'favorites-shared/:fromFirebaseUID',
+    loadChildren: () => import('./pages/favorites-shared/favorites-shared.module').then( m => m.FavoritesSharedPageModule)
+  },
+
 ];
 
 @NgModule({

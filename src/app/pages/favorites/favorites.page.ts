@@ -4,7 +4,7 @@ import { BookmarkService } from 'src/app/services/bookmark.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Plugins } from '@capacitor/core';
@@ -24,8 +24,11 @@ export class FavoritesPage implements OnInit {
   public fullBusiness:Array<any>=[];
   public location={"name":"",latitude:0,longitude:0};
   public sponsoredLabel:string = '';
+  public fromFirebaseUID:string = null;
+  public fromEmail:string = null;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private bookmarkService : BookmarkService, 
     private deviceService: DeviceService, 
     private businessService : BusinessService, 
@@ -44,6 +47,14 @@ export class FavoritesPage implements OnInit {
 
  async ionViewWillEnter(){
 
+  const queryParams = this.activatedRoute.snapshot.paramMap.get('fromFirebaseUID');
+
+  if(queryParams){
+    const params = queryParams.split('::');
+    this.fromFirebaseUID = params[0];
+    this.fromEmail = params[1];
+  }
+
   await this.fcmService.analyticsLogEvent("screen_view",{
     page: "favorites_page"
   });
@@ -58,7 +69,7 @@ export class FavoritesPage implements OnInit {
     }
     this.device = await this.deviceService.getDevice();
     let currentUser = await this.fcmService.getCurrentUser();
-    this.bookmarkService.getBookMarks(currentUser.uid).subscribe((bookmarks:Array<any>)=>{
+    this.bookmarkService.getBookMarks(this.fromFirebaseUID || currentUser.uid).subscribe((bookmarks:Array<any>)=>{
       console.log("bookmarks",bookmarks);
       if(bookmarks && bookmarks.length>0){
         bookmarks.forEach((item)=>{
@@ -97,6 +108,22 @@ export class FavoritesPage implements OnInit {
     else{
       Browser.open({ url: bus.default_link })
     }
+  }
+
+  public async shareBookmark(){
+
+    let currentUser = await this.fcmService.getCurrentUser();
+
+    this.socialSharing.share(
+      "Here's an invite to view favorites, please register",
+      null,
+      null, //this.bus.body_image,
+      "https://bestoflocal.app.link/redirect?page=|favorites-shared|"+currentUser.uid+"::"+currentUser.email);
+
+  }
+
+  public async gotoGlobalShare(){
+    this.router.navigateByUrl('/favorites-shared');
   }
 
   public call(bus){

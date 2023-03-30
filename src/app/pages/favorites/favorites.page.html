@@ -1,12 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>My Favorites</ion-title>
+    <ion-title>{{fromFirebaseUID != null ? (fromEmail + ' favorites') : 'My Favorites'}}</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-fab vertical="top" horizontal="start" style="z-index: 999;opacity: 0.9;top:30px" *ngIf="fromFirebaseUID == null">
+  <ion-fab-button (click)="gotoGlobalShare()" size="small">
+    <ion-icon name="globe-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-fab vertical="top" horizontal="end" style="z-index: 999;opacity: 0.9;top:30px" *ngIf="fromFirebaseUID == null">
+  <ion-fab-button (click)="shareBookmark()" size="small">
+    <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 <ion-content>
   <!--ion-searchbar showCancelButton="never" (ionInput)="filterList($event)"  ></ion-searchbar -->
   <div id="container" class="card-background-page">
+    
   <ion-card   *ngFor="let bus of bookmarks; let ind = index; "  class="card-basic-style-subcategories" >
     <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true"  ></ion-img>
     <div class="container-top-left" (click)="goToBussinesDetail(bus)" *ngIf="bus.is_classified && bus.is_classified == '1'">
