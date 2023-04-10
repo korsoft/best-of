@@ -40,7 +40,15 @@ export class AppComponent implements OnInit {
       title: 'Home',
       url: '/home',
       action: (url,i) => {
-        if(this.router.url!="/home"){
+        console.log("CURRENTURLT: " + this.router.url);
+        console.log("URLT: " + url);
+        const currentUrl = decodeURIComponent(this.router.url).replace('?reload=true','');
+        if(currentUrl == url){
+          this.storage.clear().then((val) => {
+            this.router.navigateByUrl('/home?reload=true');
+           });
+        } else if(this.router.url!="/home"){
+          console.log("url intro");
            this.selectedIndex = i;
            //this.storage.clear().then((val) => {
             this.router.navigateByUrl(url);

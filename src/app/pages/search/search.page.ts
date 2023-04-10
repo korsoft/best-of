@@ -50,7 +50,9 @@ export class SearchPage implements OnInit {
   public searchTextValue:string = '';
 
   public filters: SearchFilter = {
+    allBusiness: false,
     newBusiness: false,
+    recentBusiness: false,
     memberBusiness: false
   }
 
@@ -108,6 +110,7 @@ export class SearchPage implements OnInit {
       }
 
   }
+  
 
   async ionViewWillEnter(){
     await this.fcmService.analyticsLogEvent("screen_view",{
@@ -122,6 +125,20 @@ export class SearchPage implements OnInit {
       return;
     }
     this.device = await this.deviceService.getDevice();
+  }
+
+  async changeSearchType(event){
+    console.log(event);
+    this.filters.allBusiness = event.detail?.value == 'all';
+    this.filters.newBusiness = event.detail?.value == 'new';
+    this.filters.recentBusiness = event.detail?.value == 'recent';
+    console.log("filters",this.filters);
+    await this.searchBusiness({
+      "keyCode":13,
+      "srcElement": {
+        "value": this.searchTextValue
+      }
+    });
   }
 
   async searchBySpeech(){
@@ -194,11 +211,14 @@ export class SearchPage implements OnInit {
     if(evt.keyCode !== 13)
       return;
 
-      const searchTerm = evt.srcElement.value?.trim();
+    const searchTerm = evt.srcElement.value?.trim();
 
-    if (!searchTerm || searchTerm.length<2) {
+    if(this.filters.newBusiness == false && this.filters.recentBusiness == false)
+      this.filters.allBusiness = true;
+
+    /*if (!searchTerm || searchTerm.length<2) {
       return;
-    }
+    }*/
 
     await this.fcmService.analyticsLogEvent("screen_action",{
       page: "search",

@@ -4,10 +4,24 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
+  <ion-item>
+    <ion-segment mode="md" (ionChange)="changeSearchType($event)" color="secondary">
+      <ion-segment-button value="all">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="new">
+        <ion-label>New</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="recent">
+        <ion-label>Recent</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-item>
   <ion-item lines="none" >
   <ion-searchbar showCancelButton="never"  (keypress)="searchBusiness($event)" [(ngModel)]="searchTextValue" ></ion-searchbar>
-  <ion-icon name="filter-outline" slot="end" (click)="openSearchFilterModal()"></ion-icon>
+  <!--ion-icon name="filter-outline" slot="end" (click)="openSearchFilterModal()"></ion-icon -->
   <ion-icon name="mic-outline" slot="end" (click)="searchBySpeech()"></ion-icon>
 </ion-item>
   <div id="container" class="card-background-page">

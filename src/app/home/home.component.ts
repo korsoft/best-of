@@ -114,6 +114,9 @@ export class HomeComponent implements OnInit {
   
   async setOption(option,cat){
 
+    if(cat.NoAction === '1')
+      return;
+
     let locationObj = await this.storage.get('location');
 
     console.log("option",option);
@@ -310,6 +313,7 @@ export class HomeComponent implements OnInit {
                                                value.categoryUrl = locationCats[i].Category_URL;
                                                value.is_classifieds = locationCats[i].is_classifieds ?? '0';
                                                value.Share = locationCats[i].Share ?? '0';
+                                               value.NoAction = locationCats[i].NoAction ?? '0';
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;

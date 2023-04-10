@@ -37,28 +37,28 @@ export class BusinessService {
     text='%'+text+'%';
     let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3620":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3620":"'+text+'"}]}',tracking: "true",trackingdevice: uuid, limit:'100', order: (filters.recentBusiness ? 'desc' : 'asc')}});
  }
 
   public searchBusinessBySummary(idLocation,text,uuid, filters: SearchFilter){
   text='%'+text+'%';
   let extraFilters = this.buildFilters(filters);
   return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-    '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3621":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+    '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3621":"'+text+'"}]}',tracking: "true",trackingdevice: uuid, limit:'100', order: (filters.recentBusiness ? 'desc' : 'asc')}});
   }
 
   public searchBusinessByBody(idLocation,text,uuid, filters: SearchFilter){
     text='%'+text+'%';
     let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3622":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_3622":"'+text+'"}]}',tracking: "true",trackingdevice: uuid, limit:'100', order: (filters.recentBusiness ? 'desc' : 'asc')}});
   }
 
   public searchBusinessByCategories(idLocation,text,uuid, filters: SearchFilter){
     text='%'+text+'%';
     let extraFilters = this.buildFilters(filters);
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/388`,{params: {filters:
-      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_4639":"'+text+'"}]}',tracking: "true",trackingdevice: uuid}});
+      '{"where":[{"q_3614":"'+idLocation+'"},{"q_3619":"1"}'+extraFilters+'],"whereLike":[{"q_4639":"'+text+'"}]}',tracking: "true",trackingdevice: uuid, limit:'100', order: (filters.recentBusiness ? 'desc' : 'asc')}});
   }
 
   public getBusinessById(id,uuid){
