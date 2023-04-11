@@ -320,13 +320,15 @@ export class HomeComponent implements OnInit {
                                                 else
                                                   value.hide_name=false;
                                                 
-                                               if(locationCats[i].local_icon){
-                                                 value.cat_icon=locationCats[i].local_icon;
-                                               }
-                                               return true;
-                                             }
-                                           }
-                                           return false;
+                                              if(locationCats[i].local_icon){
+                                                const locationIcon = locationCats[i].local_icon;
+                                                const newLocationIcon = locationIcon.substring(0,locationIcon.lastIndexOf('.')) + ".webp";
+                                                value.cat_icon=newLocationIcon;
+                                              }
+                                              return true;
+                                            }
+                                          }
+                                          return false;
                                         });
 
                                         

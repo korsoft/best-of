@@ -261,6 +261,10 @@ export class SearchPage implements OnInit {
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{
+                    const bodyImage = item.body_image;
+                    if(bodyImage && bodyImage != ""){
+                      item.body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
+                    }
                       item.showMap=true;
                       if(item.latitude &&  item.longitude &&
                         item.latitude !="0" &&  item.longitude!="0"){

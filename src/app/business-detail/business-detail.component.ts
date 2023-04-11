@@ -138,6 +138,10 @@ export class BusinessDetailComponent implements OnInit {
 
    this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data:any)=>{
       if(data){
+        const bodyImage = data.body_image;
+        if(bodyImage && bodyImage != ""){
+          data.body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
+        }
         console.log("business details",data);
         this.bus=data;
         if(this.bus.ad && this.bus.ad.length>0){

@@ -77,6 +77,10 @@ export class FavoritesPage implements OnInit {
           this.businessService.getBusinessById(item.Business,this.device.uuid).subscribe((bookmark:any)=>{
             if(bookmark){
               console.log("bookmark",bookmark);
+              const bodyImage = bookmark.body_image;
+              if(bodyImage && bodyImage != ""){
+                bookmark.body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
+              }
               bookmark.showMap=true;
               if(bookmark.latitude &&  bookmark.longitude &&
                 bookmark.latitude !="0" &&  bookmark.longitude!="0"){

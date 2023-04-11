@@ -182,6 +182,13 @@ export class FolderPage implements OnInit {
 
                         data = dataT;
 
+                        for(var i=0;i<data.length;i++){
+                          const bodyImage = data[i].body_image;
+                          if(bodyImage && bodyImage != ""){
+                            data[i].body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
+                          }
+                        }
+
                         this.fullBusiness = data;
                         this.business = data;
                         for (var i = 0; i < this.business.length; i++) {
