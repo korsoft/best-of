@@ -126,6 +126,8 @@ export class HomeComponent implements OnInit {
 
     let classified_category = cat?.classified_category ?? '0';
 
+    let sort_by_name = cat?.SortSubcategories ?? '0';
+
   	/*if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
@@ -174,7 +176,7 @@ export class HomeComponent implements OnInit {
             action: "go_to_category",
             category: cat.cat_name
           });
-          this.router.navigateByUrl(`/folder/${locationObj.qpId}/${cat.qpId}/${cat.cat_name}?is_classifieds=${is_classifieds}&classified_category=${classified_category}`);
+          this.router.navigateByUrl(`/folder/${locationObj.qpId}/${cat.qpId}/${cat.cat_name}?is_classifieds=${is_classifieds}&classified_category=${classified_category}&sort_by_name=${sort_by_name}`);
           break;
       }
 
@@ -314,6 +316,7 @@ export class HomeComponent implements OnInit {
                                                value.is_classifieds = locationCats[i].is_classifieds ?? '0';
                                                value.Share = locationCats[i].Share ?? '0';
                                                value.NoAction = locationCats[i].NoAction ?? '0';
+                                               value.SortSubcategories = locationCats[i].SortSubcategories ?? '0';
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;

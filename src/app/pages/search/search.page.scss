@@ -105,3 +105,10 @@ border-radius: 20px !important;
 z-index: 99;
 }
 
+.segment-button-checked.md::part(native) {
+  color: orange;
+}
+
+ion-segment-button.md::part(indicator-background) {
+  background-color: orange;
+}

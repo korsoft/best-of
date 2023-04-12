@@ -66,6 +66,8 @@ export class FolderPage implements OnInit {
     this.is_classifieds = this.activatedRoute.snapshot.queryParamMap.get('is_classifieds') ?? '0';
     this.classified_category = this.activatedRoute.snapshot.queryParamMap.get('classified_category') ?? '0';
 
+    const sort_by_name = this.activatedRoute.snapshot.queryParamMap.get('sort_by_name') ?? '0';
+
     console.log("is_classifieds",this.is_classifieds);
 
     this.sponsoredLabel = await this.settingsService.getValue(this.settingsService.SPONSORED_LABEL);
@@ -89,6 +91,24 @@ export class FolderPage implements OnInit {
           this.subcategories=val.filter((cat, index, array)=>{
             return (cat.cat_name===this.folder);  
           });
+
+          if(sort_by_name === '1'){ //then sort by name
+            console.log("sort_by_name",sort_by_name);
+            this.subcategories.sort((a, b) => {
+              const nameA = a.subcat_name.toUpperCase(); // ignore upper and lowercase
+              const nameB = b.subcat_name.toUpperCase(); // ignore upper and lowercase
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+            
+              return 0;
+            });
+            
+          }
+          
           this.fullSubcategories=this.subcategories;
           console.log("subcategories",this.subcategories);
           let subcat = val.find(c => c.qpId === Number(this.id));
