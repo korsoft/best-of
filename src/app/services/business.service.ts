@@ -69,6 +69,15 @@ export class BusinessService {
     return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/528/qp/${id}`,{params:{tracking: "true",trackingdevice: uuid}});
   }
 
+  public createUserSearchTerm(deviceId,searchTerm){
+  	return this.httpClient.post(`https://api.bestofventures.app/api/user/81447/activity/536`,{"answers":{"UserSearchDevice":deviceId,"UserSearchString":searchTerm}});
+  }
+
+  public getUserSearchTermsByDeviceId(deviceId){
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/536`,{params: {filters:
+      '{"where":[{"q_5014":"'+deviceId+'"}]}',tracking: "true",trackingdevice: deviceId, limit:'10', order: 'desc'}});
+  }
+
   private buildFilters(filters: SearchFilter): String {
     let filtersStr = '';
     if(filters.newBusiness === true){

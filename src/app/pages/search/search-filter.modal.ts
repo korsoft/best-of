@@ -9,17 +9,23 @@ import SearchFilter from "src/app/interfaces/SearchFilter";
 export class SearchFilterModal {
 
 
-    @Input() filters: SearchFilter;
+    @Input() lastSearchTerms:Array<any>;
 
     constructor(private modalController: ModalController){}
+
+    public gotoTerm(term:string){
+      console.log("term",term);
+      
+      this.dismiss(term);
+    }
   
-    dismiss() {
+    dismiss(term: string = '') {
       //console.log(this.filters);
       // using the injected ModalController this page
       // can "dismiss" itself and optionally pass back data
       this.modalController.dismiss({
         'dismissed': true,
-        'filters':this.filters
+        'searchTextValue': term
       });
     }
   }

@@ -332,6 +332,9 @@ export class FolderPage implements OnInit {
   }
 
   async goToBussines(cat){
+    console.log("cat",cat);
+    if(cat.NoAction && cat.NoAction == "1")
+      return;
     let locationObj = await this.storage.get('location');
     console.log("cat",cat);
     switch (cat.action_type) {

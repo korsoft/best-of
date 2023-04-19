@@ -46,6 +46,7 @@ export class SearchPage implements OnInit {
   public categoriesSearch:Array<any> = [];
   public subcategoriesList:Array<any> = [];
   public subcategoriesSearch:Array<any> = [];
+  public lastSearchTerms:Array<any> = [];
   public sponsoredLabel:string = '';
   public searchTextValue:string = '';
 
@@ -133,11 +134,29 @@ export class SearchPage implements OnInit {
     this.filters.newBusiness = event.detail?.value == 'new';
     this.filters.recentBusiness = event.detail?.value == 'recent';
     console.log("filters",this.filters);
-    await this.searchBusiness({
-      "keyCode":13,
-      "srcElement": {
-        "value": this.searchTextValue
-      }
+
+    if((!this.searchTextValue || this.searchTextValue.trim().length == 0 ) && event.detail?.value == 'all'){
+      this.businessList = [];
+      return;
+    }
+
+    if(event.detail?.value != 'recent'){
+      await this.searchBusiness({
+        "keyCode":13,
+        "srcElement": {
+          "value": this.searchTextValue
+        }
+      }, true);
+      return;
+    }
+
+    this.businessList = [];
+
+    this.businessService.getUserSearchTermsByDeviceId(this.device.uuid).subscribe((searchUserTems:Array<any>)=>{
+      console.log(searchUserTems)
+      this.lastSearchTerms = searchUserTems;
+      if(searchUserTems && searchUserTems.length>0)
+        this.openSearchFilterModal();
     });
   }
 
@@ -206,7 +225,7 @@ export class SearchPage implements OnInit {
     
   }
   
-  async searchBusiness(evt) {
+  async searchBusiness(evt, ignoreCreateNewSearchTerm = false) {
   
     if(evt.keyCode !== 13)
       return;
@@ -240,6 +259,12 @@ export class SearchPage implements OnInit {
         this.presentToast("No data for this location");
         this.ionLoader.hideLoader();
         return;
+      }
+
+      if(!ignoreCreateNewSearchTerm){
+        this.businessService.createUserSearchTerm(this.device.uuid, searchTerm.toLowerCase()).subscribe((result:any)=>{
+          console.log("new search term",result);
+        });
       }
 
       
@@ -303,7 +328,19 @@ export class SearchPage implements OnInit {
     const modal = await this.modalController.create({
       component: SearchFilterModal,
       swipeToClose: true,
-      componentProps: { 'filters': this.filters }
+      componentProps: { 'lastSearchTerms': this.lastSearchTerms }
+    });
+    modal.onDidDismiss().then(async (data:any) => {
+      console.log("data",data);
+      if(data.data.searchTextValue){
+        this.searchTextValue = data.data.searchTextValue;
+        await this.searchBusiness({
+          "keyCode":13,
+          "srcElement": {
+            "value": this.searchTextValue
+          }
+        }, true);
+      }
     });
     return await modal.present();
   }

@@ -114,9 +114,9 @@ export class HomeComponent implements OnInit {
   
   async setOption(option,cat){
 
-    if(cat.NoAction === '1')
+    /*if(cat.NoAction === '1')
       return;
-
+    */
     let locationObj = await this.storage.get('location');
 
     console.log("option",option);
