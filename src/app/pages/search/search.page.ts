@@ -186,8 +186,8 @@ export class SearchPage implements OnInit {
       this.speechRecognition.startListening({showPartial: true, matches: 1}).subscribe(
         async (matches: string[]) => { 
           console.log("searches",matches);
-
-          await this.stopSearchBySpeech(matches.join(' '));
+          const searchValue = matches.join(' ');
+          await this.stopSearchBySpeech(searchValue);
         },
         async (onerror) => {
           console.log('error:', onerror);
@@ -209,10 +209,19 @@ export class SearchPage implements OnInit {
   async stopSearchBySpeech(text){
 
       console.log("stopSearchBySpeech",text);
+
+     
     
+      await this.ionLoader.hideSpeechVoice();
+
+      if(this.searchTextValue){
+        if(this.searchTextValue.trim().toLowerCase() == text.trim().toLowerCase())
+          return;
+      }
+
+      
       this.searchTextValue = text.trim();
 
-    await this.ionLoader.hideSpeechVoice();
         
       await this.searchBusiness({
         "keyCode":13,
@@ -235,9 +244,9 @@ export class SearchPage implements OnInit {
     if(this.filters.newBusiness == false && this.filters.recentBusiness == false)
       this.filters.allBusiness = true;
 
-    /*if (!searchTerm || searchTerm.length<2) {
+    if (!searchTerm || searchTerm.length<2) {
       return;
-    }*/
+    }
 
     await this.fcmService.analyticsLogEvent("screen_action",{
       page: "search",
@@ -248,6 +257,7 @@ export class SearchPage implements OnInit {
     this.categoriesSearch = [];
     this.subcategoriesSearch = [];
     this.businessList= [];
+
 
     
 
