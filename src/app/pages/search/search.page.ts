@@ -244,9 +244,9 @@ export class SearchPage implements OnInit {
     if(this.filters.newBusiness == false && this.filters.recentBusiness == false)
       this.filters.allBusiness = true;
 
-    if (!searchTerm || searchTerm.length<2) {
+    /*if (!searchTerm || searchTerm.length<2) {
       return;
-    }
+    }*/
 
     await this.fcmService.analyticsLogEvent("screen_action",{
       page: "search",
@@ -271,7 +271,7 @@ export class SearchPage implements OnInit {
         return;
       }
 
-      if(!ignoreCreateNewSearchTerm){
+      if(!ignoreCreateNewSearchTerm && searchTerm.trim() != ''){
         this.businessService.createUserSearchTerm(this.device.uuid, searchTerm.toLowerCase()).subscribe((result:any)=>{
           console.log("new search term",result);
         });
