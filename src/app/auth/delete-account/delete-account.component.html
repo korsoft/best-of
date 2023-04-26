@@ -3,11 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Delete Your Account</ion-title>
+    <ion-title>Delete Account Data</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <p class="delete-account-info">When you delete your account, your profile and data will be permanently removed.</p>
+  <p class="delete-account-info">To remove your personal data, click here.</p>
   <form style="padding-top: 50px;padding-bottom: 50px;" [formGroup]="deleteForm"  (ngSubmit)="submit()">
     <ion-item lines="full">
       <ion-label position="floating">Confirm your email to continue</ion-label>
@@ -15,7 +15,7 @@
     </ion-item>
     <ion-row>
       <ion-col style="text-align: center;">
-        <ion-button color="danger" type="submit" expand="block" >Confirm delete my account</ion-button>
+        <ion-button color="danger" type="submit" expand="block" >Are you sure you want to delete your data?</ion-button>
       </ion-col>
     </ion-row>  
   </form>

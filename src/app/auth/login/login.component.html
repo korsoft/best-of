@@ -7,7 +7,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form style="padding-top: 50px;padding-bottom: 50px;" [formGroup]="loginForm"  (ngSubmit)="submit()">
+ 
+  <form style="padding-top: 30px;padding-bottom: 50px;" [formGroup]="loginForm"  (ngSubmit)="submit()">
+    <ion-row>
+      <ion-col style="padding: 10px;">
+      
+        To bookmark favorites, view search history and have full access to Best Of Local features, create an account here:
+      </ion-col>
+ 
+    </ion-row>
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input type="email" inputmode="email" formControlName="email" required></ion-input>

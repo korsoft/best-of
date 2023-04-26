@@ -3,7 +3,7 @@ import { Router , NavigationStart, NavigationEnd} from '@angular/router';
 
 import { DeviceService } from './services/device.service';
 
-import { AlertController, MenuController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 //import { FcmService } from './services/fcm.service';
@@ -215,6 +215,7 @@ export class AppComponent implements OnInit {
   public locationName:string = "";
   public isLogged:boolean = false;
 
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -230,7 +231,8 @@ export class AppComponent implements OnInit {
     private deeplinks: Deeplinks,
     private zone: NgZone,
     private appVersion : AppVersion,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {
     this.initializeApp();
   }
@@ -412,6 +414,41 @@ export class AppComponent implements OnInit {
 
   async deleteAccount(){
     this.router.navigateByUrl('/deleteAccount');
+    /*const alert = await this.alertController.create({
+      header: 'Delete your Account',
+      cssClass: 'my-alert-class',
+      message: 'Are you sure you want to delete all of your saved favorites?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm No Delete Account');
+          },
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            console.log('Confirm Delete Account');
+            let currentUser = await this.fcmService.getCurrentUser();
+            console.log("currentUser",JSON.stringify(currentUser));
+            try {
+              console.log("delete account....");
+              await this.fcmService.deleteAccount();
+              await this.showMessage("Account deleted");
+              this.isLogged = false;
+              this.router.navigateByUrl('/home');
+            } catch(error){
+              console.log(error);
+              await this.showMessage(error);
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();  */
   }
 
   openMenu(){
@@ -525,6 +562,15 @@ export class AppComponent implements OnInit {
       url: gotoUrl
     });
     Browser.open({ url: gotoUrl })
+  }
+
+  async showMessage(message:string) {
+    const toast = await this.toastController.create({
+      message: message,
+      position: 'top',
+      duration: 5000
+    });
+    toast.present();
   }
 
   async presentToast() {
