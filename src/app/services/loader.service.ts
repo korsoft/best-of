@@ -29,20 +29,24 @@ export class LoaderService {
   // Show the loader for infinite time
   async showLoader() {
 
-    let res = await this.loadingController.create({
-      message: ''
-    });
-    await res.present();
+    try {
+      let res = await this.loadingController.create({
+        message: ''
+      });
+      await res.present();
+    } catch(err){
+      console.log(err);
+    }
   }
 
   // Hide the loader if already created otherwise return error
   async hideLoader() {
 
-    this.loadingController.dismiss().then((res) => {
-      console.log('Loading dismissed!', res);
-    }).catch((error) => {
-      console.log('error', error);
-    });
+    try {
+      await this.loadingController.dismiss();
+    } catch(err){
+      console.log(err);
+    }
 
   }
 

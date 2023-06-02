@@ -304,8 +304,9 @@ export class HomeComponent implements OnInit {
                                 this.categoryService.getCategorys().subscribe(
                                     async (cats:Array<any>)=>{
                                       
+                                      await this.ionLoader.hideLoader();
                                        
-                                        cats = cats.filter((value)=>{
+                                      cats = cats.filter((value)=>{
                                            for (var i = locationCats.length - 1; i >= 0; i--) {
                                              if(locationCats[i].active && locationCats[i].active=="0")
                                                 continue;
@@ -368,7 +369,6 @@ export class HomeComponent implements OnInit {
                                           this.categorys[i].viewId="card"+i+""+new Date().getTime();
                                         }
                                        
-                                        this.ionLoader.hideLoader();
                                         this.cdr.detectChanges();
                                 });
                             }else{

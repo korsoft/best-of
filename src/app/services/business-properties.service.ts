@@ -12,4 +12,8 @@ export class BusinessPropertiesService {
   public getBusinessPropertiesByBusiness(idBusiness){
      return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/393`,{params: {filters:'{"where":[{"q_3676":"'+idBusiness+'"}]}'}});
   }
+
+  public getBusinessProperties(){
+    return this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/523`);
+ }
 }

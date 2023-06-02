@@ -36,6 +36,15 @@ and
 ## Command PhaseScriptExecution failed with a nonzero exit code
 
 ``````
+File not found: /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/libarclite_iphoneos.a
+
+Open terminal:
+cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/
+sudo mkdir arc
+cd  arc
+sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .
+sudo chmod +x *
+
 
 In your Xcode navigate to:
 

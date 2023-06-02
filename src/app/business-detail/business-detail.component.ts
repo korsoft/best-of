@@ -57,7 +57,7 @@ export class BusinessDetailComponent implements OnInit {
 
   public zoomMap = 7;
 
-  public PROPERTY_TYPE = {
+  public PROPERTY_TYPE = []; /*{
     "33338836": "facebook",
     "33338837": "instagram",
     "33338838": "twitter",
@@ -66,7 +66,7 @@ export class BusinessDetailComponent implements OnInit {
     "33338841": "url",
     "33338842": "email",
     "33338843": "phone"
-  };
+  };*/
 
   public slideOpts = {
     slidesPerView: 1.9,
@@ -136,112 +136,121 @@ export class BusinessDetailComponent implements OnInit {
      this.location = loc;
    });
 
-   this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data:any)=>{
-      if(data){
-        const bodyImage = data.body_image;
-        if(bodyImage && bodyImage != ""){
-          data.body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
-        }
-        console.log("business details",data);
-        this.bus=data;
-        if(this.bus.ad && this.bus.ad.length>0){
-          this.businessService.getAdById(this.bus.ad,this.device.uuid).subscribe((adObj:any)=>{
-            this.ad = adObj;
-            console.log("Ad",this.ad);
-          });
-        }
-        if(this.bus.Photos && this.bus.Photos.length>1){
-          this.bus.photosArray = JSON.parse(this.bus.Photos);
-          console.log("photos",this.bus.photosArray);
-        }
-        
-        this.fcmService.analyticsLogEvent("screen_action",{
-          page: "business_details",
-          action:'view_details',
-          business: data.Name
-        });
-        if(this.bus.latitude &&  this.bus.longitude &&
-          this.bus.latitude !="0" &&  this.bus.longitude!="0"){
-            this.bus.showMap=true;
-           this.latitude = parseFloat(this.bus.latitude);
-           this.longitude = parseFloat(this.bus.longitude);
-        }else{
-          this.bus.showMap=false;
-        }
-        if(this.bus.call){
-          this.bus.showCall=true;
-          
-        }else{
-          this.bus.showCall=false;
-        }
-       
-        this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
-          console.log("props",props);
-          let propArray=props.filter((p)=>{
-             return (p.label!=null && p.label!=="" && p.property!=="Facebook" && p.property!=="Instagram");
-          });
-          for(let i=1;i<=8;i++){
-            let mediaLink = `Media_Link_${i}`;
-            let mediaLinkType = `Media_Link_${i}_Type`;
-            let mediaLinkLabel = `Media_Link_${i}_Label`;
-            if(this.bus[mediaLink] && this.bus[mediaLinkType] && this.bus[mediaLinkLabel]){
-                propArray.push({
-                    "label":this.bus[mediaLinkLabel],
-                    "listing_id":0,
-                    "position":99,
-                    "property": this.PROPERTY_TYPE[this.bus[mediaLinkType]],
-                    "qpId": 0,
-                    "value":this.bus[mediaLink]
-                });
-            }
+   this.businessPropertiesService.getBusinessProperties().subscribe((properties:any) => {
+    console.log("PROPERTY_TYPE",properties);
+     this.PROPERTY_TYPE = properties;
+     
+     this.businessService.getBusinessById(this.id,this.device.uuid).subscribe((data:any)=>{
+        if(data){
+          const bodyImage = data.body_image;
+          if(bodyImage && bodyImage != ""){
+            data.body_image = bodyImage.substring(0,bodyImage.lastIndexOf('.')) + ".webp";
           }
-          for(let i=0;i<propArray.length;i++){
-            let p = propArray[i];
-            if(p.property.toLowerCase()==='menu')
-              p.position = 1;
-            else if(p.property.toLowerCase()==='url')
-              p.position = 2;
-            else if(p.property.toLowerCase()==='reservations')
-              p.position = 3;
-            else if(p.property.toLowerCase()==='appointment')
-              p.position = 4;
-            else if(p.property.toLowerCase()==='takeout/delivery')
-              p.position = 5;
-            else if(p.property.toLowerCase()==='email')
-              p.position = 6;
-            else
-              p.position = 99;
-          
-        }
-        propArray.sort(function(a,b){
-            if(a.position>b.position)
-              return 1;
-            else if(b.position>a.position)
-              return -1;
-            else
-              return 0;
-          });
-
-          this.properties = propArray;
-          
-          console.log("business properties",this.properties);
-          if(currentUser != null && currentUser.uid){
-            this.bookmarkService.getBookMark(currentUser.uid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
-              if(bookmark.length){
-                this.bookmark = bookmark[0];
-              }else{
-                this.bookmark = null;
-              }
+          console.log("business details",data);
+          this.bus=data;
+          if(this.bus.ad && this.bus.ad.length>0){
+            this.businessService.getAdById(this.bus.ad,this.device.uuid).subscribe((adObj:any)=>{
+              this.ad = adObj;
+              console.log("Ad",this.ad);
             });
           }
+          if(this.bus.Photos && this.bus.Photos.length>1){
+            this.bus.photosArray = JSON.parse(this.bus.Photos);
+            console.log("photos",this.bus.photosArray);
+          }
+          
+          this.fcmService.analyticsLogEvent("screen_action",{
+            page: "business_details",
+            action:'view_details',
+            business: data.Name
+          });
+          if(this.bus.latitude &&  this.bus.longitude &&
+            this.bus.latitude !="0" &&  this.bus.longitude!="0"){
+              this.bus.showMap=true;
+             this.latitude = parseFloat(this.bus.latitude);
+             this.longitude = parseFloat(this.bus.longitude);
+          }else{
+            this.bus.showMap=false;
+          }
+          if(this.bus.call){
+            this.bus.showCall=true;
+            
+          }else{
+            this.bus.showCall=false;
+          }
+         
+          this.businessPropertiesService.getBusinessPropertiesByBusiness(this.bus.qpId).subscribe((props:Array<any>)=>{
+            console.log("props",props);
+            let propArray=props.filter((p)=>{
+               return (p.label!=null && p.label!=="" && p.property!=="Facebook" && p.property!=="Instagram");
+            });
+            for(let i=1;i<=8;i++){
+              let mediaLink = `Media_Link_${i}`;
+              let mediaLinkType = `Media_Link_${i}_Type`;
+              let mediaLinkLabel = `Media_Link_${i}_Label`;
+              if(this.bus[mediaLink] && this.bus[mediaLinkType] && this.bus[mediaLinkLabel]){
+                console.log("mediaLinkType",this.bus);
+                const property = this.PROPERTY_TYPE.find( p => p.qpId == this.bus[mediaLinkType]);
+                console.log("property",property);  
+                propArray.push({
+                      "label":this.bus[mediaLinkLabel],
+                      "listing_id":0,
+                      "position":99,
+                      "property": property.Type.toLowerCase(),
+                      "qpId": 0,
+                      "value":this.bus[mediaLink]
+                  });
+              }
+            }
+            for(let i=0;i<propArray.length;i++){
+              let p = propArray[i];
+              if(p.property.toLowerCase()==='menu')
+                p.position = 1;
+              else if(p.property.toLowerCase()==='url')
+                p.position = 2;
+              else if(p.property.toLowerCase()==='reservations')
+                p.position = 3;
+              else if(p.property.toLowerCase()==='appointment')
+                p.position = 4;
+              else if(p.property.toLowerCase()==='takeout/delivery')
+                p.position = 5;
+              else if(p.property.toLowerCase()==='email')
+                p.position = 6;
+              else
+                p.position = 99;
+            
+          }
+          propArray.sort(function(a,b){
+              if(a.position>b.position)
+                return 1;
+              else if(b.position>a.position)
+                return -1;
+              else
+                return 0;
+            });
+  
+            this.properties = propArray;
+            
+            console.log("business properties",this.properties);
+            if(currentUser != null && currentUser.uid){
+              this.bookmarkService.getBookMark(currentUser.uid,this.bus.qpId).subscribe((bookmark:Array<any>)=>{
+                if(bookmark.length){
+                  this.bookmark = bookmark[0];
+                }else{
+                  this.bookmark = null;
+                }
+              });
+            }
+            this.ionLoader.hideLoader();
+          });
+          
+        }else{
+          this.presentToast("No data for business");
           this.ionLoader.hideLoader();
-        });
-        
-      }else{
-        this.presentToast("No data for business");
-        this.ionLoader.hideLoader();
-      }
+        }
+     });
    });
+
               
 
   }
