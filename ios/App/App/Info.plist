@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Best of</string>
+	<string>Best of Local</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,20 +17,69 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>capacitor</string>
+				<string>fb869290007336995suffix</string>
+				<string>com.googleusercontent.apps.133405061081-6bdf1mtodasb84bqumjsfrq1erksstrv</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
+	<string>NO</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<string>YES</string>
+	<key>FacebookAdvertiserIDCollectionEnabled_PLACEHOLDER</key>
+	<string>false</string>
+	<key>FacebookAppID</key>
+	<string>869290007336995</string>
+	<key>FacebookClientToken</key>
+	<string>df5bc9e6beace929c8d0b7682c100f04</string>
+	<key>FacebookDisplayName</key>
+	<string>Best Of</string>
+	<key>FacebookUrlSchemeSuffix</key>
+	<string>suffix</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<string>$AUTOMATIC_SCREEN_REPORTING_ENABLED</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb</string>
+		<string>citymapper</string>
+		<string>comgooglemaps</string>
+		<string>navigon</string>
+		<string>transit</string>
+		<string>waze</string>
+		<string>yandexnavi</string>
+		<string>uber</string>
+		<string>tomtomhome</string>
+		<string>com.sygic.aura</string>
+		<string>here-route</string>
+		<string>moovit</string>
+		<string>lyft</string>
+		<string>mapsme</string>
+		<string>cabify</string>
+		<string>baidumap</string>
+		<string>taxis99</string>
+		<string>iosamap</string>
+		<string>mailto</string>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -40,18 +89,28 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To Take Photos and Video</string>
+	<key>NSExceptionDomains</key>
+	<dict>
+		<key>facebook.com</key>
+		<true/>
+	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Always allow Geolocation?</string>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Geolocation?</string>
+	<string>Best Of Local helps you find local business and services. Enable Location Services so we can show you the businesses in your area.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>The app uses speech recognition for searching</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Store camera photos to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To Pick Photos from Library</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Best of</string>
-    <string name="title_activity_main">Best of</string>
-    <string name="package_name">korsoft.app.bestof</string>
-    <string name="custom_url_scheme">korsoft.app.bestof</string>
+    <string name="app_name">Best of Local</string>
+    <string name="title_activity_main">Best of Local</string>
+    <string name="package_name">bestofventures.app.bestoflocal</string>
+    <string name="custom_url_scheme">bestofventures.app.bestoflocal</string>
+    <string name="fb_app_id">869290007336995</string>
+    <string name="fb_app_name">Best Of</string>
+    <string name="server_client_id">133405061081-jpmdn4l7k9jt2rrauik6hj751323bo4r.apps.googleusercontent.com</string>
 </resources>

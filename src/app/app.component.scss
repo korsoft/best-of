@@ -117,6 +117,10 @@ ion-note {
   color: var(--ion-color-medium-shade);
 }
 
+.back-button {
+  font-size: 11px !important;
+}
+
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
@@ -125,3 +129,24 @@ ion-item.selected {
   --ion-color-base: var(--ion-color-primary);
 }
 
+.bar-bottom {
+  background-color: #d7d8da !important;
+  height: 42px !important;
+}
+
+.share-icon {
+  height: 44px !important;
+  color: #5a5a5c !important;
+}
+
+
+.bar-bottom ion-tab-button {
+  background-color: #d7d8da !important;
+
+  ion-icon {
+      height: 26px !important;
+      margin-top:10px !important;
+      margin-bottom: 10px !important;
+    
+  }
+}

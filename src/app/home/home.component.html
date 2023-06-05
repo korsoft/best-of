@@ -1,20 +1,44 @@
 <ion-header [translucent]="true">
   <ion-toolbar style="cursor: pointer;">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title (click)="gotoSearch()">BEST OF {{location.address_level_2 }}</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div #container id="container" class="card-background-page" (swipeup)="onSwipeUp()" (swipedown)="onSwipeDown()" >
-    <ion-card (click)="setOption(i,category);" [class.selected]="selectedCard == i" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
-      <ion-img  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
-      <div class="card-title" *ngIf="!category.hide_name" >{{category.cat_name}}</div>
-     
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullFactor="1" pullMin="100" pullMax="200">
+    <ion-refresher-content
+      pullingIcon="lines-small"
+      pullingText="Pull to refresh"
+      refreshingSpinner="lines-small"
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div #container id="container" class="card-background-page">
+    <ion-card  *ngIf="localImage[location.picture_home]" (click)="getChatUrl()" class="card-basic-style selected ">
+      <ion-img  [src]="getImage(location.picture_home)" class="img-background"  ></ion-img>
+      <div class="card-title"></div>
+      <div class="gradientback">
+
+      </div>
+    </ion-card>
+    <ion-card class="card-basic-style selected overlap" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
+      <ion-img  (click)="setOption(i,category);"  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
+      
+      <ion-fab vertical="top" *ngIf="category.Share == '1'" horizontal="end" style="z-index: 999;opacity: 0.9">
+        <ion-fab-button (click)="shareCategory(category)" size="small">
+          <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <div class="gradientback">
+        <div class="card-title" *ngIf="!category.hide_name" (click)="setOption(i,category);" 
+            style="top: 0px;font-family: HelmetRegular !important;-webkit-text-stroke:0px !important; font-size: 45px !important; font-weight: normal !important;" >{{category.cat_name}}</div>
+      </div>
     </ion-card>
 
   </div>
+
+ 
 </ion-content>

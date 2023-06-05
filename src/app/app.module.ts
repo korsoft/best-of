@@ -20,11 +20,19 @@ import { LocationSearchModule } from './location-search/location-search.module'
 import { IonicStorageModule } from '@ionic/storage';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { HTTP } from '@ionic-native/http/ngx';
-
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
+import { Clipboard } from '@awesome-cordova-plugins/clipboard/ngx';
+import { Deeplinks } from '@awesome-cordova-plugins/deeplinks/ngx';
+import { FirebaseAnalytics } from '@awesome-cordova-plugins/firebase-analytics/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { FirebaseAuthentication } from '@awesome-cordova-plugins/firebase-authentication/ngx';
+import { AuthModule } from './auth/auth.module';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 
 
@@ -35,7 +43,7 @@ import { HTTP } from '@ionic-native/http/ngx';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyCxIDgJinuu5t2otiLCHf3yj7cH4QMG_m0'}),
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyCnT_vhNISZ6G1a-9rYM1ha_J8TJ6KSnyY'}),
     IonicStorageModule.forRoot({
       name: '__bestof',
      driverOrder: ['indexeddb', 'sqlite', 'websql']
@@ -46,7 +54,8 @@ import { HTTP } from '@ionic-native/http/ngx';
     MapViewModule,
     BusinessDetailModule,
     LocationSearchModule,
-    HammerModule
+    HammerModule,
+    AuthModule
   ],
   providers: [
     StatusBar,
@@ -55,9 +64,17 @@ import { HTTP } from '@ionic-native/http/ngx';
     GoogleMapsAPIWrapper,
     CallNumber,
     SocialSharing,
+    EmailComposer,
     InAppBrowser,
     Device,
     HTTP,
+    Clipboard,
+    Deeplinks,
+    FirebaseAnalytics,
+    FirebaseAuthentication,
+    LaunchNavigator,
+    AppVersion,
+    SpeechRecognition,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     {

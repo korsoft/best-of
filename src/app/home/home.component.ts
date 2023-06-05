@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Device } from '@ionic-native/device/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -8,12 +8,17 @@ import { LocationService } from '../location.service';
 import { CategoryService } from '../category.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import {  Plugins } from '@capacitor/core';
+import { IonContent, LoadingController } from '@ionic/angular';
 import { LoaderService } from '../services/loader.service';
 import { LocationCategoriesService } from '../services/location-categories.service';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Platform } from '@ionic/angular';
-
+import { DeviceService } from '../services/device.service';
+import { FcmService } from '../services/fcm.service';
+import { SettingsService } from '../services/settings.service';
+const { Browser } = Plugins;
+const { Device } = Plugins;
 declare var google: any;
 
 interface Marker {
@@ -33,6 +38,7 @@ interface Location {
   address_country?: string;
   address_zip?: string;
   address_state?: string;
+  picture_home?: string;
   marker?: Marker;
 }
 
@@ -52,6 +58,7 @@ export class HomeComponent implements OnInit {
       lng: 7.809007,
       draggable: true
     },
+    picture_home: null,
     zoom: 5
   };
   public folder: string;
@@ -59,6 +66,10 @@ export class HomeComponent implements OnInit {
   selectedCard:number=0;
   public categorys:Array<any>=[];
   public selectedElement;
+  public device:any;
+
+  @ViewChild(IonContent) pageTop: IonContent;
+  
   constructor(private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
     private device: Device,
@@ -70,18 +81,56 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private storage: Storage,
     private ionLoader: LoaderService,
+    private deviceService: DeviceService,
     private locationCategoriesService:LocationCategoriesService,
-    public platform: Platform) {
+    private fcmService : FcmService,
+    private settingsService : SettingsService,
+    public platform: Platform,
+    private socialSharing: SocialSharing) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
   }
 
   ngOnInit() {
+    Device.getInfo().then((info) => {
+      console.log("device info",info)
+      //this.deviceService.createDevice(info).subscribe();
+      this.fcmService.initPush(info.uuid);
+    });
+
+    this.settingsService.reloadGlobalSettings();
 
   }
 
-  setOption(option,cat){
-  	if(this.selectedCard!=option){
+  async doRefresh(event) {
+    console.log('Begin async operation');
+
+    await this.loadPage();
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 3000);
+    
+  }
+  
+  async setOption(option,cat){
+
+    /*if(cat.NoAction === '1')
+      return;
+    */
+    let locationObj = await this.storage.get('location');
+
+    console.log("option",option);
+    console.log("category",cat);
+
+    let is_classifieds = cat?.is_classifieds ?? '0';
+
+    let classified_category = cat?.classified_category ?? '0';
+
+    let sort_by_name = cat?.SortSubcategories ?? '0';
+
+  	/*if(this.selectedCard!=option){
      let tempOption=this.selectedCard;
      let up = this.selectedCard > option;
   	 this.selectedCard=option;
@@ -99,20 +148,65 @@ export class HomeComponent implements OnInit {
 
 
      this.cdr.detectChanges();
-  	}else{
+  	}else{*/
       switch (cat.action_type) {
         case "1":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_buzz"
+          });
           this.router.navigateByUrl('/website/Buzz');
           break;
         case "2":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_weather"
+          });
           this.router.navigateByUrl('/website/Weather');
           break;
+        case "3":
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category_url",
+            url: cat.categoryUrl
+          });
+          Browser.open({ url: cat.categoryUrl });
+          break;
         default:
-          this.router.navigateByUrl('/folder/'+cat.qpId+'/'+cat.cat_name);
+          await this.fcmService.analyticsLogEvent("screen_action",{
+            page: "home",
+            action: "go_to_category",
+            category: cat.cat_name
+          });
+          this.router.navigateByUrl(`/folder/${locationObj.qpId}/${cat.qpId}/${cat.cat_name}?is_classifieds=${is_classifieds}&classified_category=${classified_category}&sort_by_name=${sort_by_name}`);
           break;
       }
 
-  	}
+  	//}
+  }
+
+  async getChatUrl(){
+    let location = await this.storage.get('location');
+    console.log("getChatUrl",location);
+    if(location){
+      if(location.Home_Card_URL && location.Home_Card_URL.length>3)
+        Browser.open({ url: location.Home_Card_URL })
+    }
+  }
+
+  async shareCategory(category){
+    let locationObj = await this.storage.get('location');
+    let is_classifieds = category?.is_classifieds ?? '0';
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "category",
+      action: "share",
+      category: category.cat_name
+    });
+    this.socialSharing.share(
+      `Check out ${category.cat_name} on Best of Local`,
+      null,
+      null, //this.bus.body_image,
+      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${category.qpId}|${category.cat_name}?is_classifieds=${is_classifieds}`);
   }
 
   gotoSearch(){
@@ -165,10 +259,15 @@ export class HomeComponent implements OnInit {
   
 
      this.getLocation(latitude,longitude);
-  }*/
+  }*/ 
 
   private getLocation(latitude,longitude,locationName){
-    this.locationService.getLocations().subscribe(
+    this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "go_to_location",
+      location: locationName
+    });
+    this.locationService.getLocations(this.device.uuid).subscribe(
             (data:Array<any>)=>{
               
                   if(data.length>0){
@@ -181,36 +280,61 @@ export class HomeComponent implements OnInit {
                             return l.Name===locationName;
                           });
                         }
+                        console.log("loc",loc);
                         this.location.address_level_2 =loc.Name;
+                        this.location.picture_home = loc.picture_home ? loc.picture_home : null;
                         loc.latitude = latitude;
                         loc.longitude = longitude;
                         this.storage.set("location",loc);
                         this.locationCategoriesService.getCategoriesId(loc.qpId).subscribe(async (locationCats:Array<any>)=>{
+
+                          console.log("locationCats",locationCats);
                          
                           this.storage.get("categories").then(async (val) => {
+
+                            if(this.location.picture_home && this.location.picture_home!=''){
+                              let base:string = String( await this.getBase64ImageFromUrl(this.location.picture_home));
+                                if(!base.startsWith("data:image/jpeg;base64,"))
+                                  base =  "data:image/jpeg;base64,"+base;
+      
+                                this.storage.set(this.location.picture_home,base);
+                                this.localImage[this.location.picture_home]=base;
+                              }
                             //console.log(val);
                             if(!val){
                                 await  this.ionLoader.showLoader();
                                 this.categoryService.getCategorys().subscribe(
                                     async (cats:Array<any>)=>{
+                                      
+                                      await this.ionLoader.hideLoader();
                                        
-                                        cats = cats.filter((value)=>{
+                                      cats = cats.filter((value)=>{
                                            for (var i = locationCats.length - 1; i >= 0; i--) {
+                                             if(locationCats[i].active && locationCats[i].active=="0")
+                                                continue;
+                                              
                                              if(Number(locationCats[i].category)==value.qpId){
                                                value.cat_sort_id= locationCats[i].order;
+                                               value.categoryUrl = locationCats[i].Category_URL;
+                                               value.is_classifieds = locationCats[i].is_classifieds ?? '0';
+                                               value.Share = locationCats[i].Share ?? '0';
+                                               value.NoAction = locationCats[i].NoAction ?? '0';
+                                               value.SortSubcategories = locationCats[i].SortSubcategories ?? '0';
 
                                                 if(locationCats[i].hide_name && locationCats[i].hide_name=="1")
                                                   value.hide_name=true;
                                                 else
                                                   value.hide_name=false;
                                                 
-                                               if(locationCats[i].local_icon){
-                                                 value.cat_icon=locationCats[i].local_icon;
-                                               }
-                                               return true;
-                                             }
-                                           }
-                                           return false;
+                                              if(locationCats[i].local_icon){
+                                                const locationIcon = locationCats[i].local_icon;
+                                                const newLocationIcon = locationIcon.substring(0,locationIcon.lastIndexOf('.')) + ".webp";
+                                                value.cat_icon=newLocationIcon;
+                                              }
+                                              return true;
+                                            }
+                                          }
+                                          return false;
                                         });
 
                                         
@@ -247,7 +371,6 @@ export class HomeComponent implements OnInit {
                                           this.categorys[i].viewId="card"+i+""+new Date().getTime();
                                         }
                                        
-                                        this.ionLoader.hideLoader();
                                         this.cdr.detectChanges();
                                 });
                             }else{
@@ -291,10 +414,35 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ionViewWillEnter(){
-   
-    let location = this.activatedRoute.snapshot.paramMap.get('location');
+  async ionViewWillEnter(){
+  
+    //this.pageTop.scrollToTop(0);
 
+    await this.fcmService.analyticsLogEvent("screen_view",{
+      page: "home"
+    });
+
+    await this.fcmService.analyticsSetCurrentScreen("Home");
+
+    this.device = await this.deviceService.getDevice();
+    if(!this.device){
+      this.device = await Device.getInfo();
+    }
+    
+    if(this.categorys.length > 0 && (!this.activatedRoute.snapshot.queryParamMap || 
+      !this.activatedRoute.snapshot.queryParamMap.get('reload')))
+      return;
+    
+    await this.loadPage();
+    
+  }
+
+
+  async loadPage(){
+    let locationStorage = await this.storage.get("location");
+
+    let location = locationStorage ? locationStorage.Name : this.activatedRoute.snapshot.paramMap.get('location');
+    
       this.mapsApiLoader.load().then(() => {
           this.geocoder = new google.maps.Geocoder();
           this.geolocation.getCurrentPosition().then((resp) => {
@@ -307,12 +455,15 @@ export class HomeComponent implements OnInit {
                 this.getLocation(resp.coords.latitude,resp.coords.longitude,location);
               }
           }).catch((error) => {
-            console.log('Error getting location', error);
- 
+              if(!location){
+                this.getLocation(0,0,"DELRAY BEACH");
+              }else{
+               
+                this.getLocation(0,0,"DELRAY BEACH");
+              }
           });
       });
-  }
-
+  } 
 
 
   scrollCustomImplementation(element: HTMLElement,up) {

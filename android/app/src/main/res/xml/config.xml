@@ -6,17 +6,52 @@
     <param name="android-package" value="mx.ferreyra.callnumber.CFCallNumber"/>
   </feature>
 
+  <feature name="Clipboard">
+    <param name="android-package" value="com.verso.cordova.clipboard.Clipboard"/>
+  </feature>
+
+  <feature name="ActionSheet">
+    <param name="android-package" value="nl.xservices.plugins.actionsheet.ActionSheet"/>
+  </feature>
+
   <feature name="CordovaHttpPlugin">
     <param name="android-package" value="com.silkimen.cordovahttp.CordovaHttpPlugin"/>
+  </feature>
+
+  <feature name="AppVersion">
+    <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion"/>
   </feature>
 
   <feature name="Device">
     <param name="android-package" value="org.apache.cordova.device.Device"/>
   </feature>
 
+  <feature name="Notification">
+    <param name="android-package" value="org.apache.cordova.dialogs.Notification"/>
+  </feature>
+
+  <feature name="EmailComposer">
+    <param name="android-package" value="de.appplant.cordova.emailcomposer.EmailComposer"/>
+  </feature>
+
+  <feature name="FacebookConnectPlugin">
+    <param name="android-package" value="org.apache.cordova.facebook.ConnectPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="File">
     <param name="android-package" value="org.apache.cordova.file.FileUtils"/>
     <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="FirebaseAnalytics">
+    <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseAnalyticsPlugin"/>
+    <param name="onload" value="$ANALYTICS_COLLECTION_ENABLED"/>
+  </feature>
+
+  <feature name="FirebaseAuthentication">
+    <param name="android-package" value="by.chemerisuk.cordova.firebase.FirebaseAuthenticationPlugin"/>
+    <param name="onload" value="false"/>
   </feature>
 
   <feature name="Geolocation">
@@ -27,6 +62,10 @@
     <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser"/>
   </feature>
 
+  <feature name="SpeechRecognition">
+    <param name="android-package" value="com.pbakondy.SpeechRecognition"/>
+  </feature>
+
   <feature name="SocialSharing">
     <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
   </feature>
@@ -35,14 +74,28 @@
     <param name="android-package" value="io.sqlc.SQLitePlugin"/>
   </feature>
 
+  <feature name="IonicDeeplinkPlugin">
+    <param name="android-package" value="io.ionic.links.IonicDeeplink"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+  <feature name="LaunchNavigator">
+    <param name="android-package" value="uk.co.workingedge.phonegap.plugin.LaunchNavigatorPlugin"/>
+  </feature>
+
   <feature name="StatusBar">
     <param name="android-package" value="org.apache.cordova.statusbar.StatusBar"/>
     <param name="onload" value="true"/>
   </feature>
 
+  <feature name="Whitelist">
+    <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   
   <preference name="ScrollEnabled" value="false" />
-  <preference name="android-minSdkVersion" value="19" />
+  <preference name="android-minSdkVersion" value="20" />
   <preference name="BackupWebStorage" value="none" />
   <preference name="SplashMaintainAspectRatio" value="true" />
   <preference name="FadeSplashScreenDuration" value="300" />

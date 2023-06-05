@@ -10,12 +10,12 @@ export class CategoryService {
 
   public getCategorys(){
     	//filters=techcrunch&apiKey=${city}`
-	    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/386`,{params: {filters:'{"where":[{"q_3591":1}]}'}});
+	    return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/386`,{params: {filters:'{"where":[{"q_3591":1}]}'}});
   }
 
    public getCategorysById(ids:Array<any>){
     	//filters=techcrunch&apiKey=${city}`
-	    return this.httpClient.get(`https://my.decizie.com/api/user/81447/activity/386`,
+	    return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/386`,
 	    	{params: {filters:'{"where":[{"q_3591":1},{"in":['+ids.join()+'] }]}'}});
   }
 }

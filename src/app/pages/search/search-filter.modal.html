@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-button color="secundary" slot="start" (click)="dismiss()">
+        <ion-icon name="arrow-back" ></ion-icon>
+      </ion-button>
+      <ion-title>Recent Searches</ion-title>
+    </ion-toolbar>
+  </ion-header>
+<ion-content>
+  <div id="container" class="card-background-page">
+    <ion-list *ngIf="lastSearchTerms != null && lastSearchTerms.length>0">
+     <ion-item *ngFor="let term of lastSearchTerms; let ind = index; " (click)="gotoTerm(term.UserSearchString)">
+     
+       <ion-label>{{term.UserSearchString}}</ion-label>
+       
+     </ion-item>
+
+   </ion-list>
+
+   </div>
+</ion-content>

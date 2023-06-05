@@ -1,3 +1,4 @@
+
 .button-business{
     position: absolute;
 }
@@ -13,6 +14,52 @@
 
 }
 
+ion-item{ --border-color: #ebebeb; }
+
+
+
+.item-background-color{
+   --ion-item-background: white !important;
+   color:#6f7172 !important;
+   padding-right: 0px !important;
+   margin-left: -16px !important;
+   
+}
+
+.business-details-card {
+   color:#6f7172 !important;
+   margin: 0px;
+   width: 100% !important;
+   padding: 0px !important;
+   border-radius:0px !important
+
+}
+
+.business-details-list {
+   background-color: white !important;
+   color:#555758 !important;
+}
+
+.summary {
+   text-align: left !important;
+   background-color: white !important;
+   color:#393a3b !important;
+   font-style: italic !important;
+   font-weight: normal !important;
+   padding: 8px;
+   font-size: 14px;
+   text-transform: none !important;
+   margin-bottom: 0px !important;
+   margin-top: -2px !important;
+}
+
+ion-title {
+   font-size: 20px !important;
+}
+.card-background-page {
+   padding-top: 30px !important;
+}
+
 agm-map {
       height: 300px;
       width: 100%;
@@ -20,4 +67,33 @@ agm-map {
 .detail-icon{
    width:15px;
    margin-right: 5px;
+   margin-left: 10px;
+   color:#6f7172 !important;
 }
+
+ion-fab-button {
+   --background:transparent !important;
+}
+
+ion-toolbar {
+   --background: transparent;
+   --ion-color-base: transparent !important;
+   }
+
+   .address-container {
+      background-color: white !important;
+      color: #6f7172 !important;
+   }
+
+   .video-container {
+      background-color: #fff;
+      padding-top: 10px;
+      padding-bottom: 5px;
+
+   }
+
+   .video-container .play-icon {
+      position: relative;
+      top: -30px;
+      left: -35%;
+   }

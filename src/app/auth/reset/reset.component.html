@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reset Your Password</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form style="padding-top: 50px;padding-bottom: 50px;" [formGroup]="resetForm"  (ngSubmit)="submit()">
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="medium" expand="block">Send</ion-button>
+      </ion-col>
+    </ion-row>
+    <div style="padding-left:10px;padding-right:10px;">
+    <small >
+      Please provide the email address that you used when you signed
+      up for your BestOf account.
+    </small>
+  </div>
+</form>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="text-align: center;">
+        <ion-button (click)="gotoLogin()" expand="block" color="medium">Back to Login</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

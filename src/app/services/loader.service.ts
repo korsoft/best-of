@@ -15,7 +15,7 @@ export class LoaderService {
 
     this.loadingController.create({
       message: 'This Loader Will Auto Hide in 2 Seconds',
-      duration: 2000
+      duration: 2000,
     }).then((res) => {
       res.present();
 
@@ -29,14 +29,39 @@ export class LoaderService {
   // Show the loader for infinite time
   async showLoader() {
 
-    let res = await this.loadingController.create({
-      message: ''
-    });
-    await res.present();
+    try {
+      let res = await this.loadingController.create({
+        message: ''
+      });
+      await res.present();
+    } catch(err){
+      console.log(err);
+    }
   }
 
   // Hide the loader if already created otherwise return error
   async hideLoader() {
+
+    try {
+      await this.loadingController.dismiss();
+    } catch(err){
+      console.log(err);
+    }
+
+  }
+
+
+  async showSpeechVoice() {
+
+    let res = await this.loadingController.create({
+      message: "I'm listening...",
+      backdropDismiss:true
+    });
+    await res.present();
+    return res;
+  }
+
+  async hideSpeechVoice() {
 
     this.loadingController.dismiss().then((res) => {
       console.log('Loading dismissed!', res);

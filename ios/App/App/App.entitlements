@@ -4,5 +4,16 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
+	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:bestoflocal.app.link</string>
+		<string>applinks:bestoflocal-alternate.app.link</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array/>
 </dict>
 </plist>

@@ -1,25 +1,63 @@
 # best-of
-## Cordova plugins
-cordova plugin add cordova-plugin-device
-cordova plugin add cordova-plugin-file
 
 
-##Para compila en Android
-Primero tienes que tener instalado Gradle y por lo menos una versión de 
-Java. En este caso me pidió la versión 1.8. 
+## Node Version 
+``14.19.1``
+## Apply patch for SpeechRecognition Pluggin
+``````
+https://github.com/pbakondy/cordova-plugin-speechrecognition/pull/121/files
 
-Para usarla se setea la variable JAVA_HOME apuntando al home del jdk 1.8.
-Posteriormente se setea la variable  ANDROID_HOME apuntando al sdk de 
-android studio. Finalmente se corre el comando:
+fix files "fixes/SpeechRecognitionPluggin"
+``````
 
-ionic cordova build --release android
+## This project needs to work with Android SDK API 31. to fix it you need to change
+``````
+After some digging I found the file that was causing me issues was located at:
 
-En caso de que marque error se recomienda borrar la carpeta platform/androiod
-y volver a correr el comando.
+node_modules/@capacitor/android/capacitor/src/main/AndroidManifest.xml
 
-Para generar el aab se procede a moverse a la carpeta platforms/android. Allí se corre 
-el archivo gradlew bundle y al finalizar se encuentra el abb en  app/build/outputs/bundle/release. 
+NOTE: This might be in your root node_modules file instead. I'm using Quasar (v1).
+
+If you are building locally you can just edit that file and change the following line from:
+
+<service android:name="com.getcapacitor.CapacitorFirebaseMessagingService" android:stopWithTask="false">
+
+to
+
+<service android:name="com.getcapacitor.CapacitorFirebaseMessagingService" android:stopWithTask="false" android:exported="true">
+
+and 
+
+<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:enabled="true" android:exported="true">
+``````
 
 
+
+## Command PhaseScriptExecution failed with a nonzero exit code
+
+``````
+File not found: /Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/libarclite_iphoneos.a
+
+Open terminal:
+cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/
+sudo mkdir arc
+cd  arc
+sudo git clone https://github.com/kamyarelyasi/Libarclite-Files.git .
+sudo chmod +x *
+
+
+In your Xcode navigate to:
+
+Pods \ Target Support Files \ Pods-Runner or Pods-App  
+
+Open Pods-Runner-frameworks.sh  or Pods-App-frameworks.sh
+
+Find the line: source="$(readlink "${source}")" 
+
+Replace it by: source="$(readlink -f "${source}")"
+
+https://stackoverflow.com/questions/75574268/missing-file-libarclite-iphoneos-a-xcode-14-3
+
+``````
 
 

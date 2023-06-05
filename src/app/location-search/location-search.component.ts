@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../location.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { DeviceService } from '../services/device.service';
+import { FcmService } from '../services/fcm.service';
 
 @Component({
   selector: 'app-location-search',
@@ -13,19 +15,44 @@ export class LocationSearchComponent implements OnInit {
  
   public locations:Array<any>=[];
   public filterLocations:Array<any>=[];
+  public device:any;
 
   constructor(private router: Router,
   	private locationService:LocationService,
-    private storage: Storage) { }
+    private storage: Storage,
+    private deviceService: DeviceService,
+    private fcmService: FcmService) { }
 
   ngOnInit() {
-  	this.locationService.getLocations().subscribe(
-  		(data:Array<any>)=>{
-           this.locations = data;
-           this.filterLocations= data.filter((val,i)=> {
-             return i < 5;
-           });
-  		});
+    this.deviceService.getDevice().then((device)=>{
+      this.locationService.getLocations(device.uuid).subscribe(
+        (data:Array<any>)=>{
+          data.sort((a,b)=>{
+            return a.Display_Order - b.Display_Order;
+          });
+             this.locations = data;
+             this.filterLocations= data;
+        });
+    });
+
+  
+
+    this.fcmService.analyticsLogEvent("screen_view",{
+      page: "location_search"
+    });
+  	
+    this.fcmService.analyticsSetCurrentScreen("Location Search");
+  }
+
+
+  async doRefresh(event) {
+    console.log('Begin async operation');
+
+    this.ngOnInit();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 1000);
   }
 
    async filterList(evt) {
@@ -45,11 +72,14 @@ export class LocationSearchComponent implements OnInit {
    
   }
 
-  public selectLocation(location){
-    this.storage.clear().then((val) => {
-      this.router.navigateByUrl('/home/'+location.Name);
-    });
-     
+  async selectLocation(location){
+    console.log("location",location);
+    if(location.Lat && location.Lat!="" && location.Long && location.Long != ""){
+      this.storage.clear().then((val) => {
+        this.storage.set("location",location);
+        this.router.navigateByUrl('/home/'+location.Name+'?reload=true');
+      });
+    }
   }
 
   public clearLocation(){

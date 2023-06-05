@@ -4,16 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { BusinessDetailComponent } from './business-detail.component';
 import { IonicModule } from '@ionic/angular';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { BusinessMediaModal } from './business-media.page';
 
 
 
 @NgModule({
-  declarations: [BusinessDetailComponent],
+  declarations: [BusinessDetailComponent,BusinessMediaModal],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AgmCoreModule.forRoot({apiKey: 'AIzaSyCxIDgJinuu5t2otiLCHf3yj7cH4QMG_m0'})
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyCnT_vhNISZ6G1a-9rYM1ha_J8TJ6KSnyY'})
   ]
 })
 export class BusinessDetailModule { }

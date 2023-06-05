@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-button color="light" slot="end" (click)="dismiss()">Close</ion-button>
+    </ion-toolbar>
+  </ion-header>
+<ion-content >
+    <img src="{{url}}"  width="100%" *ngIf="showImage">
+    <iframe width="100%"
+            height="320px"
+            [src]="url"
+            frameborder="0"
+            allowfullscreen 
+            *ngIf="showVideo">
+    </iframe>
+</ion-content>

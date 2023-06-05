@@ -1,6 +1,7 @@
+
 .card-background-page ion-card {
     margin:0;
-    margin-bottom: -3px;
+    margin-bottom: 0px;
 }
 
 .card-background-page .card-title {
@@ -18,7 +19,7 @@
     opacity: 0.3;
     padding-top: 8px;
     top:unset;
-    height:100px;
+    height:50px;
 }
 .card-title {
   z-index:9;
@@ -26,13 +27,17 @@
 
 .card-label{
     position: absolute;
-    bottom: 40px;
+    bottom: 10px;
     left: 8px;
     font-size: 3.5em;
     font-weight: bolder;
     color: white;
     text-align:left;
     -webkit-text-stroke: 1px black;
+}
+
+.bus-name-label {
+  bottom: 50px !important;
 }
 
 .card-distance{
@@ -45,6 +50,20 @@
     -webkit-text-stroke: 1px black;
 }
 
+.background-card-label {
+  background-color: #CCCDCD;
+  width: 100%;
+  position: absolute;
+    bottom: 32px;
+    font-size: 3.5em;
+    font-weight: bolder;
+    color: #bfbfbf;
+    text-align: left;
+    padding: 3px;
+    -webkit-text-stroke: 0.5px black;
+}
+
+
 @media (max-width: 576px) {
     .card-label {
       font-size: 1.9em !important;
@@ -52,7 +71,11 @@
     .card-distance {
       font-size: 1.0em;
     }
+    .background-card-label {
+      font-size: 14px !important;
+    }
 }
+
 
 .button-business{
     position: absolute;
@@ -69,4 +92,29 @@
   float:right;
   width: 28px;
   height: 28px;
+}
+
+.card-basic-style-subcategories {
+  border-radius: 10px !important;
+}
+
+.card-basic-style-business {
+  border-radius: 20px !important;
+
+  .card-title {
+    background-color: transparent !important;
+  }
+}
+
+.segment-buttons {
+  z-index: 99;
+}
+
+
+ion-fab-button {
+  --background:transparent !important;
+}
+
+.header-ios ion-toolbar:last-of-type {
+  --border-width: 0 0 0 !important;
 }

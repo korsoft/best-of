@@ -25,6 +25,60 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+@font-face {
+  font-family: "SF Pro";
+  src: url("assets/fonts/FontsFree-Net-SFProDisplay-Thin.ttf");
+}
+@font-face {
+  font-family: "SF Pro";
+  src: url("assets/fonts/FontsFree-Net-SFProDisplay-Semibold.ttf");
+  font-weight: bolder;
+}
+@font-face {
+  font-family: "SF Pro";
+  src: url("assets/fonts/FontsFree-Net-SFProDisplay-Bold.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro";
+  src: url("assets/fonts/FontsFree-Net-SFProDisplay-LightItalic.ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "FamiliarProBold";
+  src: url("assets/fonts/Familiar-Pro-Bold.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "HelmetRegular";
+  src: url("assets/fonts/Helmet-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AlteHaasGroteskRegular";
+  src: url("assets/fonts/AlteHaasGroteskRegular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AlteHaasGroteskBold";
+  src: url("assets/fonts/AlteHaasGroteskBold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+* {
+  font-family: 'SF Pro' !important;
+}
 .card-background-page {
 
   ion-card {
@@ -39,6 +93,7 @@
     width: 100%;
     font-weight: bold;
     color: #fff;
+    line-height: 100%;
     -webkit-text-stroke: 1px black;
   }
 
@@ -79,4 +134,57 @@
   --ion-color-contrast-rgb: var(--ion-color-menu-contrast-rgb);
   --ion-color-shade: var(--ion-color-menu-shade);
   --ion-color-tint: var(--ion-color-menu-tint);
+}
+
+.container-top-left {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+
+  .top-left {
+    opacity: 0.7;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 12px;
+    width: 300px;
+    border-bottom-right-radius: 20px;
+    text-align: left;
+    background-color:transparent;
+    color:#232428;
+    font-size: 16px !important;
+  }
+
+  .top-right {
+    position: absolute;
+    opacity: 0.7;
+    right:15px;
+    top:5px;
+    width: 130px;
+    background-color:transparent;
+    color:#232428;
+    font-size: 16px !important;
+  }
+} 
+
+.my-alert-class {
+  --background: #e5e5e5;
+}
+
+/* DOES NOT WORK - not specific enough */
+.alert-wrapper {
+  background: #e5e5e5;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-alert-class .alert-wrapper {
+  background: #e5e5e5;
+}
+
+.my-alert-class .alert-wrapper  h2 {
+  color: black !important;
+}
+
+.my-alert-class .alert-wrapper  .alert-message {
+  color: black !important;
 }

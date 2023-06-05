@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>862624733799-jj0is8p50jsskvfqmcmr3hidcunsdv30.apps.googleusercontent.com</string>
+	<string>133405061081-6bdf1mtodasb84bqumjsfrq1erksstrv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.862624733799-jj0is8p50jsskvfqmcmr3hidcunsdv30</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>862624733799-hoc4rvvbhqs0gidch8qp3ht91ucvo327.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.133405061081-6bdf1mtodasb84bqumjsfrq1erksstrv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDSSKBEff6VGczGcbMU5rzkoM6DkI58pPI</string>
+	<string>AIzaSyAvphcq0vaQMIDeUcGUHmUmvL5xNrLlsBM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>862624733799</string>
+	<string>133405061081</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.korsoftcorp.bestof.ios</string>
+	<string>com.bestof</string>
 	<key>PROJECT_ID</key>
-	<string>best-of-284020</string>
+	<string>best-of-local</string>
 	<key>STORAGE_BUCKET</key>
-	<string>best-of-284020.appspot.com</string>
+	<string>best-of-local.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:862624733799:ios:d3ccfa64a90480bf0792c2</string>
-	<key>DATABASE_URL</key>
-	<string>https://best-of-284020.firebaseio.com</string>
+	<string>1:133405061081:ios:303cfb87f1b32f4afd73c8</string>
 </dict>
 </plist>
