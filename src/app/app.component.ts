@@ -17,6 +17,7 @@ import { FcmService } from './services/fcm.service';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { DeviceSettingsService } from './services/device-settings.service';
 import { DataSettingsService } from './services/data-settings.service';
+import { BranchService } from './services/branch.service';
 
 
 const { Device } = Plugins;
@@ -232,7 +233,8 @@ export class AppComponent implements OnInit {
     private zone: NgZone,
     private appVersion : AppVersion,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private branchService: BranchService
   ) {
     this.initializeApp();
   }
@@ -263,6 +265,14 @@ export class AppComponent implements OnInit {
               console.log("page",page);
               if(page){
                   this.router.navigateByUrl(page.replace(/%7C/g, '/').replace(/%7c/g, '/'));
+              } else {
+                const url = data.url.split('?')[0];
+                console.log("url",url);
+                this.branchService.getDataFromDeeplink(url).subscribe((res:any) => {
+                  if(res.data && res.data['$deeplink_path']){
+                    this.router.navigateByUrl(`/${res.data['$deeplink_path']}`);
+                  }
+                });
               }
             } 
             // If no match, do nothing - let regular routing
