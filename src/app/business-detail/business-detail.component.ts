@@ -19,6 +19,7 @@ import { FcmService } from '../services/fcm.service';
 import { SettingsService } from '../services/settings.service';
 import BusinessMedia, { BusinessMediaType } from '../interfaces/BusinessMedia';
 import { BusinessMediaModal } from './business-media.page';
+import { BranchService } from '../services/branch.service';
 
 const { Browser } = Plugins;
 
@@ -100,7 +101,8 @@ export class BusinessDetailComponent implements OnInit {
      private fcmService: FcmService,
      private settingsService : SettingsService,
      private platform: Platform,
-     private modalController: ModalController) { }
+     private modalController: ModalController,
+     private branchService: BranchService) { }
 
   async ngOnInit() {
 
@@ -350,11 +352,12 @@ export class BusinessDetailComponent implements OnInit {
       action: "share",
       business: this.bus.Name
     });
+    const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(this.bus).toPromise();
     this.socialSharing.share(
       "Here's an invite to a great place on the Best Of Local app",
       null,
-      null, //this.bus.body_image,
-      "https://bestoflocal.app.link/redirect?page=|businessDetail|"+this.bus.qpId);
+      null,
+      deeplinkResponse.url);
   }
 
   async openShareExperienceLink(){

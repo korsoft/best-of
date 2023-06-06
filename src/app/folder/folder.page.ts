@@ -14,6 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
 import { SettingsService } from '../services/settings.service';
+import { BranchService } from '../services/branch.service';
 
 const { Browser } = Plugins;
 
@@ -54,7 +55,8 @@ export class FolderPage implements OnInit {
      private launchNavigator: LaunchNavigator,
      private deviceService: DeviceService,
      private fcmService : FcmService,
-     private settingsService : SettingsService) { }
+     private settingsService : SettingsService,
+     private branchService : BranchService) { }
     
     
   async ngOnInit() {  
@@ -384,11 +386,12 @@ export class FolderPage implements OnInit {
       action: "share",
       subcategory: subcategory.subcat_name
     });
+    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(locationObj,subcategory,is_classifieds).toPromise();
     this.socialSharing.share(
       `Check out ${subcategory.subcat_name} on Best of Local`,
       null,
       null, //this.bus.body_image,
-      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${subcategory.qpId}|${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`);
+      `${branchResponse.url}`);
   }
 
   
@@ -428,11 +431,13 @@ export class FolderPage implements OnInit {
 
   public share(bus){
     
-    this.socialSharing.share(
-      "Here's an invite to a great place on the Best Of Local app",
-      null,
-      null, //bus.body_image,
-      "https://bestoflocal.app.link/redirect?page=|businessDetail|"+bus.qpId);
+    this.branchService.shareDeeplinkByBusiness(bus).subscribe((res) => {
+      this.socialSharing.share(
+        "Here's an invite to a great place on the Best Of Local app",
+        null,
+        null, //bus.body_image,
+        res.url);
+    });
 
   }
 
