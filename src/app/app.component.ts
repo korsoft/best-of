@@ -267,8 +267,11 @@ export class AppComponent implements OnInit {
                   this.router.navigateByUrl(page.replace(/%7C/g, '/').replace(/%7c/g, '/'));
               } else {
                 const url = data.url.split('?')[0];
-                console.log("url",url);
+                console.log("url deeplink",url);
+                //const urlEncoded = encodeURIComponent(url);
+                //console.log("urlEnconded",urlEncoded);
                 this.branchService.getDataFromDeeplink(url).subscribe((res:any) => {
+                  console.log("res==>",JSON.stringify(res));
                   if(res.data && res.data['$deeplink_path']){
                     this.router.navigateByUrl(`/${res.data['$deeplink_path']}`);
                   }

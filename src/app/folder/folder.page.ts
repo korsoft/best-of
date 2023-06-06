@@ -386,11 +386,12 @@ export class FolderPage implements OnInit {
       action: "share",
       subcategory: subcategory.subcat_name
     });
+    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(locationObj,subcategory,is_classifieds).toPromise();
     this.socialSharing.share(
       `Check out ${subcategory.subcat_name} on Best of Local`,
       null,
       null, //this.bus.body_image,
-      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${subcategory.qpId}|${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`);
+      `${branchResponse.url}`);
   }
 
   
