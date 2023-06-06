@@ -18,7 +18,8 @@ export class BranchService {
             "$deeplink_path":`businessDetail/${business.qpId}`, 
             "$desktop_url":`https://bestoflocal.app.link/businessDetail/${business.qpId}`
           }, 
-          "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe" 
+          "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe",
+          "duration":604800
         };
 
         return this.httpClient.post<any>('https://api2.branch.io/v1/url',body);
@@ -33,7 +34,8 @@ export class BranchService {
         "$deeplink_path":`folder/${location.qpId}/${subcategory.qpId}/${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`, 
         "$desktop_url":`https://bestoflocal.app.link/folder/${location.qpId}/${subcategory.qpId}/${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`
       }, 
-      "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe" 
+      "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe",
+      "duration":604800
     };
 
     return this.httpClient.post<any>('https://api2.branch.io/v1/url',body);
@@ -48,7 +50,8 @@ export class BranchService {
         "$deeplink_path":`folder/${location.qpId}/${category.qpId}/${encodeURIComponent(category.cat_name)}?is_classifieds=${is_classifieds}`, 
         "$desktop_url":`https://bestoflocal.app.link/folder/${location.qpId}/${category.qpId}/${encodeURIComponent(category.cat_name)}?is_classifieds=${is_classifieds}`
       }, 
-      "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe" 
+      "branch_key": "key_live_nk9OlBH0lhwOWtHMvqh60mnhqwo5Oofe",
+      "duration":604800 
     };
 
     return this.httpClient.post<any>('https://api2.branch.io/v1/url',body);
