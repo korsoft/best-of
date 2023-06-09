@@ -202,12 +202,14 @@ export class HomeComponent implements OnInit {
       action: "share",
       category: category.cat_name
     });
-    const branchResponse = await this.branchService.shareDeeplinkByCategory(locationObj,category,is_classifieds).toPromise();
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',category.cat_name);
+    const branchResponse = await this.branchService.shareDeeplinkByCategory(title,locationObj,category,is_classifieds).toPromise();
     this.socialSharing.share(
-      `Check out ${category.cat_name} on Best of Local`,
+     title,
       null,
       null, //this.bus.body_image,
-      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${category.qpId}|${category.cat_name}?is_classifieds=${is_classifieds}`);
+    `${branchResponse.url}`);
   }
 
   gotoSearch(){

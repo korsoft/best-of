@@ -386,9 +386,11 @@ export class FolderPage implements OnInit {
       action: "share",
       subcategory: subcategory.subcat_name
     });
-    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(locationObj,subcategory,is_classifieds).toPromise();
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',subcategory.subcat_name);
+    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(title, locationObj,subcategory,is_classifieds).toPromise();
     this.socialSharing.share(
-      `Check out ${subcategory.subcat_name} on Best of Local`,
+     title,
       null,
       null, //this.bus.body_image,
       `${branchResponse.url}`);
@@ -429,16 +431,15 @@ export class FolderPage implements OnInit {
     this.callNumber.callNumber(bus.call, true);
   }
 
-  public share(bus){
-    
-    this.branchService.shareDeeplinkByBusiness(bus).subscribe((res) => {
-      this.socialSharing.share(
-        "Here's an invite to a great place on the Best Of Local app",
-        null,
-        null, //bus.body_image,
-        res.url);
-    });
-
+  public async share(bus){
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.BUSINESS_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',bus.Name);
+    const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(title, bus).toPromise();
+    this.socialSharing.share(
+      title,
+      null,
+      null,
+      deeplinkResponse.url);
   }
 
   public map(bus){

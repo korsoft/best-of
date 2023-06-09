@@ -352,9 +352,11 @@ export class BusinessDetailComponent implements OnInit {
       action: "share",
       business: this.bus.Name
     });
-    const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(this.bus).toPromise();
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.BUSINESS_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',this.bus.Name);
+    const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(title, this.bus).toPromise();
     this.socialSharing.share(
-      "Here's an invite to a great place on the Best Of Local app",
+      title,
       null,
       null,
       deeplinkResponse.url);
