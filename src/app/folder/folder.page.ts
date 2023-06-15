@@ -387,10 +387,11 @@ export class FolderPage implements OnInit {
       subcategory: subcategory.subcat_name
     });
     const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
     const title = settingsValue.replace('{0}',subcategory.subcat_name);
     const branchResponse = await this.branchService.shareDeeplinkBySubCategory(title, locationObj,subcategory,is_classifieds).toPromise();
     this.socialSharing.share(
-     title,
+      globalTitle,
       null,
       null, //this.bus.body_image,
       `${branchResponse.url}`);
@@ -433,10 +434,11 @@ export class FolderPage implements OnInit {
 
   public async share(bus){
     const settingsValue:string = await this.settingsService.getValue(this.settingsService.BUSINESS_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
     const title = settingsValue.replace('{0}',bus.Name);
     const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(title, bus).toPromise();
     this.socialSharing.share(
-      title,
+      globalTitle,
       null,
       null,
       deeplinkResponse.url);

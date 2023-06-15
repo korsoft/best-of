@@ -203,10 +203,11 @@ export class HomeComponent implements OnInit {
       category: category.cat_name
     });
     const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
     const title = settingsValue.replace('{0}',category.cat_name);
     const branchResponse = await this.branchService.shareDeeplinkByCategory(title,locationObj,category,is_classifieds).toPromise();
     this.socialSharing.share(
-     title,
+     globalTitle,
       null,
       null, //this.bus.body_image,
     `${branchResponse.url}`);

@@ -353,10 +353,11 @@ export class BusinessDetailComponent implements OnInit {
       business: this.bus.Name
     });
     const settingsValue:string = await this.settingsService.getValue(this.settingsService.BUSINESS_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
     const title = settingsValue.replace('{0}',this.bus.Name);
     const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(title, this.bus).toPromise();
     this.socialSharing.share(
-      title,
+      globalTitle,
       null,
       null,
       deeplinkResponse.url);
