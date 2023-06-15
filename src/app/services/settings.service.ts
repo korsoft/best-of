@@ -20,7 +20,7 @@ export class SettingsService {
   public reloadGlobalSettings(){
     this.httpClient.get(`https://api.bestofventures.app/api/user/1/activity/522`).subscribe(async (settings:Array<any>)=>{
       console.log("reloadGlobalSettings",settings);
-      this.storage.set(this.KEY,settings);
+      await this.storage.set(this.KEY,settings);
     });
   }
 
