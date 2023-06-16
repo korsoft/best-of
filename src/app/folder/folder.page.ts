@@ -393,7 +393,7 @@ export class FolderPage implements OnInit {
     this.socialSharing.share(
       globalTitle,
       null,
-      null, //this.bus.body_image,
+      subcategory.cat_icon, 
       `${branchResponse.url}`);
   }
 
@@ -440,7 +440,7 @@ export class FolderPage implements OnInit {
     this.socialSharing.share(
       globalTitle,
       null,
-      null,
+      bus.body_image,
       deeplinkResponse.url);
   }
 

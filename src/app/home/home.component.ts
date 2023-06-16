@@ -209,7 +209,7 @@ export class HomeComponent implements OnInit {
     this.socialSharing.share(
      globalTitle,
       null,
-      null, //this.bus.body_image,
+      category.cat_icon, 
     `${branchResponse.url}`);
   }
 

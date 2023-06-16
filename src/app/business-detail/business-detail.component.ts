@@ -359,7 +359,7 @@ export class BusinessDetailComponent implements OnInit {
     this.socialSharing.share(
       globalTitle,
       null,
-      null,
+      this.bus.body_image,
       deeplinkResponse.url);
   }
 

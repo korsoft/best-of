@@ -13,7 +13,9 @@ export class BranchService {
         const body = {
             "data": { 
             "$og_title": title, 
-            "$og_image_url": business.body_image, 
+            "$og_image_url": business.body_image,
+            "$twitter_title": title,
+            "$twitter_image_url": business.body_image, 
             "$deeplink_path":`businessDetail/${business.qpId}`, 
             "$desktop_url":`https://bestoflocal.app.link/businessDetail/${business.qpId}`,
           }, 
@@ -29,6 +31,8 @@ export class BranchService {
         "data": { 
         "$og_title": title, 
         "$og_image_url": subcategory.cat_icon, 
+        "$twitter_title": title,
+        "$twitter_image_url": subcategory.cat_icon, 
         "$deeplink_path":`folder/${location.qpId}/${subcategory.qpId}/${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`, 
         "$desktop_url":`https://bestoflocal.app.link/folder/${location.qpId}/${subcategory.qpId}/${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`
       }, 
@@ -44,6 +48,8 @@ export class BranchService {
         "data": { 
         "$og_title": title, 
         "$og_image_url": category.cat_icon, 
+        "$twitter_title": title,
+        "$twitter_image_url": category.cat_icon, 
         "$deeplink_path":`folder/${location.qpId}/${category.qpId}/${encodeURIComponent(category.cat_name)}?is_classifieds=${is_classifieds}`, 
         "$desktop_url":`https://bestoflocal.app.link/folder/${location.qpId}/${category.qpId}/${encodeURIComponent(category.cat_name)}?is_classifieds=${is_classifieds}`
       }, 
