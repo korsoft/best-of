@@ -14,6 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
 import { SettingsService } from '../services/settings.service';
+import { BranchService } from '../services/branch.service';
 
 const { Browser } = Plugins;
 
@@ -54,7 +55,8 @@ export class FolderPage implements OnInit {
      private launchNavigator: LaunchNavigator,
      private deviceService: DeviceService,
      private fcmService : FcmService,
-     private settingsService : SettingsService) { }
+     private settingsService : SettingsService,
+     private branchService : BranchService) { }
     
     
   async ngOnInit() {  
@@ -384,11 +386,15 @@ export class FolderPage implements OnInit {
       action: "share",
       subcategory: subcategory.subcat_name
     });
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',subcategory.subcat_name);
+    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(title, locationObj,subcategory,is_classifieds).toPromise();
     this.socialSharing.share(
-      `Check out ${subcategory.subcat_name} on Best of Local`,
+      globalTitle,
       null,
-      null, //this.bus.body_image,
-      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${subcategory.qpId}|${encodeURIComponent(subcategory.subcat_name)}?is_classifieds=${is_classifieds}`);
+      subcategory.cat_icon, 
+      `${branchResponse.url}`);
   }
 
   
@@ -426,14 +432,16 @@ export class FolderPage implements OnInit {
     this.callNumber.callNumber(bus.call, true);
   }
 
-  public share(bus){
-    
+  public async share(bus){
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.BUSINESS_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',bus.Name);
+    const deeplinkResponse = await this.branchService.shareDeeplinkByBusiness(title, bus).toPromise();
     this.socialSharing.share(
-      "Here's an invite to a great place on the Best Of Local app",
+      globalTitle,
       null,
-      null, //bus.body_image,
-      "https://bestoflocal.app.link/redirect?page=|businessDetail|"+bus.qpId);
-
+      bus.body_image,
+      deeplinkResponse.url);
   }
 
   public map(bus){

@@ -16,6 +16,7 @@ import { Platform } from '@ionic/angular';
 import { DeviceService } from '../services/device.service';
 import { FcmService } from '../services/fcm.service';
 import { SettingsService } from '../services/settings.service';
+import { BranchService } from '../services/branch.service';
 const { Browser } = Plugins;
 const { Device } = Plugins;
 declare var google: any;
@@ -84,7 +85,8 @@ export class HomeComponent implements OnInit {
     private fcmService : FcmService,
     private settingsService : SettingsService,
     public platform: Platform,
-    private socialSharing: SocialSharing) {
+    private socialSharing: SocialSharing,
+    private branchService: BranchService) {
   	this.mapsApiLoader = mapsApiLoader;
     this.wrapper = wrapper;
   }
@@ -200,11 +202,15 @@ export class HomeComponent implements OnInit {
       action: "share",
       category: category.cat_name
     });
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',category.cat_name);
+    const branchResponse = await this.branchService.shareDeeplinkByCategory(title,locationObj,category,is_classifieds).toPromise();
     this.socialSharing.share(
-      `Check out ${category.cat_name} on Best of Local`,
+     globalTitle,
       null,
-      null, //this.bus.body_image,
-      `https://bestoflocal.app.link/redirect?page=|folder|${locationObj.qpId}|${category.qpId}|${category.cat_name}?is_classifieds=${is_classifieds}`);
+      category.cat_icon, 
+    `${branchResponse.url}`);
   }
 
   gotoSearch(){
