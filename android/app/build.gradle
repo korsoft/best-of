@@ -8,7 +8,7 @@ android {
         applicationId "bestofventures.app.bestoflocal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 15
+        versionCode 16
         versionName "2.2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

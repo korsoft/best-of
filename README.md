@@ -44,6 +44,8 @@ final PendingIntent pendingIntent = PendingIntent.getBroadcast(cordova.getActivi
 
 ``````
 
+## iOS =======================================================================>
+
 ## Command PhaseScriptExecution failed with a nonzero exit code
 
 ``````
