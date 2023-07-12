@@ -99,7 +99,7 @@ export class FcmService {
     try {
       let currentUser = await this.firebaseAuthentication.getCurrentUser();
       console.log(JSON.stringify(currentUser));
-      if(currentUser && currentUser.uid && (!currentUser.displayName || currentUser.displayName !== "DELETED"))
+      if(currentUser?.uid && (!currentUser.displayName || currentUser.displayName !== "DELETED"))
         return currentUser;
       return null;
     } catch(error){
@@ -139,13 +139,6 @@ export class FcmService {
       'registration',
       (token: PushNotificationToken) => {
         console.log("pushRegistration token=",token.value);
-        /*this.devicePushService.updateByDevice(uuid,token.value).subscribe(updated => {
-            console.log("PushNotificationToken.tokenGenerated")
-        }, error => {
-           if(error.error){
-               this.devicePushService.create(uuid,token.value).subscribe();
-           }
-        });*/
       }
     );
  
@@ -163,11 +156,7 @@ export class FcmService {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
         (notification: PushNotificationActionPerformed) => {
-        //const data = notification.notification.data;
         console.log('Action performed: ', JSON.stringify(notification));
-        /*if (data.detailsId) {
-          this.router.navigateByUrl(`/notification/${data.detailsId}`);
-        }*/
       }
     );
   }
