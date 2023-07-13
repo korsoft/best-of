@@ -10,6 +10,23 @@ https://github.com/pbakondy/cordova-plugin-speechrecognition/pull/121/files
 fix files "fixes/SpeechRecognitionPluggin"
 ``````
 
+## Fix SocialSharing.java
+
+``````
+To solve this I had to go to android folder in the plugin, find SocialSharing.java, and replace this line:
+
+ final PendingIntent pendingIntent = PendingIntent.getBroadcast(cordova.getActivity().getApplicationContext(), 0, receiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+With this code
+        int pendingIntentValueFLAG = 0; if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) { pendingIntentValueFLAG  = PendingIntent.FLAG_MUTABLE; } else { pendingIntentValueFLAG  = PendingIntent.FLAG_UPDATE_CURRENT; } final PendingIntent pendingIntent = PendingIntent.getBroadcast(cordova.getActivity().getApplicationContext(), 0, receiverIntent, pendingIntentValueFLAG);
+        
+Replace line 274:
+
+final PendingIntent pendingIntent = PendingIntent.getBroadcast(cordova.getActivity().getApplicationContext(), 0, receiverIntent, PendingIntent.FLAG_IMMUTABLE);
+
+
+``````
+
 ## iOS =======================================================================>
 
 ## Command PhaseScriptExecution failed with a nonzero exit code
