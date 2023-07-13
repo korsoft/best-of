@@ -91,15 +91,10 @@ export class HomeComponent implements OnInit {
     this.wrapper = wrapper;
   }
 
-  ngOnInit() {
-    Device.getInfo().then((info) => {
-      console.log("device info",info)
-      //this.deviceService.createDevice(info).subscribe();
-      this.fcmService.initPush(info.uuid);
-    });
-
-    this.settingsService.reloadGlobalSettings();
-
+  async ngOnInit() {
+    const info = await Device.getInfo();
+    this.fcmService.initPush(info.uuid);
+    await this.settingsService.reloadGlobalSettings();
   }
 
   async doRefresh(event) {
