@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
+const { Device } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,11 @@ export class DeviceService {
   }
 
   public async getDevice(){
-  	return await this.storage.get("device");
+  	let device = await this.storage.get("device");
+    if( !device ){
+      let device = await Device.getInfo();
+      await this.storage.set("device",device);
+    }
+    return device;
   }
 }
