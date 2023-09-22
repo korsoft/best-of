@@ -42,6 +42,7 @@ export class FolderPage implements OnInit {
   public classified_category:string = '0';
   public classified_subcategory:string = '0';
   public sponsoredLabel:string='';
+  public number_of_entries_to_display:string = '10';
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -67,6 +68,7 @@ export class FolderPage implements OnInit {
 
     this.is_classifieds = this.activatedRoute.snapshot.queryParamMap.get('is_classifieds') ?? '0';
     this.classified_category = this.activatedRoute.snapshot.queryParamMap.get('classified_category') ?? '0';
+    this.number_of_entries_to_display = this.activatedRoute.snapshot.queryParamMap.get('number_of_entries_to_display') ?? '10';
 
     const sort_by_name = this.activatedRoute.snapshot.queryParamMap.get('sort_by_name') ?? '0';
 
@@ -202,7 +204,7 @@ export class FolderPage implements OnInit {
 
 
 
-                        data = dataT;
+                        data = dataT.slice(0, Number(this.number_of_entries_to_display));
 
                         for(var i=0;i<data.length;i++){
                           const bodyImage = data[i].body_image;

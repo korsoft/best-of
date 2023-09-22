@@ -11,9 +11,7 @@ import { ModalController, Platform, ToastController } from "@ionic/angular";
 import { CallNumber } from "@ionic-native/call-number/ngx";
 import { SocialSharing } from "@ionic-native/social-sharing/ngx";
 import { EmailComposer } from "@awesome-cordova-plugins/email-composer/ngx";
-import {
-  LaunchNavigator,
-} from "@ionic-native/launch-navigator/ngx";
+import { LaunchNavigator } from "@ionic-native/launch-navigator/ngx";
 import { Plugins } from "@capacitor/core";
 import { Clipboard } from "@awesome-cordova-plugins/clipboard/ngx";
 import { FcmService } from "../services/fcm.service";
@@ -61,8 +59,8 @@ export class BusinessDetailComponent implements OnInit {
   public is_classifieds: any = null;
   public sponsoredLabel: string = "";
   public ad: any = null;
-  public showFullSummary : boolean = false;
-  
+  public showFullSummary: boolean = false;
+
   public category: any = null;
 
   public pinUrl = {
@@ -134,8 +132,8 @@ export class BusinessDetailComponent implements OnInit {
       page: "business_details",
     });
 
-    const subcategories = await this.storage.get('subcategories');
-    console.log("subcategories",subcategories);
+    const subcategories = await this.storage.get("subcategories");
+    console.log("subcategories", subcategories);
 
     await this.fcmService.analyticsSetCurrentScreen("Business Details");
 
@@ -191,18 +189,18 @@ export class BusinessDetailComponent implements OnInit {
                 console.log("photos", this.bus.photosArray);
               }
 
-              this.storage.get('subcategories').then((subcategories: any) => {
+              this.storage.get("subcategories").then((subcategories: any) => {
                 const subcategory = subcategories.find(
                   (sc) => sc.qpId == this.bus.category
                 );
-                if(subcategory){
+                if (subcategory) {
                   console.log("subcategory", subcategory);
-                  this.storage.get('categories').then((categories: any) => {
+                  this.storage.get("categories").then((categories: any) => {
                     this.category = categories.find(
                       (c) => c.cat_name == subcategory.cat_name
                     );
                     console.log("category", this.category);
-                  });  
+                  });
                 }
               });
 
@@ -532,24 +530,28 @@ export class BusinessDetailComponent implements OnInit {
     }
   }
 
-  async openCategory(){
+  async openCategory() {
+    const location = await this.storage.get("location");
+    console.log("location", location);
+    console.log("category", this.category);
 
-    const location = await this.storage.get('location');
-    console.log("location",location);
-    console.log("category",this.category);
+    const is_classifieds = this.category?.is_classifieds ?? "0";
+    const classified_category = this.category?.classified_category ?? "0";
+    const sort_by_name = this.category?.SortSubcategories ?? "0";
+    let number_of_entries_to_display =
+      this.category?.number_of_entries_to_display ?? "10";
 
-    const is_classifieds = this.category?.is_classifieds ?? '0';
-    const classified_category = this.category?.classified_category ?? '0';
-    const sort_by_name = this.category?.SortSubcategories ?? '0';
-
- 
-    await this.fcmService.analyticsLogEvent("screen_action",{
+    await this.fcmService.analyticsLogEvent("screen_action", {
       page: "home",
       action: "go_to_category",
-      category: this.category?.cat_name
+      category: this.category?.cat_name,
     });
 
-    this.router.navigateByUrl(`/folder/${location.qpId}/${this.category.qpId}/${encodeURIComponent(this.category.cat_name)}?is_classifieds=${is_classifieds}`);
+    this.router.navigateByUrl(
+      `/folder/${location.qpId}/${this.category.qpId}/${encodeURIComponent(
+        this.category.cat_name
+      )}?is_classifieds=${is_classifieds}&number_of_entries_to_display=${number_of_entries_to_display}`
+    );
   }
 
   async openBusinessUrl() {
