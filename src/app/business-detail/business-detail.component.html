@@ -29,7 +29,7 @@
         <div class="top-left"><img src="../../assets/member.png" alt="image"></div>
       </div>
 
-      <ion-card-subtitle *ngIf="bus.summary && bus.summary.length>0" class="summary">
+      <ion-card-subtitle *ngIf="bus.summary && bus.summary.length>0" class="summary" (click)="showFullSummary = !showFullSummary" [style.display]="showFullSummary ? 'block' : '-webkit-box'">
         {{bus.summary}}
       </ion-card-subtitle>
     </ion-card>
@@ -64,12 +64,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <img src="{{ad.Ad_Image}}" width="100%" alt="image">
-          <ion-fab vertical="top" horizontal="end" style="top:10px;opacity: 0.90">
-            <ion-fab-button (click)="shareAdLink()" size="small">
-              <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
-            </ion-fab-button>
-          </ion-fab>
+          <img src="../../assets/share.png" (click)="shareAdLink()" width="100%" alt="image">
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -89,6 +84,14 @@
       <img class="play-icon" (click)="openMedia(bus.Video_URL,'video')" src="../../assets/play.png" width="80px"
         alt="image">
     </div>
+
+    <ion-grid *ngIf="category != null" class="address-container" style="padding: 10px;font-size: 12px;">
+      <ion-row>
+        <ion-col style="width: 100%;" (click)="openCategory()">
+          {{category.cat_name}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <agm-map *ngIf="bus.showMap" [latitude]="latitude" [longitude]="longitude">
 

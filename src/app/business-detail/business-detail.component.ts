@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { Storage } from "@ionic/storage";
 import { LoaderService } from "../services/loader.service";
@@ -7,7 +7,6 @@ import { BusinessService } from "../services/business.service";
 import { BookmarkService } from "../services/bookmark.service";
 import { DeviceService } from "../services/device.service";
 import { BusinessPropertiesService } from "../services/business-properties.service";
-import { Router } from "@angular/router";
 import { ModalController, Platform, ToastController } from "@ionic/angular";
 import { CallNumber } from "@ionic-native/call-number/ngx";
 import { SocialSharing } from "@ionic-native/social-sharing/ngx";
@@ -62,6 +61,9 @@ export class BusinessDetailComponent implements OnInit {
   public is_classifieds: any = null;
   public sponsoredLabel: string = "";
   public ad: any = null;
+  public showFullSummary : boolean = false;
+  
+  public category: any = null;
 
   public pinUrl = {
     url: "./assets/pin.png",
@@ -132,6 +134,9 @@ export class BusinessDetailComponent implements OnInit {
       page: "business_details",
     });
 
+    const subcategories = await this.storage.get('subcategories');
+    console.log("subcategories",subcategories);
+
     await this.fcmService.analyticsSetCurrentScreen("Business Details");
 
     this.sponsoredLabel = await this.settingsService.getValue(
@@ -172,6 +177,7 @@ export class BusinessDetailComponent implements OnInit {
               }
               console.log("business details", data);
               this.bus = data;
+
               if (this.bus.ad && this.bus.ad.length > 0) {
                 this.businessService
                   .getAdById(this.bus.ad, this.device.uuid)
@@ -184,6 +190,21 @@ export class BusinessDetailComponent implements OnInit {
                 this.bus.photosArray = JSON.parse(this.bus.Photos);
                 console.log("photos", this.bus.photosArray);
               }
+
+              this.storage.get('subcategories').then((subcategories: any) => {
+                const subcategory = subcategories.find(
+                  (sc) => sc.qpId == this.bus.category
+                );
+                if(subcategory){
+                  console.log("subcategory", subcategory);
+                  this.storage.get('categories').then((categories: any) => {
+                    this.category = categories.find(
+                      (c) => c.cat_name == subcategory.cat_name
+                    );
+                    console.log("category", this.category);
+                  });  
+                }
+              });
 
               this.fcmService.analyticsLogEvent("screen_action", {
                 page: "business_details",
@@ -509,6 +530,26 @@ export class BusinessDetailComponent implements OnInit {
       });
       Browser.open({ url: prop.value });
     }
+  }
+
+  async openCategory(){
+
+    const location = await this.storage.get('location');
+    console.log("location",location);
+    console.log("category",this.category);
+
+    const is_classifieds = this.category?.is_classifieds ?? '0';
+    const classified_category = this.category?.classified_category ?? '0';
+    const sort_by_name = this.category?.SortSubcategories ?? '0';
+
+ 
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "home",
+      action: "go_to_category",
+      category: this.category?.cat_name
+    });
+
+    this.router.navigateByUrl(`/folder/${location.qpId}/${this.category.qpId}/${encodeURIComponent(this.category.cat_name)}?is_classifieds=${is_classifieds}`);
   }
 
   async openBusinessUrl() {
