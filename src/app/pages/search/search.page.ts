@@ -40,6 +40,7 @@ export class SearchPage implements OnInit {
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
+  public businessListMembers:Array<any> = [];
   public location={"name":"",latitude:0,longitude:0};
   public device:any;
   public categoriesList:Array<any> = [];
@@ -137,6 +138,7 @@ export class SearchPage implements OnInit {
 
     if((!this.searchTextValue || this.searchTextValue.trim().length == 0 ) && event.detail?.value == 'all'){
       this.businessList = [];
+      this.businessListMembers = [];
       return;
     }
 
@@ -151,6 +153,7 @@ export class SearchPage implements OnInit {
     }
 
     this.businessList = [];
+    this.businessListMembers = [];
 
     this.businessService.getUserSearchTermsByDeviceId(this.device.uuid).subscribe((searchUserTems:Array<any>)=>{
       console.log(searchUserTems)
@@ -244,10 +247,6 @@ export class SearchPage implements OnInit {
     if(this.filters.newBusiness == false && this.filters.recentBusiness == false)
       this.filters.allBusiness = true;
 
-    /*if (!searchTerm || searchTerm.length<2) {
-      return;
-    }*/
-
     await this.fcmService.analyticsLogEvent("screen_action",{
       page: "search",
       action: "search_term",
@@ -257,9 +256,7 @@ export class SearchPage implements OnInit {
     this.categoriesSearch = [];
     this.subcategoriesSearch = [];
     this.businessList= [];
-
-
-    
+    this.businessListMembers = [];
 
     await this.ionLoader.showLoader();
 
@@ -293,6 +290,7 @@ export class SearchPage implements OnInit {
                 console.log(this.categoriesList);
                 this.subcategoriesSearch = this.subcategoriesList.filter(sub => sub.subcat_name.toLowerCase().includes(searchTerm.toLowerCase()));
                 console.log("subcategoriesSearch",this.subcategoriesSearch);
+                const itemsTemp = [];
                 if(list3 && list3.length>0)
                   result = result.concat(list3);
                   result.forEach((item)=>{
@@ -313,13 +311,15 @@ export class SearchPage implements OnInit {
                       }else{
                         item.showCall=false;
                       }
-                      var exists = this.businessList.find((item2)=>item2.qpId==item.qpId);
+                      var exists = itemsTemp.find((item2)=>item2.qpId==item.qpId);
                       if(!exists)
-                        this.businessList.push(item);
+                        itemsTemp.push(item);
                   });
-                  if(this.businessList.length == 0)
+                  if(itemsTemp.length == 0)
                     this.presentToast("No data");
-                  //console.log("business list",this.businessList);
+                  this.businessListMembers = itemsTemp.filter( item => item.is_classified === '1');
+                  this.businessList = itemsTemp.filter( item => item.is_classified !== '1');
+                  
                   this.chRef.detectChanges();
                   this.ionLoader.hideLoader();
               });
