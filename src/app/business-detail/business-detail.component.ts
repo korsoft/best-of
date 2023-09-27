@@ -62,6 +62,7 @@ export class BusinessDetailComponent implements OnInit {
   public showFullSummary: boolean = false;
 
   public category: any = null;
+  public subcategories: any[] = [];
 
   public pinUrl = {
     url: "./assets/pin.png",
@@ -202,6 +203,10 @@ export class BusinessDetailComponent implements OnInit {
                     console.log("category", this.category);
                   });
                 }
+                this.subcategories = subcategories.filter( (sc) => {
+                  return sc.qpId == this.bus.category || sc.qpId == this.bus.Category2 || sc.qpId == this.bus.Category3 || sc.qpId == this.bus.Category4
+                });
+                console.log("business subcategories", this.subcategories);
               });
 
               this.fcmService.analyticsLogEvent("screen_action", {
@@ -552,6 +557,13 @@ export class BusinessDetailComponent implements OnInit {
         this.category.cat_name
       )}?is_classifieds=${is_classifieds}&number_of_entries_to_display=${number_of_entries_to_display}`
     );
+  }
+
+  async openSubcategory(subcat) {
+    const location = await this.storage.get("location");
+    console.log("location", location);
+
+    this.router.navigateByUrl(`/folder/${location.qpId}/${subcat.qpId}/${encodeURIComponent(subcat.subcat_name)}`);
   }
 
   async openBusinessUrl() {
