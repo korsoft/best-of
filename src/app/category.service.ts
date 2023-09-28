@@ -15,6 +15,7 @@ export class CategoryService {
 
    public getCategorysById(ids:Array<any>){
     	//filters=techcrunch&apiKey=${city}`
+      console.log("getCategorysById",ids);
 	    return this.httpClient.get(`https://api.bestofventures.app/api/user/81447/activity/386`,
 	    	{params: {filters:'{"where":[{"q_3591":1},{"in":['+ids.join()+'] }]}'}});
   }

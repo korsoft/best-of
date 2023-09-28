@@ -19,35 +19,73 @@
       </ion-segment-button>
     </ion-segment>
   </ion-item>
-  <ion-item lines="none" >
-  <ion-searchbar showCancelButton="never"  (keypress)="searchBusiness($event)" [(ngModel)]="searchTextValue" ></ion-searchbar>
-  <!--ion-icon name="filter-outline" slot="end" (click)="openSearchFilterModal()"></ion-icon -->
-  <ion-icon name="mic-outline" slot="end" (click)="searchBySpeech()"></ion-icon>
-</ion-item>
+  <ion-item lines="none">
+    <ion-searchbar showCancelButton="never" (keypress)="searchBusiness($event)"
+      [(ngModel)]="searchTextValue"></ion-searchbar>
+    <!--ion-icon name="filter-outline" slot="end" (click)="openSearchFilterModal()"></ion-icon -->
+    <ion-icon name="mic-outline" slot="end" (click)="searchBySpeech()"></ion-icon>
+  </ion-item>
   <div id="container" class="card-background-page">
     <div *ngIf="searchTextValue != ''">
-    <ion-card (click)="setOption(category);" class="card-basic-style-subcategories" *ngFor="let category of categoriesSearch; "  >
-      <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-      <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
-       <div class="card-label-sub-category"
-         style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important" *ngIf="!category.hide_name">{{category.cat_name}}</div>  
+      <ion-card *ngFor="let bus of businessListMembers; let ind = index; " class="card-basic-style-subcategories">
+        <ion-img [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background"
+          (ionImgDidLoad)="bus.$showSegmentButtons = true"></ion-img>
+        <div class="container-top-left" (click)="goToBussinesDetail(bus)">
+          <div class="top-left"><img src="../../../assets/member.png"
+              *ngIf="bus.is_classified && bus.is_classified == '1'"></div>
+          <div class="top-right"><img src="../../../assets/new.png"
+              *ngIf="bus.Display_New_Label && bus.Display_New_Label == '1'"></div>
+        </div>
+        <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)">
+        </div>
+        <div class="card-label" *ngIf="!(bus.name_display_off=='1')">{{bus.Name}}</div>
+        <div>
+          <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
+            <ion-segment-button (click)="share(bus)">
+              <ion-icon name="share-social"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="bus.showCall" (click)="call(bus)">
+              <ion-icon name="call"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+              <ion-icon name="location-sharp"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="bus.showMap" (click)="map(bus)">
+              <ion-label>{{bus.distance}} MI</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
       </ion-card>
-    <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories" *ngFor="let category of subcategoriesSearch; let i = index; "  >
-      <ion-img  [src]="getImage(category.cat_icon)" class="img-background" ></ion-img>
-      <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>   
-       <div class="card-label-sub-category"
-         style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important" *ngIf="!category.hide_name">{{category.subcat_name}}</div>  
+      <ion-card (click)="setOption(category);" class="card-basic-style-subcategories"
+        *ngFor="let category of categoriesSearch; ">
+        <ion-img [src]="getImage(category.cat_icon)" class="img-background"></ion-img>
+        <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>
+        <div class="card-label-sub-category"
+          style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important"
+          *ngIf="!category.hide_name">{{category.cat_name}}</div>
+      </ion-card>
+      <ion-card (click)="goToBussines(category)" class="card-basic-style-subcategories"
+        *ngFor="let category of subcategoriesSearch; let i = index; ">
+        <ion-img [src]="getImage(category.cat_icon)" class="img-background"></ion-img>
+        <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>
+        <div class="card-label-sub-category"
+          style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important"
+          *ngIf="!category.hide_name">{{category.subcat_name}}</div>
       </ion-card>
     </div>
-    <ion-card   *ngFor="let bus of businessList; let ind = index; "  class="card-basic-style-subcategories" >
-      <ion-img  [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background" (ionImgDidLoad)="bus.$showSegmentButtons = true" ></ion-img>
-      <div class="container-top-left" (click)="goToBussinesDetail(bus)" >
-        <div class="top-left" ><img src="../../../assets/member.png" *ngIf="bus.is_classified && bus.is_classified == '1'"></div>
-        <div class="top-right" ><img src="../../../assets/new.png" *ngIf="bus.Display_New_Label && bus.Display_New_Label == '1'"></div>
+    <ion-card *ngFor="let bus of businessList; let ind = index; " class="card-basic-style-subcategories">
+      <ion-img [src]="bus.body_image" (click)="goToBussinesDetail(bus)" class="img-background"
+        (ionImgDidLoad)="bus.$showSegmentButtons = true"></ion-img>
+      <div class="container-top-left" (click)="goToBussinesDetail(bus)">
+        <div class="top-left"><img src="../../../assets/member.png"
+            *ngIf="bus.is_classified && bus.is_classified == '1'"></div>
+        <div class="top-right"><img src="../../../assets/new.png"
+            *ngIf="bus.Display_New_Label && bus.Display_New_Label == '1'"></div>
       </div>
-      <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)"></div>   
-       <div class="card-label" *ngIf="!(bus.name_display_off=='1')" >{{bus.Name}}</div>
-       <div>
+      <div *ngIf="bus.showMap || !(bus.name_display_off=='1')" class="card-title" (click)="goToBussinesDetail(bus)">
+      </div>
+      <div class="card-label" *ngIf="!(bus.name_display_off=='1')">{{bus.Name}}</div>
+      <div>
         <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
           <ion-segment-button (click)="share(bus)">
             <ion-icon name="share-social"></ion-icon>
@@ -62,7 +100,7 @@
             <ion-label>{{bus.distance}} MI</ion-label>
           </ion-segment-button>
         </ion-segment>
-       </div>
-      </ion-card>
       </div>
+    </ion-card>
+  </div>
 </ion-content>
