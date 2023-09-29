@@ -70,6 +70,8 @@ export class FolderPage implements OnInit {
     this.classified_category = this.activatedRoute.snapshot.queryParamMap.get('classified_category') ?? '0';
     this.number_of_entries_to_display = this.activatedRoute.snapshot.queryParamMap.get('number_of_entries_to_display') ?? '10';
 
+    console.log("number_of_entries_to_display",this.number_of_entries_to_display);
+
     const sort_by_name = this.activatedRoute.snapshot.queryParamMap.get('sort_by_name') ?? '0';
 
     console.log("is_classifieds",this.is_classifieds);
@@ -203,9 +205,11 @@ export class FolderPage implements OnInit {
                           }
 
 
-
+                          console.log("dataT",dataT); 
+                        
                         data = dataT.slice(0, Number(this.number_of_entries_to_display));
 
+                        console.log("data",data); 
                         for(var i=0;i<data.length;i++){
                           const bodyImage = data[i].body_image;
                           if(bodyImage && bodyImage != ""){
@@ -352,7 +356,7 @@ export class FolderPage implements OnInit {
         Browser.open({ url: cat.categoryUrl });
         break;
       default:
-        this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name));
+        this.router.navigateByUrl('/folder/'+locationObj.qpId+'/'+cat.qpId+'/'+encodeURIComponent(cat.subcat_name)+'?number_of_entries_to_display='+this.number_of_entries_to_display);
         break;
     }
     

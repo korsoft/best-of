@@ -280,9 +280,10 @@ export class HomeComponent implements OnInit {
           this.locationCategoriesService
             .getCategoriesId(loc.qpId)
             .subscribe(async (locationCats: Array<any>) => {
-              console.log("locationCats", locationCats);
+              //console.log("locationCats", locationCats);
 
               this.storage.get("categories").then(async (val) => {
+                //console.log("categories",val);
                 if (
                   this.location.picture_home &&
                   this.location.picture_home != ""
@@ -322,14 +323,16 @@ export class HomeComponent implements OnInit {
                             value.SortSubcategories =
                               locationCats[i].SortSubcategories ?? "0";
                             if (
-                              !locationCats[9].number_of_entries_to_display ||
-                              locationCats[9].number_of_entries_to_display
+                              !locationCats[i].number_of_entries_to_display ||
+                              locationCats[i].number_of_entries_to_display
                                 .length == 0
                             ) {
+                              //console.log("number_of_entries_to_display",10);
                               value.number_of_entries_to_display = "10";
                             } else {
+                              //console.log("number_of_entries_to_display",locationCats[i].number_of_entries_to_display);
                               value.number_of_entries_to_display =
-                                locationCats[9].number_of_entries_to_display;
+                                locationCats[i].number_of_entries_to_display;
                             }
                             if (
                               locationCats[i].hide_name &&
@@ -352,6 +355,8 @@ export class HomeComponent implements OnInit {
                         }
                         return false;
                       });
+
+                      console.log("cats", cats);
 
                       let localCategories = cats.filter((cat, index, array) => {
                         return !cat.subcat_name;
