@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BranchService {
+
+    public shareBusiness: EventEmitter<any> = new EventEmitter();
+    public shareSubCategory: EventEmitter<any> = new EventEmitter();
 
     constructor(private httpClient: HttpClient) { }
 
@@ -23,6 +26,14 @@ export class BranchService {
         };
 
         return this.httpClient.post<any>('https://api2.branch.io/v1/url',body);
+    }
+
+    public shareBusinessEmit(){
+        this.shareBusiness.emit();
+    }
+
+    public shareSubCategoryEmit(){
+        this.shareSubCategory.emit();
     }
 
     public shareDeeplinkBySubCategory(title:string, location:any, subcategory:any, is_classifieds:any){

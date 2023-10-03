@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
 import { Router , NavigationStart, NavigationEnd} from '@angular/router';
 
 import { DeviceService } from './services/device.service';
@@ -565,12 +565,22 @@ export class AppComponent implements OnInit {
   }
 
   async shareTheApp(){
+    const currentUrl = this.router.routerState?.snapshot?.url;
+    console.log("currentUrl",currentUrl);
+    if(currentUrl.includes("/businessDetail/")){
+      this.branchService.shareBusinessEmit();
+      return;
+    }
+    if(currentUrl.includes('/folder/') && !currentUrl.includes('classified_category')){
+      this.branchService.shareSubCategoryEmit();
+      return;
+    }
     await this.fcmService.analyticsLogEvent("screen_action",{
       page: "home",
       action: "share_app"
     });
     this.storage.get("location").then((loc)=>{ 
-      this.socialSharing.share("Hey, check out The BEST OF LOCAL app. It's the coolest, easiest way to find the best restaurants and more. Here's the download. https://bit.ly/3eNGWkH");
+      this.socialSharing.share("Hey, check out The BEST OF LOCAL app. It's the coolest, easiest way to find the best restaurants and more. Here's the download. https://bestoflocal.app.link");
   });   
   }
 

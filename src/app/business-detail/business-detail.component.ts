@@ -310,7 +310,13 @@ export class BusinessDetailComponent implements OnInit {
             }
           });
       });
+
+    this.branchService.shareBusiness.subscribe( async () => {
+      await this.shareBusiness();
+    });
   }
+
+
 
   async doRefresh(event) {
     console.log("Begin async operation");
@@ -351,7 +357,7 @@ export class BusinessDetailComponent implements OnInit {
     this.socialSharing.share(
       "Check out the Best Of app to find the best of everything in '" +
         this.location.Name +
-        "'' https://bit.ly/3eNGWkH",
+        "'' https://bestoflocal.app.link",
       "Hey, check out the Best Of"
     );
   }
@@ -396,6 +402,7 @@ export class BusinessDetailComponent implements OnInit {
   }
 
   async shareBusiness() {
+    console.log("sharing business..");
     await this.fcmService.analyticsLogEvent("screen_action", {
       page: "business_details",
       action: "share",

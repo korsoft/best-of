@@ -43,6 +43,8 @@ export class FolderPage implements OnInit {
   public classified_subcategory:string = '0';
   public sponsoredLabel:string='';
   public number_of_entries_to_display:string = '10';
+  
+  private subcat: any = null;
 
   constructor(private activatedRoute: ActivatedRoute,
      private storage: Storage,
@@ -117,11 +119,15 @@ export class FolderPage implements OnInit {
           
           this.fullSubcategories=this.subcategories;
           console.log("subcategories",this.subcategories);
-          let subcat = val.find(c => c.qpId === Number(this.id));
-          console.log("subcat",subcat);
-          if(subcat){
-            this.is_classifieds = subcat.is_classifieds;
-            this.classified_subcategory = subcat.classified_category;
+          this.subcat = val.find(c => c.qpId === Number(this.id));
+          console.log("subcat",this.subcat);
+          if(this.subcat){
+            this.is_classifieds = this.subcat.is_classifieds;
+            this.classified_subcategory = this.subcat.classified_category;
+
+            this.branchService.shareSubCategory.subscribe(( ) => {
+              this.shareSubCategory(this.subcat);
+            });
           }
           if(!this.fullSubcategories.length){
              if(this.location){
@@ -270,7 +276,9 @@ export class FolderPage implements OnInit {
       });
 
     });
+
   }
+
 
   private shuffleArray = array => {
     for (let i = array.length - 1; i > 0; i--) {

@@ -136,7 +136,7 @@ export class FavoritesPage implements OnInit {
 
   public share(bus){
     this.storage.get("location").then((loc)=>{ 
-            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bit.ly/3eNGWkH",
+            this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bestoflocal.app.link",
            "Hey, check out the Best Of");
         });
   }
