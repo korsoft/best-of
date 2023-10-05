@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
       action: (url,i) => {
         this.shareTheApp(); 
       },
-      icon: 'share-outline'
+      icon: 'custom-share-arrow-right'
     },
     {
       title: 'Chat',
@@ -204,7 +204,7 @@ export class AppComponent implements OnInit {
       url: '',
       internalPage: false,
       isShareTheApp: true,
-      icon: 'share-outline'
+      icon: 'custom-share-box'
     },
     {
       url:'/search',

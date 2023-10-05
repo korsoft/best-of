@@ -22,7 +22,7 @@
 
     <ion-fab vertical="top" *ngIf="category.Share == '1'" horizontal="end" style="z-index: 999;opacity: 0.9">
       <ion-fab-button (click)="shareSubCategory(category)" size="small">
-        <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
+        <ion-icon name="custom-arrow-right"></ion-icon>
       </ion-fab-button>
     </ion-fab>
 
@@ -49,7 +49,7 @@
        <!-- Default Segment -->
     <ion-segment class="segment-buttons" *ngIf="bus.$showSegmentButtons">
       <ion-segment-button (click)="share(bus)">
-        <ion-icon name="arrow-redo"></ion-icon>
+        <ion-icon name="custom-arrow-right" style="opacity: 0.5;"></ion-icon>
       </ion-segment-button>
       <ion-segment-button *ngIf="bus.showCall" (click)="call(bus)">
         <ion-icon name="call"></ion-icon>
