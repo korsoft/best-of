@@ -5,13 +5,13 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-fab vertical="top" horizontal="end" style="right: 57px;top:30px;opacity: 0.90">
+  <ion-fab vertical="top" horizontal="end" style="right: 57px;top:30px;">
     <ion-fab-button (click)="toogleBookmark()" size="small">
       <ion-icon *ngIf="!bookmark" name="custom-white-fill-bookmark"></ion-icon>
       <ion-icon *ngIf="bookmark" name="custom-white-sunburst-bookmark"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="top" horizontal="end" style="top:30px;opacity: 0.90">
+  <ion-fab vertical="top" horizontal="end" style="top:30px;">
     <ion-fab-button (click)="shareBusiness()" size="small">
       <ion-icon name="custom-arrow-right"></ion-icon>
     </ion-fab-button>
