@@ -204,7 +204,7 @@ export class AppComponent implements OnInit {
       url: '',
       internalPage: false,
       isShareTheApp: true,
-      icon: 'custom-share-box'
+      icon: 'custom-share-black-arrow-right'
     },
     {
       url:'/search',

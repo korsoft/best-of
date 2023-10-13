@@ -13,7 +13,7 @@
   </ion-fab>
   <ion-fab vertical="top" horizontal="end" style="top:30px;">
     <ion-fab-button (click)="shareBusiness()" size="small">
-      <ion-icon name="custom-arrow-right"></ion-icon>
+      <ion-icon name="custom-share-arrow-right"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
@@ -32,8 +32,8 @@
       <ion-card-subtitle *ngIf="bus.summary && bus.summary.length>0" class="summary"
         (click)="showFullSummary = !showFullSummary">
         {{ bus.summary | slice: 0 : (showFullSummary ? bus.summary.length : 100 ) }}
-        <span *ngIf="!showFullSummary && bus.summary.length >=100">... (more)</span>
-        <span *ngIf="showFullSummary && bus.summary.length >=100"> (less)</span>
+        <span *ngIf="!showFullSummary && bus.summary.length >=100">... (see more)</span>
+        <span *ngIf="showFullSummary && bus.summary.length >=100"> (see less)</span>
         <br><br>
         <label *ngIf="showFullSummary" style="text-transform: uppercase !important">This service is found in the following App category(s):</label>
         <br *ngIf="showFullSummary">
