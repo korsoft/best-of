@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
       icon: 'custom-share-arrow-right'
     },
     {
-      title: 'Community Chat',
+      title: 'Engage Our Community',
       url:'',
       action: (url,i) => {
         this.getChatUrl();
