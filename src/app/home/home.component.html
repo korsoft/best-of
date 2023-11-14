@@ -26,9 +26,9 @@
     <ion-card class="card-basic-style selected overlap" *ngFor="let category of categorys; let i = index;" id="{{category.viewId}}">
       <ion-img  (click)="setOption(i,category);"  [src]="getImage(category.cat_icon)" class="img-background"  ></ion-img>
       
-      <ion-fab vertical="top" *ngIf="category.Share == '1'" horizontal="end" style="z-index: 999;opacity: 0.9">
+      <ion-fab vertical="top" *ngIf="category.Share == '1'" horizontal="end" style="z-index: 999">
         <ion-fab-button (click)="shareCategory(category)" size="small">
-          <ion-icon name="custom-share-arrow-right"></ion-icon>
+          <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
         </ion-fab-button>
       </ion-fab>
 

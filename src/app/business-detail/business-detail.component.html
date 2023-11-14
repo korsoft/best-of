@@ -13,7 +13,7 @@
   </ion-fab>
   <ion-fab vertical="top" horizontal="end" style="top:30px;">
     <ion-fab-button (click)="shareBusiness()" size="small">
-      <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
+      <ion-icon name="custom-share-box-right"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
@@ -39,7 +39,7 @@
         <br *ngIf="showFullSummary">
         <ul *ngIf="showFullSummary">
           <li *ngFor="let sc of subcategories; " (click)="is_classifieds == '1' && bus.is_classified && bus.is_classified == '1' ? null : openSubcategory(sc)" style="padding-top: 5px;">
-            {{sc.subcat_name}}
+            {{sc.cat_name}}-{{sc.subcat_name}}
           </li>
         </ul>
       </ion-card-subtitle>
@@ -86,7 +86,7 @@
       [style.height.px]="sliderImageHeight" style="background-color: #fff;">
       <ion-slide *ngFor="let image of bus.photosArray" [style.height.px]="sliderImageHeight">
         <img src="{{image}}" [style.height.px]="sliderImageHeight" (click)="openMedia(image,'image')"
-          style='width: 100%; object-fit: fill' alt="image">
+          style='width: 100%; object-fit: cover' alt="image">
       </ion-slide>
     </ion-slides>
 
