@@ -13,6 +13,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { SearchFilterModal } from './search-filter.modal';
 import SearchFilter from '../../interfaces/SearchFilter';
+import { BranchService } from 'src/app/services/branch.service';
 const { Browser } = Plugins;
 
 @Component({
@@ -36,7 +37,8 @@ export class SearchPage implements OnInit {
      private speechRecognition: SpeechRecognition,
      private platform: Platform,
      private chRef: ChangeDetectorRef,
-     private modalController: ModalController) { }
+     private modalController: ModalController,
+     private branchService: BranchService) { }
 
      private localImage:Array<any>=[];
   public businessList:Array<any> = [];
@@ -435,11 +437,34 @@ export class SearchPage implements OnInit {
     this.callNumber.callNumber(bus.call, true);
   }
 
-  public share(bus){
-    this.storage.get("location").then((loc)=>{ 
+  public async share(bus){
+    /*this.storage.get("location").then((loc)=>{ 
             this.socialSharing.share("Check out the Best Of app to find the best of everything in '"+loc.Name+"'' https://bestoflocal.app.link",
            "Hey, check out the Best Of");
+        });*/
+
+        console.log("sharing business..");
+        await this.fcmService.analyticsLogEvent("screen_action", {
+          page: "business_details",
+          action: "share",
+          business: bus.Name,
         });
+        const settingsValue: string = await this.settingsService.getValue(
+          this.settingsService.BUSINESS_SHARE_TITLE
+        );
+        const globalTitle: string = await this.settingsService.getValue(
+          this.settingsService.GLOBAL_SHARE_TITLE
+        );
+        const title = settingsValue.replace("{0}", bus.Name);
+        const deeplinkResponse = await this.branchService
+          .shareDeeplinkByBusiness(title, bus)
+          .toPromise();
+        await this.socialSharing.share(
+          globalTitle,
+          null,
+          bus.body_image,
+          deeplinkResponse.url
+        );
   }
 
   public map(bus){
