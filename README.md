@@ -2,7 +2,11 @@
 
 
 ## Node Version 
-``14.19.1``
+``16.20.2``
+
+## Ionic CLI version 
+``@ionic/cli@6.20.0``
+
 ## Apply patch for SpeechRecognition Pluggin
 ``````
 https://github.com/pbakondy/cordova-plugin-speechrecognition/pull/121/files
