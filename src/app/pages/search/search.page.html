@@ -64,7 +64,7 @@
             <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
           </ion-fab-button>
         </ion-fab>
-        <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>
+        <div class="card-title" *ngIf="!category.hide_name" (click)="setOption(category);"  style="background-color: #000 !important;"></div>
         <div class="card-label-sub-category"
           style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important"
           *ngIf="!category.hide_name">{{category.cat_name}}</div>
@@ -77,7 +77,7 @@
             <ion-icon name="custom-white-fill-share-arrow"></ion-icon>
           </ion-fab-button>
         </ion-fab>
-        <div class="card-title" *ngIf="!category.hide_name" style="background-color: #000 !important;"></div>
+        <div class="card-title" *ngIf="!category.hide_name" (click)="goToBussines(category)" style="background-color: #000 !important;"></div>
         <div class="card-label-sub-category"
           style="font-family: AlteHaasGroteskBold !important;-webkit-text-stroke:0px !important; color: #ffff !important;z-index: 999 !important"
           *ngIf="!category.hide_name">{{category.subcat_name}}</div>
