@@ -131,6 +131,52 @@ export class SearchPage implements OnInit {
     this.device = await this.deviceService.getDevice();
   }
 
+  async shareCategory(category) {
+    let locationObj = await this.storage.get("location");
+    let is_classifieds = category?.is_classifieds ?? "0";
+    await this.fcmService.analyticsLogEvent("screen_action", {
+      page: "category",
+      action: "share",
+      category: category.cat_name,
+    });
+    const settingsValue: string = await this.settingsService.getValue(
+      this.settingsService.CATEGORY_SHARE_TITLE
+    );
+    const globalTitle: string = await this.settingsService.getValue(
+      this.settingsService.GLOBAL_SHARE_TITLE
+    );
+    const title = settingsValue.replace("{0}", category.cat_name);
+    const branchResponse = await this.branchService
+      .shareDeeplinkByCategory(title, locationObj, category, is_classifieds)
+      .toPromise();
+    this.socialSharing.share(
+      globalTitle,
+      null,
+      category.cat_icon,
+      `${branchResponse.url}`
+    );
+  }
+
+  async shareSubCategory(subcategory){
+    console.log("share subcategory",subcategory);
+    let locationObj = await this.storage.get('location');
+    let is_classifieds = subcategory?.is_classifieds ?? '0';
+    await this.fcmService.analyticsLogEvent("screen_action",{
+      page: "subcategory",
+      action: "share",
+      subcategory: subcategory.subcat_name
+    });
+    const settingsValue:string = await this.settingsService.getValue(this.settingsService.CATEGORY_SHARE_TITLE);
+    const globalTitle:string = await this.settingsService.getValue(this.settingsService.GLOBAL_SHARE_TITLE);
+    const title = settingsValue.replace('{0}',subcategory.subcat_name);
+    const branchResponse = await this.branchService.shareDeeplinkBySubCategory(title, locationObj,subcategory,is_classifieds).toPromise();
+    this.socialSharing.share(
+      globalTitle,
+      null,
+      subcategory.cat_icon, 
+      `${branchResponse.url}`);
+  }
+
   async changeSearchType(event){
     console.log(event);
     this.filters.allBusiness = event.detail?.value == 'all';
